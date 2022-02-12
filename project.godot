@@ -11,6 +11,7 @@ config_version=4
 [application]
 
 config/name="Visual Novel"
+run/main_scene="res://components/main_menu/scenes/main_menu.tscn"
 config/icon="res://icon.png"
 
 [physics]
