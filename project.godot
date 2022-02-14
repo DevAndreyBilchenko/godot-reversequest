@@ -8,9 +8,43 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "CharacterRes",
+"language": "GDScript",
+"path": "res://data/scripts/character_res.gd"
+}, {
+"base": "Resource",
+"class": "ChoiceRes",
+"language": "GDScript",
+"path": "res://data/scripts/choice_res.gd"
+}, {
+"base": "Resource",
+"class": "DialogRes",
+"language": "GDScript",
+"path": "res://data/scripts/dialog_res.gd"
+}, {
+"base": "Container",
+"class": "ScreenContainer",
+"language": "GDScript",
+"path": "res://components/screen_container/scripts/screen_container.gd"
+}, {
+"base": "Resource",
+"class": "SpeechRes",
+"language": "GDScript",
+"path": "res://data/scripts/speech_res.gd"
+} ]
+_global_script_class_icons={
+"CharacterRes": "",
+"ChoiceRes": "",
+"DialogRes": "",
+"ScreenContainer": "",
+"SpeechRes": ""
+}
+
 [application]
 
-config/name="Visual Novel"
+config/name="Reverse Quest"
 run/main_scene="res://components/main_menu/scenes/main_menu.tscn"
 config/icon="res://icon.png"
 

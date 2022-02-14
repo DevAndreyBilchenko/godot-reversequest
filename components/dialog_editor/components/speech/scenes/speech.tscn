@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=1]
 [ext_resource path="res://components/dialog_editor/components/speech/scripts/speech.gd" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://components/dialog_editor/assets/arrow-up-solid.png" type="Texture" id=5]
 [ext_resource path="res://components/dialog_editor/assets/pen-solid.png" type="Texture" id=6]
 [ext_resource path="res://components/dialog_editor/assets/plus-solid.png" type="Texture" id=7]
-[ext_resource path="res://components/dialog_editor/components/choice/scenes/choice.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Theme" id=1]
 
@@ -140,12 +139,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="ChoiceContainer" type="Node2D" parent="."]
+position = Vector2( 0, 308 )
+
+[node name="ChoiceLine" type="Line2D" parent="."]
 position = Vector2( 3, 0 )
 points = PoolVector2Array( 8, 305, 8, 345 )
 default_color = Color( 0.247059, 0.235294, 0.278431, 1 )
 
-[node name="Edit" type="Button" parent="."]
+[node name="ChoiceAdd" type="Button" parent="."]
 margin_left = 2.0
 margin_top = 351.0
 margin_right = 20.0
@@ -155,7 +157,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Edit"]
+[node name="TextureRect" type="TextureRect" parent="ChoiceAdd"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -170,7 +172,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChoiceContainer" type="Node2D" parent="."]
-position = Vector2( 0, 308 )
-
-[node name="Choice" parent="ChoiceContainer" instance=ExtResource( 8 )]
+[connection signal="pressed" from="ChoiceAdd" to="." method="_on_ChoiceAdd_pressed"]

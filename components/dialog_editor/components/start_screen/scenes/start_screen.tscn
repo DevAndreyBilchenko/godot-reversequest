@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://components/screen_container/scripts/screen_container.gd" type="Script" id=1]
+
+[node name="StartScreen" type="Node2D"]
+
+[node name="ScreenContainer" type="Container" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="ScreenContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenContainer/CenterContainer"]
+margin_left = 466.0
+margin_top = 290.0
+margin_right = 557.0
+margin_bottom = 310.0
+
+[node name="New" type="Button" parent="ScreenContainer/CenterContainer/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 20.0
+text = "New"
+
+[node name="Open" type="Button" parent="ScreenContainer/CenterContainer/HBoxContainer"]
+margin_left = 44.0
+margin_right = 91.0
+margin_bottom = 20.0
+text = "Open"
