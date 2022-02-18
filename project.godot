@@ -20,6 +20,16 @@ _global_script_classes=[ {
 "path": "res://data/scripts/choice_res.gd"
 }, {
 "base": "Resource",
+"class": "DialogEditorItemRes",
+"language": "GDScript",
+"path": "res://data/scripts/dialog_editor_item_res.gd"
+}, {
+"base": "Resource",
+"class": "DialogEditorRes",
+"language": "GDScript",
+"path": "res://data/scripts/dialog_editor_res.gd"
+}, {
+"base": "Resource",
 "class": "DialogRes",
 "language": "GDScript",
 "path": "res://data/scripts/dialog_res.gd"
@@ -37,6 +47,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "CharacterRes": "",
 "ChoiceRes": "",
+"DialogEditorItemRes": "",
+"DialogEditorRes": "",
 "DialogRes": "",
 "ScreenContainer": "",
 "SpeechRes": ""

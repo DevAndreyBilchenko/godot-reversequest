@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://components/screen_container/scripts/screen_container.gd" type="Script" id=1]
+[ext_resource path="res://components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=2]
+[ext_resource path="res://components/dialog_editor/components/start_screen/scripts/start_screen.gd" type="Script" id=3]
 
 [node name="StartScreen" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="ScreenContainer" type="Container" parent="."]
 anchor_right = 1.0
@@ -21,19 +24,84 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenContainer/CenterContainer"]
-margin_left = 466.0
-margin_top = 290.0
-margin_right = 557.0
-margin_bottom = 310.0
+[node name="Choice" type="HBoxContainer" parent="ScreenContainer/CenterContainer"]
+margin_left = 428.0
+margin_top = 287.0
+margin_right = 596.0
+margin_bottom = 312.0
 
-[node name="New" type="Button" parent="ScreenContainer/CenterContainer/HBoxContainer"]
-margin_right = 40.0
-margin_bottom = 20.0
-text = "New"
+[node name="New" type="Button" parent="ScreenContainer/CenterContainer/Choice"]
+margin_right = 86.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 2 )
+text = "Добавить"
 
-[node name="Open" type="Button" parent="ScreenContainer/CenterContainer/HBoxContainer"]
-margin_left = 44.0
-margin_right = 91.0
-margin_bottom = 20.0
-text = "Open"
+[node name="Open" type="Button" parent="ScreenContainer/CenterContainer/Choice"]
+margin_left = 90.0
+margin_right = 168.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 2 )
+text = "Открыть"
+
+[node name="EnterName" type="VBoxContainer" parent="ScreenContainer"]
+visible = false
+anchor_left = 0.3
+anchor_top = 0.3
+anchor_right = 0.7
+anchor_bottom = 0.6
+margin_right = 72.0
+margin_bottom = 52.0
+alignment = 1
+
+[node name="Label" type="Label" parent="ScreenContainer/EnterName"]
+margin_top = 45.0
+margin_right = 481.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 2 )
+text = "Название для себя"
+
+[node name="EditorNameLineEdit" type="LineEdit" parent="ScreenContainer/EnterName"]
+margin_top = 68.0
+margin_right = 481.0
+margin_bottom = 97.0
+custom_fonts/font = ExtResource( 2 )
+
+[node name="Label2" type="Label" parent="ScreenContainer/EnterName"]
+margin_top = 101.0
+margin_right = 481.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 2 )
+text = "Имя ресурса (латиница с нижним подчеркиванием)"
+
+[node name="NameLineEdit" type="LineEdit" parent="ScreenContainer/EnterName"]
+margin_top = 124.0
+margin_right = 481.0
+margin_bottom = 153.0
+custom_fonts/font = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ScreenContainer/EnterName"]
+margin_top = 157.0
+margin_right = 481.0
+margin_bottom = 157.0
+
+[node name="CreateButton" type="Button" parent="ScreenContainer/EnterName"]
+margin_top = 161.0
+margin_right = 481.0
+margin_bottom = 186.0
+custom_fonts/font = ExtResource( 2 )
+text = "Создать"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ScreenContainer"]
+visible = false
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.9
+
+[node name="DialogsList" type="VBoxContainer" parent="ScreenContainer/ScrollContainer"]
+margin_right = 614.4
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="ScreenContainer/CenterContainer/Choice/New" to="." method="_on_New_pressed"]
+[connection signal="pressed" from="ScreenContainer/CenterContainer/Choice/Open" to="." method="_on_Open_pressed"]
+[connection signal="pressed" from="ScreenContainer/EnterName/CreateButton" to="." method="_on_CreateButton_pressed"]
