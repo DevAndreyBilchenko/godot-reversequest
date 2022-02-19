@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://components/backpack/components/stuff/scripts/clothes.gd" type="Script" id=1]
+[ext_resource path="res://components/backpack/assets/test.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 59.991
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 63.9707, 64.0664 )
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 429.917, 219.39 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -3.8147e-06, 3.8147e-06 )
+scale = Vector2( 0.365714, 0.365714 )
+texture = ExtResource( 2 )
+
+[node name="ConnectArea" type="Area2D" parent="Sprite"]
+space_override = 2
+gravity_point = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/ConnectArea"]
+shape = SubResource( 1 )
+
+[node name="MouseArea" type="Area2D" parent="."]
+z_index = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseArea"]
+position = Vector2( 0, -0.568817 )
+shape = SubResource( 2 )
+[connection signal="mouse_entered" from="MouseArea" to="." method="_on_MouseArea_mouse_entered"]
+[connection signal="mouse_exited" from="MouseArea" to="." method="_on_MouseArea_mouse_exited"]
