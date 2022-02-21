@@ -1,10 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=1]
 [ext_resource path="res://components/dialog_editor/components/speech/scripts/speech.gd" type="Script" id=2]
 [ext_resource path="res://components/dialog_editor/assets/xmark_solid.png" type="Texture" id=3]
-[ext_resource path="res://components/dialog_editor/assets/arrow-down-solid.png" type="Texture" id=4]
-[ext_resource path="res://components/dialog_editor/assets/arrow-up-solid.png" type="Texture" id=5]
 [ext_resource path="res://components/dialog_editor/assets/pen-solid.png" type="Texture" id=6]
 [ext_resource path="res://components/dialog_editor/assets/plus-solid.png" type="Texture" id=7]
 
@@ -12,6 +10,7 @@
 
 [node name="Speech" type="Node2D"]
 script = ExtResource( 2 )
+size_x = 328
 
 [node name="Background" type="Polygon2D" parent="."]
 color = Color( 0.247059, 0.235294, 0.278431, 1 )
@@ -69,56 +68,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Up" type="Button" parent="Control/VBoxContainer"]
+[node name="Edit" type="Button" parent="Control/VBoxContainer"]
 margin_top = 24.0
 margin_right = 25.0
 margin_bottom = 44.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Up"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -6.5
-margin_top = -10.0
-margin_right = 6.5
-margin_bottom = 10.0
-texture = ExtResource( 5 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Down" type="Button" parent="Control/VBoxContainer"]
-margin_top = 48.0
-margin_right = 25.0
-margin_bottom = 68.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Down"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -6.5
-margin_top = -10.0
-margin_right = 6.5
-margin_bottom = 10.0
-texture = ExtResource( 4 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Edit" type="Button" parent="Control/VBoxContainer"]
-margin_top = 72.0
-margin_right = 25.0
-margin_bottom = 92.0
 theme = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

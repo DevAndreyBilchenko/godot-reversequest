@@ -1,13 +1,9 @@
 extends Node2D
 
-func _ready():
-	#clean()
-	add_create_first_button();
+onready var start_screen = $StartScreen
+onready var edit_screen = $EditScreen
 
-func add_create_first_button():
-	var create_first_btn = preload("res://components/dialog_editor/components/create_first_button/scenes/create_first_button.tscn")
-	add_child(create_first_btn.instance())
-
-func clean():
-	for _i in self.get_children():
-		_i.queue_free()
+func _on_StartScreen_edit_start(file_name):
+	start_screen.hide();
+	edit_screen.show();
+	edit_screen.start_edit(file_name);

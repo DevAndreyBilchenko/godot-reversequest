@@ -1,5 +1,6 @@
 extends Node2D
 
+signal edit_start(file_name)
 var editor_path = "res://data/dialogs/0_editor.res";
 
 func _on_New_pressed():
@@ -34,7 +35,6 @@ func _on_CreateButton_pressed():
 	item.display_name = $ScreenContainer/EnterName/EditorNameLineEdit.text
 	item.file_name = $ScreenContainer/EnterName/NameLineEdit.text
 
-	
 	editorResource.list.append(item)
 	
 	if ResourceSaver.save(str("res://data/dialogs/", item.file_name, ".res"), dr) != OK:
@@ -43,9 +43,7 @@ func _on_CreateButton_pressed():
 	if ResourceSaver.save(editor_path, editorResource) != OK:
 			return
 	
-	# Show editor with opened resource
+	emit_signal("edit_start", item.file_name)
 
 func _on_Card_open(id):
-	print(str("open id: ", id))
-	# Show editor with opened resource
-	pass
+	emit_signal("edit_start", id)
