@@ -1,34 +1,53 @@
 extends Node2D
 
+signal speech_edit(speech_code)
+signal speech_remove(speech_code)
+signal choice_add(speech_code)
+signal choice_edit(speech_code, choice_code)
+signal choice_update_order(speech_code, choice_order_code)
+signal choice_link(speech_code, choice_code)
+signal choice_link_create(speech_code, choice_code)
+signal linked(speech_code)
+
 export(int) var size_x
 var size_y setget ,size_y_get
 var base_y = 308
-var bottom = 0;
-
-func _ready():
-	update_choice_line()
+var bottom = 0
+var code = -1
 
 func render(speech_res):
+	code = speech_res.code
 	set_text(speech_res.text)
 	for ch in speech_res.choice_list:
 		add_choice(ch)
 
 func set_text(text):
 	$Control/Text.text = text
+	$Debug/Code.text = str(code)
 
-func add_choice(choice_data):
+func enable_link_zone():
+	$LinkZone.show()
+
+func disable_link_zone():
+	$LinkZone.hide()
+
+func add_choice(choice_res):
 	var choice = preload("res://components/dialog_editor/components/choice/scenes/choice.tscn")
 	var choice_container = get_node("ChoiceContainer")
-	var gap = 10
 	var new_instance = choice.instance()
-	var index = choice_container.get_child_count()
-	var pos_y = index * new_instance.size_y + index * gap
-	choice_container.add_child(new_instance)
-	new_instance.position = Vector2(0, pos_y)
 	
-	if (choice_data != null):
-		new_instance.set_data(choice_data)
-		new_instance.fill_data()
+	new_instance.slot = choice_container.get_child_count()
+	new_instance.connect("edit_open", self, "_on_choice_edit_open")
+	new_instance.connect("update_order", self, "_on_choice_update_order")
+	new_instance.connect("link", self, "_on_choice_link")
+	new_instance.connect("link_create", self, "_on_choice_link_create")
+	
+	choice_container.add_child(new_instance)
+	
+	if (choice_res != null):
+		new_instance.set_res(choice_res)
+	
+	update_choice_line()
 
 func update_choice_line():
 	var choice_container = get_node("ChoiceContainer")
@@ -47,9 +66,45 @@ func update_choice_line():
 		choice_add.rect_position = Vector2(2, item_y + 51)
 		bottom = item_y + 51
 
-func _on_ChoiceAdd_pressed():
-	add_choice(null)
-	update_choice_line()
-
 func size_y_get():
 	return bottom + 50
+
+func find_choice_node(choice_code):
+	var choice_container = get_node("ChoiceContainer")
+	for choice in choice_container.get_children():
+		if choice.code == choice_code:
+			return choice
+
+func _ready():
+	update_choice_line()
+
+func _on_ChoiceAdd_pressed():
+	emit_signal("choice_add", code)
+
+func _on_Edit_pressed():
+	emit_signal("speech_edit", code)
+
+func _on_Remove_pressed():
+	emit_signal("speech_remove", code)
+	
+func _on_choice_edit_open(choice_code):
+	emit_signal("choice_edit", code, choice_code)
+
+func _on_choice_update_order():
+	var choice_container = get_node("ChoiceContainer")
+	var code_list = [];
+	code_list.resize(choice_container.get_child_count())
+
+	for item in choice_container.get_children():
+		code_list[item.slot] = item.code
+	
+	emit_signal("choice_update_order", code, code_list)
+
+func _on_choice_link(choice_code):
+	emit_signal("choice_link", code, choice_code)
+
+func _on_choice_link_create(choice_code):
+	emit_signal("choice_link_create", code, choice_code)
+
+func _on_LinkZone_pressed():
+	emit_signal("linked", code)

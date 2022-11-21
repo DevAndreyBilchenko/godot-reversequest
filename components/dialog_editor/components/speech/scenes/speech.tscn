@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=1]
 [ext_resource path="res://components/dialog_editor/components/speech/scripts/speech.gd" type="Script" id=2]
 [ext_resource path="res://components/dialog_editor/assets/xmark_solid.png" type="Texture" id=3]
+[ext_resource path="res://components/dialog_editor/components/speech/scenes/link_zone.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/dialog_editor/assets/pen-solid.png" type="Texture" id=6]
 [ext_resource path="res://components/dialog_editor/assets/plus-solid.png" type="Texture" id=7]
 
 [sub_resource type="Theme" id=1]
 
-[node name="Speech" type="Node2D"]
+[node name="Speech" type="Node2D" groups=["speech"]]
 script = ExtResource( 2 )
 size_x = 328
 
@@ -19,6 +20,7 @@ polygon = PoolVector2Array( 300, 0, 300, 300, 0, 300, 0, 0 )
 [node name="Control" type="Control" parent="."]
 margin_right = 300.0
 margin_bottom = 300.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -125,4 +127,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LinkZone" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="Code" type="Label" parent="Debug"]
+margin_left = -17.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Control/VBoxContainer/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Edit" to="." method="_on_Edit_pressed"]
 [connection signal="pressed" from="ChoiceAdd" to="." method="_on_ChoiceAdd_pressed"]
+[connection signal="pressed" from="LinkZone" to="." method="_on_LinkZone_pressed"]

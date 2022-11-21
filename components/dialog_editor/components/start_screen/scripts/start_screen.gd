@@ -11,7 +11,7 @@ func _on_Open_pressed():
 	$ScreenContainer/CenterContainer.hide();
 	
 	var card_scene = preload("res://components/dialog_editor/components/card/scenes/card.tscn")
-	var editor_resource = ResourceLoader.load(editor_path)
+	var editor_resource = get_editor_resource()
 	var container = $ScreenContainer/ScrollContainer/DialogsList;
 	
 	for n in container.get_children():
@@ -29,21 +29,29 @@ func _on_CreateButton_pressed():
 	var DialogResEditorItem = preload("res://data/scripts/dialog_editor_item_res.gd")
 	var DialogRes = preload("res://data/scripts/dialog_res.gd")
 	var dr = DialogRes.new()
-	var editorResource = ResourceLoader.load(editor_path)
+	var editor_resource = get_editor_resource()
 	var item = DialogResEditorItem.new()
 	
 	item.display_name = $ScreenContainer/EnterName/EditorNameLineEdit.text
 	item.file_name = $ScreenContainer/EnterName/NameLineEdit.text
 
-	editorResource.list.append(item)
+	editor_resource.list.append(item)
 	
 	if ResourceSaver.save(str("res://data/dialogs/", item.file_name, ".res"), dr) != OK:
 			return
 		
-	if ResourceSaver.save(editor_path, editorResource) != OK:
+	if ResourceSaver.save(editor_path, editor_resource) != OK:
 			return
 	
 	emit_signal("edit_start", item.file_name)
 
 func _on_Card_open(id):
 	emit_signal("edit_start", id)
+
+func get_editor_resource():
+	var editor_resource = ResourceLoader.load(editor_path, "", true)
+	if editor_resource == null:
+		var editor_resource_class = load("res://data/scripts/dialog_editor_res.gd")
+		editor_resource = editor_resource_class.new()
+		
+	return editor_resource
