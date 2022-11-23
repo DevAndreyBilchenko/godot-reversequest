@@ -15,7 +15,7 @@ func setup(_x_gap, _y_gap, _speech_size_x):
 	y_gap = _y_gap
 	speech_size_x  = _speech_size_x
 
-func draw(from, to, speech_node_list):
+func draw(from, to, _speech_node_list):
 	if !is_ready:
 		yield(self, "_ready")
 	
