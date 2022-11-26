@@ -1,0 +1,180 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/reversequest/components/dialog_editor/assets/arrow-up-solid.png" type="Texture" id=1]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/assets/xmark_solid.png" type="Texture" id=2]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/assets/plus-solid.png" type="Texture" id=3]
+[ext_resource path="res://addons/reversequest/components/area2d/drag.gd" type="Script" id=4]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choice/scripts/choice.gd" type="Script" id=5]
+[ext_resource path="res://addons/reversequest/components/area2d/dbclick.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFontData" id=2]
+font_path = "res://components/dialog_editor/fonts/roboto_regular.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+use_filter = true
+font_data = SubResource( 2 )
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 108.5, 24.5 )
+
+[node name="Choice" type="Node2D" groups=["choice"]]
+script = ExtResource( 5 )
+
+[node name="Background" type="Polygon2D" parent="."]
+position = Vector2( 202, 99 )
+color = Color( 0.247059, 0.235294, 0.278431, 1 )
+offset = Vector2( -202, -99 )
+polygon = PoolVector2Array( 267, 0, 267, 50, 50, 50, 50, 0 )
+
+[node name="DecorLine" type="Polygon2D" parent="."]
+position = Vector2( -49, 0 )
+color = Color( 0.247059, 0.235294, 0.278431, 1 )
+polygon = PoolVector2Array( 100, 20, 100, 30, 60, 30, 60, 20 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 300.0
+margin_bottom = 51.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 56.0
+margin_top = 3.0
+margin_right = -41.0
+margin_bottom = -3.0
+custom_fonts/font = SubResource( 3 )
+text = "Текст реплики"
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control"]
+margin_left = 274.0
+margin_right = 299.0
+margin_bottom = 51.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Remove" type="Button" parent="Control/VBoxContainer2"]
+margin_top = 3.0
+margin_right = 25.0
+margin_bottom = 23.0
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer2/Remove"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -6.5
+margin_top = -10.0
+margin_right = 6.5
+margin_bottom = 10.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Link" type="Button" parent="Control/VBoxContainer2"]
+margin_top = 27.0
+margin_right = 25.0
+margin_bottom = 47.0
+theme = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer2/Link"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 8.5
+margin_top = -6.0
+margin_right = 16.5
+margin_bottom = 6.0
+rect_rotation = 89.9999
+rect_scale = Vector2( 1.44, 1.44 )
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Create" type="Button" parent="Control/VBoxContainer2"]
+visible = false
+margin_top = 24.0
+margin_right = 25.0
+margin_bottom = 44.0
+theme = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer2/Create"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 8.5
+margin_top = -6.0
+margin_right = 17.5
+margin_bottom = 6.0
+rect_rotation = 89.9999
+rect_scale = Vector2( 1.44, 1.44 )
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EditTrigger" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EditTrigger"]
+position = Vector2( 158.5, 24.5 )
+shape = SubResource( 4 )
+
+[node name="OrderTrigger" type="Area2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OrderTrigger"]
+position = Vector2( 158.5, 24.5 )
+shape = SubResource( 4 )
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="Code" type="Label" parent="Debug"]
+margin_left = 25.0
+margin_top = 4.0
+margin_right = 43.0
+margin_bottom = 18.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Control/VBoxContainer2/Link" to="." method="_on_Link_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer2/Create" to="." method="_on_Create_pressed"]
+[connection signal="dbclick" from="EditTrigger" to="." method="_on_EditTrigger_dbclick"]
+[connection signal="area_entered" from="OrderTrigger" to="." method="_on_OrderTrigger_area_entered"]
+[connection signal="area_exited" from="OrderTrigger" to="." method="_on_OrderTrigger_area_exited"]
+[connection signal="drag" from="OrderTrigger" to="." method="_on_OrderTrigger_drag"]
+[connection signal="drag_end" from="OrderTrigger" to="." method="_on_OrderTrigger_drag_end"]
+[connection signal="drag_start" from="OrderTrigger" to="." method="_on_OrderTrigger_drag_start"]
