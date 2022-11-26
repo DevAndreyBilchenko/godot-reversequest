@@ -35,9 +35,6 @@ custom_fonts/font = ExtResource( 1 )
 text = "(укоризненно взглянула на ГГ за грубость) Анастасия, помогая директору по многим вопросам. Я так понимаю, что ты приехал тут отдыхать, так что не нарывайся на особые проблемы, ну знаешь, домик на отшибе."
 autowrap = true
 clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 margin_left = 303.0
@@ -108,9 +105,6 @@ margin_top = 351.0
 margin_right = 20.0
 margin_bottom = 371.0
 theme = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="ChoiceAdd"]
 anchor_left = 0.5

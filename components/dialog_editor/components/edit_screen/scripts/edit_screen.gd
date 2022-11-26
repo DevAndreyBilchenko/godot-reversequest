@@ -1,22 +1,17 @@
 extends Node2D
 
-export(int) var x_gap = 250
-export(int) var y_gap = 150
-
-var speech_scene = preload("res://components/dialog_editor/components/speech/scenes/speech.tscn")
-var roadline_scene = preload("res://components/dialog_editor/components/roadline/scenes/roadline.tscn")
 var speech_res_class = preload("res://data/scripts/speech_res.gd")
 var choice_res_class = preload("res://data/scripts/choice_res.gd")
-var grid_class = preload("res://components/dialog_editor/components/edit_screen/scripts/grid.gd")
+var speech_renderer_class = preload("res://components/dialog_editor/components/edit_screen/scripts/speech_renderer.gd")
+
 var dialog
 var file_name
 var path_to_res
-var rendered_codes = []
-var wait_link_zone
-var grid = grid_class.new()
+var wait_link_zone 
+
+var speech_renderer = speech_renderer_class.new()
 
 onready var content = $Content
-onready var road = $Road
 onready var edit_speech_hud = $EditSpeech
 onready var edit_choice_hud = $EditChoice
 
@@ -29,6 +24,7 @@ func start_edit(_file_name):
 		create_root_speech()
 		save_dialog()
 
+	speech_renderer.setup(dialog, content)
 	render()
 
 	$Camera2D.current = true
@@ -43,49 +39,7 @@ func save_dialog():
 
 
 func render():
-	grid.update(dialog)
-	render_speech(dialog.find_root_speech())
-
-
-func render_speech(speech):
-	var speech_node
-	
-	if not is_rendered(speech.code):
-		var new_speech = speech_scene.instance()
-
-		new_speech.connect("speech_edit", self, "_on_speech_edit")
-		new_speech.connect("speech_remove", self, "_on_speech_remove")
-		new_speech.connect("choice_add", self, "_on_choice_add")
-		new_speech.connect("choice_edit", self, "_on_choice_edit")
-		new_speech.connect("choice_update_order", self, "_on_choice_update_order")
-		new_speech.connect("choice_link", self, "_on_choice_link")
-		new_speech.connect("choice_link_create", self, "_on_choice_link_create")
-		new_speech.connect("linked", self, "_on_speech_linked")
-
-		new_speech.render(speech)
-		new_speech.name = get_speech_node_name(speech.code)
-		
-		content.add_child(new_speech)
-		rendered_codes.append(speech.code)
-		
-		speech_node = new_speech
-	else:
-		speech_node = find_speech_node(speech.code)
-
-
-	for ch in speech.choice_list:
-		if has_link(ch):
-			if not is_rendered(ch.link):
-				render_speech(dialog.find_speech(ch.link))
-				render_roadline(speech_node.find_choice_node(ch.code), find_speech_node(ch.link))
-
-
-func find_speech_node(code):
-	return content.get_node_or_null(get_speech_node_name(code))
-
-
-func get_speech_nodes():
-	return content.get_children()
+	speech_renderer.render()
 
 
 func get_list_item_index(code, list):
@@ -94,36 +48,6 @@ func get_list_item_index(code, list):
 		if item.code == code:
 			return index
 		index += 1
-
-
-func is_rendered(code):
-	var result = false
-
-	for item in rendered_codes:
-		if item == code:
-			result = true
-			break
-
-	return result
-
-
-func has_link(target):
-	return target.link != -1
-
-
-func get_latest_y_by_x(x):
-	var max_bottom = 0
-
-	for ch in content.get_children():
-		if ch.position.x == x:
-			var bottom = ch.position.y + ch.size_y;
-			if bottom > max_bottom:
-				max_bottom = bottom
-
-	if max_bottom != 0:
-		max_bottom += y_gap
-
-	return max_bottom
 
 
 func create_root_speech():
@@ -176,17 +100,6 @@ func clean_link_zone_waiter():
 
 func get_link_zone_waiter():
 	return wait_link_zone
-
-
-func render_roadline(from_node, to_node):
-	var new_roadline = roadline_scene.instance()
-	road.add_child(new_roadline)
-	new_roadline.setup(x_gap, y_gap, to_node.size_x)
-	new_roadline.draw(from_node, to_node, get_speech_nodes())
-
-
-func get_speech_node_name(speech_code):
-	return str("Speech_code_", speech_code)
 
 
 func _on_speech_edit(speech_code):
@@ -329,3 +242,14 @@ func _on_speech_linked(speech_code):
 
 	save_dialog()
 	render()
+
+
+func _on_speech_renderer_instance_speech(new_speech):
+	new_speech.connect("speech_edit", self, "_on_speech_edit")
+	new_speech.connect("speech_remove", self, "_on_speech_remove")
+	new_speech.connect("choice_add", self, "_on_choice_add")
+	new_speech.connect("choice_edit", self, "_on_choice_edit")
+	new_speech.connect("choice_update_order", self, "_on_choice_update_order")
+	new_speech.connect("choice_link", self, "_on_choice_link")
+	new_speech.connect("choice_link_create", self, "_on_choice_link_create")
+	new_speech.connect("linked", self, "_on_speech_linked")
