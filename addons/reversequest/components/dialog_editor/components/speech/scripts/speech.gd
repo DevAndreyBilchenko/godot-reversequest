@@ -1,23 +1,29 @@
 extends Node2D
 
+
 signal speech_edit(speech_code)
 signal speech_remove(speech_code)
 signal choice_add(speech_code)
-signal choice_edit(choice_res)
+signal choice_edit(speech_res, choice_res)
 signal choice_update_order(speech_code, choice_order_code)
 signal choice_link(speech_code, choice_code)
 signal choice_link_create(speech_code, choice_code)
 signal linked(speech_code)
 
+
 export(int) var size_x
 var size_y setget ,size_y_get
 var base_y = 308
 var bottom = 0
-var code = -1
+var res
+
+
+func _ready():
+	update_choice_line()
 
 
 func render(speech_res):
-	code = speech_res.code
+	res = speech_res
 	set_text(speech_res.text)
 	for ch in speech_res.choice_list:
 		add_choice(ch)
@@ -25,7 +31,7 @@ func render(speech_res):
 
 func set_text(text):
 	$Control/Text.text = text
-	$Debug/Code.text = str(code)
+	$Debug/Code.text = str(res.code)
 
 
 func enable_link_zone():
@@ -88,47 +94,37 @@ func get_choice_node_rect(choice_code):
 	return Rect2(choice.global_position, Vector2(choice.size_x, choice.size_y))
 
 
-func _ready():
-	update_choice_line()
+func get_choice_node_name(_code):
+	return str("Coice_code_", _code)
 
 
 func _on_ChoiceAdd_pressed():
-	emit_signal("choice_add", code)
+	emit_signal("choice_add", res)
 
 
 func _on_Edit_pressed():
-	emit_signal("speech_edit", code)
+	emit_signal("speech_edit", res)
 
 
 func _on_Remove_pressed():
-	emit_signal("speech_remove", code)
+	emit_signal("speech_remove", res)
 	
 
 func _on_choice_edit_open(choice_res):
-	emit_signal("choice_edit", choice_res)
+	emit_signal("choice_edit", res, choice_res)
 
 
 func _on_choice_update_order():
-	var choice_container = get_node("ChoiceContainer")
-	var code_list = [];
-	code_list.resize(choice_container.get_child_count())
-
-	for item in choice_container.get_children():
-		code_list[item.slot] = item.code
-	
-	emit_signal("choice_update_order", code, code_list)
+	emit_signal("choice_update_order", res)
 
 
-func _on_choice_link(choice_code):
-	emit_signal("choice_link", code, choice_code)
+func _on_choice_link(choice_res):
+	emit_signal("choice_link", res, choice_res)
 
 
-func _on_choice_link_create(choice_code):
-	emit_signal("choice_link_create", code, choice_code)
+func _on_choice_link_create(choice_res):
+	emit_signal("choice_link_create", res, choice_res)
+
 
 func _on_LinkZone_pressed():
-	emit_signal("linked", code)
-
-
-func get_choice_node_name(_code):
-	return str("Coice_code_", _code)
+	emit_signal("linked", res)

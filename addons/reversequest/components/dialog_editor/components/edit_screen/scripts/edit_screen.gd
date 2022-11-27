@@ -92,46 +92,23 @@ func _on_EditChoice_apply(_speech_code, _choice_res):
 	render()
 	edit_choice_hud.close()
 
+
 func _on_EditChoice_cancel():
 	edit_choice_hud.close()
 
 
-func _on_choice_edit(speech_code, choice_code):
-	var speech_index = get_list_item_index(speech_code, dialog.speech_list)
-
-	if speech_index == null:
-		return
-
-	var choice_index = get_list_item_index(choice_code, dialog.speech_list[speech_index].choice_list)
-
-	if choice_index == null:
-		return
-
-	edit_choice_hud.open(speech_code, dialog.speech_list[speech_index].choice_list[choice_index])
+func _on_choice_edit(choice_res):
+	edit_choice_hud.open(choice_res)
 
 
 func _on_choice_update_order(speech_code, choice_order_code):
-	var speech_index = get_list_item_index(speech_code, dialog.speech_list)
-
-	if speech_index == null:
-		return
-
-	var ordered = []
-
-	for code in choice_order_code:
-		for ch_item in dialog.speech_list[speech_index].choice_list:
-			if ch_item.code == code:
-				ordered.append(ch_item)
-				break
-
-	dialog.speech_list[speech_index].choice_list = ordered
-	save_dialog()
+	dialog_res_controller.save()
 	render()
 
 
-func _on_choice_link(speech_code, choice_code):
+func _on_choice_link(speech_res, choice_res):
 	enable_link_zones()
-	register_link_zone_waiter(speech_code, choice_code)
+	register_link_zone_waiter(speech_res, choice_res)
 
 
 func _on_choice_link_create(speech_code, choice_code):
