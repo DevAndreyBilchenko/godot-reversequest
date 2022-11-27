@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/from_to/scripts/from_to.gd" type="Script" id=1]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/dialog_editor_theme.tres" type="Theme" id=2]
 
 [node name="FromTo" type="Control"]
 anchor_right = 1.0
@@ -35,18 +34,16 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="LabelFrom" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 6.0
+margin_top = 11.0
 margin_right = 500.0
 margin_bottom = 25.0
-theme = ExtResource( 2 )
 text = "Реплика от"
 
 [node name="OptionButtonFrom" type="OptionButton" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 29.0
-margin_right = 184.0
-margin_bottom = 54.0
+margin_right = 37.0
+margin_bottom = 49.0
 size_flags_horizontal = 0
-theme = ExtResource( 2 )
 text = "персонаж не выбран"
 items = [ "персонаж не выбран", null, false, 0, null, "Персонаж 1", null, false, 1, null, "Персонаж 2", null, false, 2, null ]
 selected = 0
@@ -59,18 +56,16 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="LabelTo" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 6.0
+margin_top = 11.0
 margin_right = 500.0
 margin_bottom = 25.0
-theme = ExtResource( 2 )
 text = "в сторону"
 
 [node name="OptionButtonTo" type="OptionButton" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 29.0
-margin_right = 184.0
-margin_bottom = 54.0
+margin_right = 37.0
+margin_bottom = 49.0
 size_flags_horizontal = 0
-theme = ExtResource( 2 )
 text = "персонаж не выбран"
 items = [ "персонаж не выбран", null, false, 0, null, "Персонаж 1", null, false, 1, null, "Персонаж 2", null, false, 2, null ]
 selected = 0

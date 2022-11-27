@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=1]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/edit_speech/scripts/edit_speech.gd" type="Script" id=3]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/from_to/scenes/from_to.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/dialog_editor_theme.tres" type="Theme" id=5]
 
 [node name="EditSpeech" type="CanvasLayer"]
 script = ExtResource( 3 )
@@ -103,7 +102,6 @@ __meta__ = {
 margin_left = 331.0
 margin_right = 400.0
 margin_bottom = 25.0
-theme = ExtResource( 5 )
 text = "Отмена"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -113,7 +111,6 @@ __meta__ = {
 margin_left = 404.0
 margin_right = 500.0
 margin_bottom = 25.0
-theme = ExtResource( 5 )
 text = "Применить"
 __meta__ = {
 "_edit_use_anchors_": false

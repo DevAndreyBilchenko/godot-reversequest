@@ -1,7 +1,4 @@
-[gd_resource type="DynamicFont" load_steps=2 format=2]
-
-[ext_resource path="res://addons/reversequest/components/dialog_editor/fonts/roboto_regular.ttf" type="DynamicFontData" id=1]
+[gd_resource type="DynamicFont" format=2]
 
 [resource]
 size = 22
-font_data = ExtResource( 1 )

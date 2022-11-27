@@ -5,7 +5,7 @@ var speech_renderer_class = preload("res://addons/reversequest/components/dialog
 var dialog_res_controller = preload("res://addons/reversequest/gd_scripts/dialog_res_controller.gd")
 
 var path_to_res
-var wait_link_zone 
+var choice_res_link_zone_wait 
 
 var speech_renderer = speech_renderer_class.new()
 
@@ -26,53 +26,42 @@ func render():
 	speech_renderer.render()
 
 
-func get_list_item_index(code, list):
-	var index = 0
-	for item in list:
-		if item.code == code:
-			return index
-		index += 1
-
-
 func enable_link_zones():
-	for speech in content.get_children():
-		speech.enable_link_zone()
+	for speech_res in dialog_res_controller.get_speech_list():
+		var speech_node = speech_renderer.find_speech_node(speech_res.code)
+		speech_node.enable_link_zone()
 
 
 func disable_link_zones():
-	for speech in content.get_children():
-		speech.disable_link_zone()
+	for speech_res in dialog_res_controller.get_speech_list():
+		var speech_node = speech_renderer.find_speech_node(speech_res.code)
+		speech_node.disable_link_zone()
 
 
-func register_link_zone_waiter(speech_code, choice_code):
-	wait_link_zone = {
-		"speech": speech_code,
-		"choice": choice_code
-	}
+func register_link_zone_waiter(choice_res):
+	choice_res_link_zone_wait = choice_res
 
 
 func clean_link_zone_waiter():
-	wait_link_zone = null
+	choice_res_link_zone_wait = null
 
 
 func get_link_zone_waiter():
-	return wait_link_zone
+	return choice_res_link_zone_wait
 
 
-func _on_speech_edit(speech_code):
-	var speech = dialog_res_controller.get_speech(speech_code)
-	if speech != null:
-		edit_speech_hud.open(speech)
+func _on_speech_edit(speech_res):
+	edit_speech_hud.open(speech_res)
 
 
-func _on_speech_remove(speech_code):
+func _on_speech_remove(speech_res):
 	print("remove")
-	print(speech_code)
+	print(speech_res)
 	pass
 
 
-func _on_choice_add(speech_code):
-	dialog_res_controller.create_choice(speech_code)
+func _on_choice_add(speech_res):
+	dialog_res_controller.create_choice(speech_res.code)
 	dialog_res_controller.save()
 	
 	render()
@@ -106,50 +95,29 @@ func _on_choice_update_order(speech_code, choice_order_code):
 	render()
 
 
-func _on_choice_link(speech_res, choice_res):
+func _on_choice_link(choice_res):
 	enable_link_zones()
-	register_link_zone_waiter(speech_res, choice_res)
+	register_link_zone_waiter(choice_res)
 
 
-func _on_choice_link_create(speech_code, choice_code):
+func _on_choice_link_create(speech_res, choice_res):
 	disable_link_zones()
 	clean_link_zone_waiter()
 
-	var speech_index = get_list_item_index(speech_code, dialog.speech_list)
+	var new_speech = dialog_res_controller.create_speech()
+	choice_res.link = new_speech.code
 
-	if speech_index == null:
-		return
-
-	var choice_index = get_list_item_index(choice_code, dialog.speech_list[speech_index].choice_list)
-
-	if choice_index == null:
-		return
-
-	var new_speech = create_speech()
-	dialog.speech_list.append(new_speech)
-	dialog.speech_list[speech_index].choice_list[choice_index].link = new_speech.code
-
-	save_dialog()
+	dialog_res_controller.save()
 	render()
 
 
-func _on_speech_linked(speech_code):
+func _on_speech_linked(speech_res):
 	disable_link_zones()
 
-	var waiter = get_link_zone_waiter()
-	var speech_index = get_list_item_index(waiter.speech, dialog.speech_list)
+	var choice_res_waiter = get_link_zone_waiter()
+	choice_res_waiter.link = speech_res.code
 
-	if speech_index == null:
-		return
-
-	var choice_index = get_list_item_index(waiter.choice, dialog.speech_list[speech_index].choice_list)
-
-	if choice_index == null:
-		return
-
-	dialog.speech_list[speech_index].choice_list[choice_index].link = speech_code
-
-	save_dialog()
+	dialog_res_controller.save()
 	render()
 
 

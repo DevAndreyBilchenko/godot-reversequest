@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/edit_choice/scripts/edit_choice.gd" type="Script" id=1]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/fonts/text_normal.tres" type="DynamicFont" id=2]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/dialog_editor_theme.tres" type="Theme" id=3]
 
 [node name="EditChoice" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -50,20 +48,18 @@ __meta__ = {
 
 [node name="TextLabel" type="Label" parent="Choice/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 500.0
-margin_bottom = 19.0
-custom_fonts/font = ExtResource( 2 )
+margin_bottom = 14.0
 text = "Текст выбора"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextEdit" type="TextEdit" parent="Choice/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 23.0
+margin_top = 18.0
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = ExtResource( 2 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Choice/MarginContainer/HBoxContainer"]
 margin_left = 504.0
@@ -96,20 +92,18 @@ __meta__ = {
 }
 
 [node name="Cancel" type="Button" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 331.0
-margin_right = 400.0
+margin_left = 472.0
+margin_right = 484.0
 margin_bottom = 25.0
-theme = ExtResource( 3 )
 text = "Отмена"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Apply" type="Button" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 404.0
+margin_left = 488.0
 margin_right = 500.0
 margin_bottom = 25.0
-theme = ExtResource( 3 )
 text = "Применить"
 __meta__ = {
 "_edit_use_anchors_": false

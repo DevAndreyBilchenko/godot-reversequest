@@ -46,6 +46,10 @@ func get_speech(code):
 		return null
 
 
+func get_speech_list():
+	return _dialog.speech_list
+
+
 func create_choice(speech_code, start_text = "Новая реплика"):
 	var choice = _choice_res_class.new()
 	var speech = get_speech(speech_code)

@@ -1,14 +1,14 @@
 extends Node2D
 
 
-signal speech_edit(speech_code)
-signal speech_remove(speech_code)
-signal choice_add(speech_code)
+signal speech_edit(speech_res)
+signal speech_remove(speech_res)
+signal choice_add(speech_res)
 signal choice_edit(speech_res, choice_res)
-signal choice_update_order(speech_code, choice_order_code)
-signal choice_link(speech_code, choice_code)
-signal choice_link_create(speech_code, choice_code)
-signal linked(speech_code)
+signal choice_update_order(speech_res)
+signal choice_link(speech_res, choice_res)
+signal choice_link_create(speech_res, choice_res)
+signal linked(speech_res)
 
 
 export(int) var size_x
@@ -45,20 +45,19 @@ func disable_link_zone():
 func add_choice(choice_res):
 	var choice = preload("res://addons/reversequest/components/dialog_editor/components/choice/scenes/choice.tscn")
 	var choice_container = get_node("ChoiceContainer")
-	var new_instance = choice.instance()
+	var choice_node = choice.instance()
 	
-	new_instance.slot = choice_container.get_child_count()
-	new_instance.connect("edit_open", self, "_on_choice_edit_open")
-	new_instance.connect("update_order", self, "_on_choice_update_order")
-	new_instance.connect("link", self, "_on_choice_link")
-	new_instance.connect("link_create", self, "_on_choice_link_create")
+	choice_node.connect("edit_open", self, "_on_choice_edit_open")
+	choice_node.connect("update_order", self, "_on_choice_update_order")
+	choice_node.connect("link", self, "_on_choice_link")
+	choice_node.connect("link_create", self, "_on_choice_link_create")
 
-	choice_container.add_child(new_instance)
+	choice_container.add_child(choice_node)
 	
 	if (choice_res != null):
-		new_instance.set_res(choice_res)
+		choice_node.set_res(choice_res)
 
-	new_instance.name = get_choice_node_name(new_instance.code)
+	choice_node.name = get_choice_node_name(choice_node.code)
 	
 	update_choice_line()
 

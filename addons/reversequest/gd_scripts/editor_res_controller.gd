@@ -9,6 +9,7 @@ func _init():
 	
 	if loaded == null:
 		editor_resource = preload("res://addons/reversequest/gd_scripts/editor_res.gd").new()
+		save()
 	else:
 		editor_resource = loaded
 
@@ -24,7 +25,7 @@ func add_dialog_item(editor_label, file_name):
 	
 	editor_resource.dialog_list.append(dialog_item)
 	save()
-	
+
 
 func get_dialog_list():
 	return editor_resource.dialog_list
