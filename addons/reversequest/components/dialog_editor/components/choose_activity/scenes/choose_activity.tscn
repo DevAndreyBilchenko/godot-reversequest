@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/themes/dialog_editor.theme" type="Theme" id=1]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/label_title/scripts/label_title.gd" type="Script" id=2]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_card/scenes/choose_card.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_actor.tscn" type="PackedScene" id=4]
 
 [node name="ChooseActivity" type="Control"]
 anchor_right = 1.0
@@ -23,24 +26,79 @@ margin_bottom = 555.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
 margin_right = 974.0
-margin_bottom = 173.0
+margin_bottom = 206.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 974.0
-margin_bottom = 19.0
+margin_bottom = 27.0
+theme_type_variation = "LabelTitle"
 text = "Reverse Quest - Редактор диалогов"
+script = ExtResource( 2 )
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 23.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 31.0
 margin_right = 974.0
-margin_bottom = 173.0
+margin_bottom = 206.0
+custom_constants/margin_top = 25
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer"]
+margin_top = 25.0
+margin_right = 974.0
+margin_bottom = 175.0
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
 columns = 4
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_right = 243.0
+[node name="ChooseCardDialog" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 240.0
 margin_bottom = 150.0
-rect_min_size = Vector2( 0, 150 )
-size_flags_horizontal = 3
+
+[node name="LinkButton" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardDialog/CenterContainer" index="0"]
+margin_left = 60.0
+margin_top = 57.0
+margin_right = 180.0
+margin_bottom = 93.0
+text = "Диалоги"
+
+[node name="SceneSwitcherActor" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardDialog/CenterContainer/LinkButton" index="0" instance=ExtResource( 4 )]
+target = NodePath("..")
+signal_name = "pressed"
+
+[node name="ChooseCardCharacter" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 248.0
+margin_right = 488.0
+margin_bottom = 150.0
+
+[node name="LinkButton" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardCharacter/CenterContainer" index="0"]
+margin_left = 40.0
+margin_top = 57.0
+margin_right = 200.0
+margin_bottom = 93.0
+focus_mode = 2
+disabled = true
+text = "Персонажи"
+
+[node name="ChooseCardItems" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 496.0
+margin_right = 735.0
+margin_bottom = 150.0
+
+[node name="LinkButton" parent="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardItems/CenterContainer" index="0"]
+margin_left = 46.0
+margin_top = 57.0
+margin_right = 193.0
+margin_bottom = 93.0
+focus_mode = 2
+disabled = true
+text = "Предметы"
+
+[editable path="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardDialog"]
+[editable path="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardCharacter"]
+[editable path="MarginContainer/ScrollContainer/VBoxContainer/MarginContainer/GridContainer/ChooseCardItems"]

@@ -16,7 +16,7 @@ func _ready():
 	for g in group:
 		add_to_group(g)
 	
-	self.call_deferred("setup")
+	self.call_deferred("_setup")
 
 
 func bind_controller(controller_node):
