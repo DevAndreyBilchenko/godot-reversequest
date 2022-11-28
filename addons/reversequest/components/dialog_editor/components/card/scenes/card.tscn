@@ -1,22 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/card/scripts/card.gd" type="Script" id=1]
-
-[sub_resource type="DynamicFontData" id=2]
-font_path = "res://components/dialog_editor/fonts/roboto_regular.ttf"
-
-[sub_resource type="DynamicFont" id=3]
-use_filter = true
-font_data = SubResource( 2 )
 
 [node name="Card" type="Control"]
 anchor_right = 1.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -37,7 +27,6 @@ anchor_bottom = 0.5
 margin_top = -9.5
 margin_right = 749.568
 margin_bottom = 9.5
-custom_fonts/font = SubResource( 3 )
 text = "Тестовый текст"
 clip_text = true
 __meta__ = {
@@ -52,7 +41,6 @@ anchor_bottom = 0.5
 margin_left = -78.0
 margin_top = -12.5
 margin_bottom = 12.5
-custom_fonts/font = SubResource( 3 )
 text = "Открыть"
 __meta__ = {
 "_edit_use_anchors_": false

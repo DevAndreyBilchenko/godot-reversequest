@@ -5,13 +5,8 @@
 [ext_resource path="res://addons/reversequest/components/dialog_editor/assets/plus-solid.png" type="Texture" id=3]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/speech/scenes/link_zone.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/speech/scripts/speech.gd" type="Script" id=5]
-
-[sub_resource type="DynamicFontData" id=2]
-font_path = "res://components/dialog_editor/fonts/roboto_regular.ttf"
-
-[sub_resource type="DynamicFont" id=3]
-use_filter = true
-font_data = SubResource( 2 )
+[ext_resource path="res://addons/reversequest/components/dialog_editor/themes/dialog_editor.theme" type="Theme" id=6]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/label_title/scripts/label_title.gd" type="Script" id=7]
 
 [sub_resource type="Theme" id=1]
 
@@ -27,9 +22,6 @@ polygon = PoolVector2Array( 300, 0, 300, 300, 0, 300, 0, 0 )
 margin_right = 300.0
 margin_bottom = 300.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Text" type="Label" parent="Control"]
 margin_left = 12.0
@@ -37,7 +29,6 @@ margin_top = 12.0
 margin_right = 288.0
 margin_bottom = 288.0
 custom_colors/font_color = Color( 0.9, 0.9, 0.9, 1 )
-custom_fonts/font = SubResource( 3 )
 text = "(укоризненно взглянула на ГГ за грубость) Анастасия, помогая директору по многим вопросам. Я так понимаю, что ты приехал тут отдыхать, так что не нарывайся на особые проблемы, ну знаешь, домик на отшибе."
 autowrap = true
 clip_text = true
@@ -135,9 +126,9 @@ visible = false
 [node name="Code" type="Label" parent="Debug"]
 margin_left = -17.0
 margin_bottom = 14.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource( 6 )
+text = "22"
+script = ExtResource( 7 )
 
 [connection signal="pressed" from="Control/VBoxContainer/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Edit" to="." method="_on_Edit_pressed"]
