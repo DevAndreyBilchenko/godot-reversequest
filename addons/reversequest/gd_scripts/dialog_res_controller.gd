@@ -17,6 +17,21 @@ func load_dialog(name):
 	_dialog = ResourceLoader.load(_get_path_to_dialog_file())
 
 
+func get_saved_dialogs():
+	var dir = Directory.new()
+	var files = []
+	if dir.open(_settings.path_to_dialog_folder) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir():
+				files.append(file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+	
+	return files
+
 func create_dialog(name):
 	_dialog_name = name
 	_dialog = _dialog_res_class.new()
@@ -26,7 +41,7 @@ func create_dialog(name):
 
 func save():
 	ResourceSaver.save(_get_path_to_dialog_file(), _dialog,  ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
-	
+
 
 func create_speech(start_text = "Новая реплика", choice_list = []):
 	var speech = _speech_res_class.new()
