@@ -26,6 +26,7 @@ func add_dialog_item(editor_label, file_name):
 	
 	add_res_meta(dialog_item)
 	save()
+	return dialog_item
 
 
 func get_dialog_item(file_name):
@@ -52,10 +53,10 @@ func get_res_meta(code):
 	if meta_index + 1 > editor_resource.meta.size():
 		return null
 	
-	if editor_resource[meta_index].code != code:
+	if editor_resource.meta[meta_index].code != code:
 		return null
 	
-	return editor_resource[meta_index]
+	return editor_resource.meta[meta_index]
 
 
 func remove_res_meta(code):
@@ -75,7 +76,10 @@ func save():
 
 
 func _bcompare_meta(a, b):
-	return a.code < b.code
+	var _a = a if typeof(a) == TYPE_INT else a.code
+	var _b = b if typeof(b) == TYPE_INT else b.code
+	
+	return _a < _b
 
 
 func _get_dialog_code(file_name):

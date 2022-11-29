@@ -15,6 +15,7 @@ var _empty_slots = null
 func load_dialog(name):
 	_dialog_name = name
 	_dialog = ResourceLoader.load(_get_path_to_dialog_file())
+	return _dialog
 
 
 func get_saved_dialogs():

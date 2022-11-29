@@ -7,7 +7,8 @@ export(bool) var init_from_prop = true
 
 
 func _ready():
-	call_deferred("_setup")
+	yield(get_tree(), "idle_frame")
+	_setup()
 	
 	
 func _setup():
@@ -15,19 +16,21 @@ func _setup():
 	var val = ""
 	
 	if init_from_prop:
-		val = get_indexed(_join_np(target, prop))
+		var n = get_node(_join_np(target, prop))
+		val = n.get_indexed(prop)
 	
 	if node is LineEdit:
 		node.connect("text_changed", self, "_on_field_changed")
-		if init_from_prop:
+		if init_from_prop and val:
 			node.text = val
 
 
-func _on_field_changed():
-	var node = get_node(input)
+func _on_field_changed(_new_text):
+	var input_node = get_node(input)
 	
-	set_indexed(_join_np(target, prop), node.text)
+	var target_node = get_node(_join_np(target, prop))
+	target_node.set_indexed(prop, input_node.text)
 
 
-func _join_np(target, prop):
-	return str(target, ":", prop)
+func _join_np(_target, _prop):
+	return str(_target, ":", _prop)

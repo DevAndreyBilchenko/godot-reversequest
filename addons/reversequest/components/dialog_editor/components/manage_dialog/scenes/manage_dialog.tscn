@@ -15,7 +15,6 @@ script = ExtResource( 5 )
 
 [node name="SceneSwitcherStore" parent="." instance=ExtResource( 3 )]
 scene_instance = "res://addons/reversequest/components/dialog_editor/components/manage_dialog/scenes/manage_dialog.tscn"
-send_data = [ "test" ]
 
 [node name="LayoutStandard" parent="." instance=ExtResource( 1 )]
 
