@@ -1,0 +1,153 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/layout/scenes/layout_standard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/themes/dialog_editor.theme" type="Theme" id=2]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_store.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/header/scenes/header.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/manage_dialog/scripts/manage_dialog.gd" type="Script" id=5]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/bind_input_on_prop/scenes/bind_input_on_prop.tscn" type="PackedScene" id=6]
+
+[node name="ManageDialog" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 5 )
+
+[node name="SceneSwitcherStore" parent="." instance=ExtResource( 3 )]
+scene_instance = "res://addons/reversequest/components/dialog_editor/components/manage_dialog/scenes/manage_dialog.tscn"
+send_data = [ "test" ]
+
+[node name="LayoutStandard" parent="." instance=ExtResource( 1 )]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard"]
+margin_left = 25.0
+margin_top = 45.0
+margin_right = 999.0
+margin_bottom = 555.0
+
+[node name="Header" parent="LayoutStandard/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+margin_right = 974.0
+margin_bottom = 27.0
+
+[node name="Label" parent="LayoutStandard/VBoxContainer/Header" index="0"]
+margin_right = 906.0
+text = "Данные диалога"
+
+[node name="LinkButton" parent="LayoutStandard/VBoxContainer/Header" index="1"]
+margin_left = 910.0
+margin_right = 974.0
+
+[node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/VBoxContainer"]
+margin_top = 31.0
+margin_right = 974.0
+margin_bottom = 199.0
+custom_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer"]
+margin_top = 20.0
+margin_right = 974.0
+margin_bottom = 168.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 974.0
+margin_bottom = 52.0
+custom_constants/separation = 15
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 479.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 479.0
+margin_bottom = 19.0
+text = "Имя ресурса (латиница с нижним подчеркиванием)"
+
+[node name="MarginContainer2" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 23.0
+margin_right = 479.0
+margin_bottom = 52.0
+
+[node name="NameLineEdit" type="LineEdit" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2"]
+margin_right = 479.0
+margin_bottom = 29.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="BindInputOnProp2" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit" instance=ExtResource( 6 )]
+input = NodePath("..")
+target = NodePath("../../../../../../../../..")
+prop = "dialog_meta_res:file_name"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 494.0
+margin_right = 974.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 480.0
+margin_bottom = 19.0
+text = "Название (для редактора)"
+
+[node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 480.0
+margin_bottom = 52.0
+
+[node name="EditorNameLineEdit" type="LineEdit" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+margin_right = 480.0
+margin_bottom = 29.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="BindInputOnProp" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/EditorNameLineEdit" instance=ExtResource( 6 )]
+input = NodePath("..")
+target = NodePath("../../../../../../../../..")
+prop = "dialog_meta_res:display_name"
+
+[node name="MarginContainer3" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 974.0
+margin_bottom = 115.0
+custom_constants/margin_top = 30
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3"]
+margin_top = 30.0
+margin_right = 974.0
+margin_bottom = 59.0
+alignment = 1
+
+[node name="CreateButton" type="Button" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2"]
+margin_left = 389.0
+margin_right = 474.0
+margin_bottom = 29.0
+text = "Создать"
+
+[node name="CreateButton2" type="Button" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2"]
+margin_left = 478.0
+margin_right = 584.0
+margin_bottom = 29.0
+text = "Cохранить"
+
+[node name="MarginContainer4" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 119.0
+margin_right = 974.0
+margin_bottom = 148.0
+custom_constants/margin_top = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4"]
+margin_top = 10.0
+margin_right = 974.0
+margin_bottom = 29.0
+alignment = 1
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4/HBoxContainer2"]
+margin_left = 447.0
+margin_right = 527.0
+margin_bottom = 19.0
+text = "Сохранено"
+
+[editable path="LayoutStandard/VBoxContainer/Header"]

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/themes/dialog_editor.theme" type="Theme" id=1]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/layout/scenes/layout_standard.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_actor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/header/scenes/header.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_page/scripts/choose_page.gd" type="Script" id=5]
 
 [node name="ChoosePage" type="Control"]
@@ -21,43 +21,34 @@ margin_bottom = 555.0
 
 [node name="VboxContainer" type="VBoxContainer" parent="LayoutStandard/ScrollContainer"]
 margin_right = 974.0
-margin_bottom = 51.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="LayoutStandard/ScrollContainer/VboxContainer"]
-margin_right = 974.0
-margin_bottom = 27.0
-
-[node name="Label" type="Label" parent="LayoutStandard/ScrollContainer/VboxContainer/HBoxContainer"]
-margin_right = 906.0
-margin_bottom = 27.0
-size_flags_horizontal = 3
-theme_type_variation = "LabelTitle"
-text = "Страница выбора"
-
-[node name="LinkButton" type="LinkButton" parent="LayoutStandard/ScrollContainer/VboxContainer/HBoxContainer"]
-margin_left = 910.0
-margin_right = 974.0
-margin_bottom = 27.0
-theme_type_variation = "LinkButtonTitle"
-text = "Назад"
-
-[node name="SceneSwitcherActor" parent="LayoutStandard/ScrollContainer/VboxContainer/HBoxContainer/LinkButton" instance=ExtResource( 3 )]
-target = NodePath("..")
-signal_name = "pressed"
-use_history = true
-history = "Back"
 
 [node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/ScrollContainer/VboxContainer"]
-margin_top = 31.0
 margin_right = 974.0
-margin_bottom = 51.0
+margin_bottom = 47.0
 custom_constants/margin_top = 20
+
+[node name="Header" parent="LayoutStandard/ScrollContainer/VboxContainer/MarginContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 20.0
+margin_right = 974.0
+margin_bottom = 47.0
+
+[node name="Label" parent="LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/Header" index="0"]
+margin_right = 906.0
+text = "Выбор страницы"
+
+[node name="LinkButton" parent="LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/Header" index="1"]
+margin_left = 910.0
+margin_right = 974.0
 
 [node name="GridContainer" type="GridContainer" parent="LayoutStandard/ScrollContainer/VboxContainer/MarginContainer"]
 margin_top = 20.0
 margin_right = 974.0
-margin_bottom = 20.0
+margin_bottom = 47.0
 custom_constants/vseparation = 15
 custom_constants/hseparation = 15
 columns = 4
+
+[editable path="LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/Header"]

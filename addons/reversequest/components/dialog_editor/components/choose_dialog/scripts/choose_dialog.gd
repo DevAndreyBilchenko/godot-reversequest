@@ -5,6 +5,7 @@ var EditorResController = preload("res://addons/reversequest/gd_scripts/editor_r
 var choose_item_scene = preload("res://addons/reversequest/components/dialog_editor/components/choose_page/scenes/choose_item.tscn")
 
 onready var choose_page = $ChoosePage
+onready var manage_actor = $SceneSwitcherActorManage
 
 var dialog_res_controller = DialogResController.new()
 var editor_res_controller = EditorResController.new()
@@ -36,4 +37,4 @@ func _on_dialog_item_remove(ref, id):
 
 
 func _on_dialog_item_apply(ref, id):
-	pass
+	manage_actor.run([id])

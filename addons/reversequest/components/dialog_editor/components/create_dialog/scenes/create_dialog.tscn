@@ -8,38 +8,38 @@ anchor_bottom = 0.6
 alignment = 1
 
 [node name="Label" type="Label" parent="."]
-margin_top = 19.0
+margin_top = 32.0
 margin_right = 409.0
-margin_bottom = 38.0
+margin_bottom = 46.0
 text = "Название для себя"
 
 [node name="EditorNameLineEdit" type="LineEdit" parent="."]
-margin_top = 42.0
+margin_top = 50.0
 margin_right = 409.0
-margin_bottom = 71.0
+margin_bottom = 74.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Label2" type="Label" parent="."]
-margin_top = 75.0
+margin_top = 78.0
 margin_right = 409.0
-margin_bottom = 94.0
+margin_bottom = 92.0
 text = "Имя ресурса (латиница с нижним подчеркиванием)"
 
 [node name="NameLineEdit" type="LineEdit" parent="."]
-margin_top = 98.0
+margin_top = 96.0
 margin_right = 409.0
-margin_bottom = 127.0
+margin_bottom = 120.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-margin_top = 131.0
+margin_top = 124.0
 margin_right = 409.0
-margin_bottom = 131.0
+margin_bottom = 124.0
 
 [node name="CreateButton" type="Button" parent="."]
-margin_top = 135.0
+margin_top = 128.0
 margin_right = 409.0
-margin_bottom = 160.0
+margin_bottom = 148.0
 text = "Создать"
