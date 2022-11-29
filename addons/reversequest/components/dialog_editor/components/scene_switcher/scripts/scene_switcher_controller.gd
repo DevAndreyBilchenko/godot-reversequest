@@ -16,6 +16,7 @@ var history = []
 
 
 func _ready():
+	print("controller")
 	_initialize_actors()
 
 
@@ -45,5 +46,6 @@ func back():
 
 
 func _initialize_actors():
+	print("call_group")
 	get_tree().call_group(group, "bind_controller", self)
 	

@@ -19,17 +19,68 @@ func get_resource():
 
 
 func add_dialog_item(editor_label, file_name):
-	var dialog_item = preload("res://addons/reversequest/gd_scripts/dialog_editor_item_res.gd").new()
+	var dialog_item = preload("res://addons/reversequest/gd_scripts/editor_meta_dialog_res.gd").new()
+	dialog_item.code = hash(_get_dialog_code(file_name))
 	dialog_item.display_name = editor_label
 	dialog_item.file_name = file_name
 	
-	editor_resource.dialog_list.append(dialog_item)
+	add_res_meta(dialog_item)
 	save()
+
+
+func get_dialog_item(file_name):
+	return get_res_meta(_get_dialog_code(file_name))
+
+
+func remove_dialog_item(file_name):
+	remove_res_meta(_get_dialog_code(file_name))
 
 
 func get_dialog_list():
 	return editor_resource.dialog_list
 
 
+func add_res_meta(meta_item):
+	editor_resource.meta.append(meta_item)
+	editor_resource.meta.sort_custom(self, "_bcompare_meta")
+	save()
+
+
+func get_res_meta(code):
+	var meta_index = _get_res_meta_index(code)
+	
+	if meta_index + 1 > editor_resource.meta.size():
+		return null
+	
+	if editor_resource[meta_index].code != code:
+		return null
+	
+	return editor_resource[meta_index]
+
+
+func remove_res_meta(code):
+	var meta_index = _get_res_meta_index(code)
+	
+	if meta_index + 1 > editor_resource.meta.size():
+		return null
+	
+	if editor_resource[meta_index].code != code:
+		return null
+		
+	editor_resource.meta.remove(meta_index)
+
+
 func save():
 	ResourceSaver.save(settings.path_to_editor_specific, editor_resource)
+
+
+func _bcompare_meta(a, b):
+	return a.code < b.code
+
+
+func _get_dialog_code(file_name):
+	return hash(str("dialog_", file_name))
+
+
+func _get_res_meta_index(code):
+	return editor_resource.meta.bsearch_custom(code, self, "_bcompare_meta")

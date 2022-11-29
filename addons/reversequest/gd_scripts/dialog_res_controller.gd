@@ -32,6 +32,12 @@ func get_saved_dialogs():
 	
 	return files
 
+
+func remove_saved_dialog(file_name):
+	var dir = Directory.new()
+	var _err = dir.remove(_create_path_to_dialog_file(file_name))
+
+
 func create_dialog(name):
 	_dialog_name = name
 	_dialog = _dialog_res_class.new()
@@ -105,7 +111,15 @@ func _get_next_code_index():
 
 
 func _get_path_to_dialog_file():
-	return str(_settings.path_to_dialog_folder, "/", _dialog_name, ".res")
+	return _create_path_to_dialog_file(_dialog_name)
+
+
+func _create_path_to_dialog_file(file_name: String):
+	var end = ".res"
+	if file_name.ends_with(".res"):
+		end = ""
+
+	return str(_settings.path_to_dialog_folder, "/", file_name, end)
 
 
 func _scan_empty_slots():

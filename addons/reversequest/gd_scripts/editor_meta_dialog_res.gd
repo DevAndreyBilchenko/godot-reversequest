@@ -1,5 +1,4 @@
-extends Resource
-class_name DialogEditorItemRes
+extends "res://addons/reversequest/gd_scripts/editor_meta_res.gd"
 
 export(String) var display_name = ""
 export(String) var file_name = ""

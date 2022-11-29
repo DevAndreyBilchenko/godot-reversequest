@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_page/scenes/choose_page.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_dialog/scenes/choose_dialog.gd" type="Script" id=2]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_dialog/scripts/choose_dialog.gd" type="Script" id=2]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_actor.tscn" type="PackedScene" id=3]
 
 [node name="ChooseDialog" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
+
+[node name="SceneSwitcherActor" parent="." instance=ExtResource( 3 )]
 
 [node name="ChoosePage" parent="." instance=ExtResource( 1 )]
 

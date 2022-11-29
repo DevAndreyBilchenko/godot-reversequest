@@ -1,7 +1,7 @@
 extends Control
 
-signal remove
-signal apply
+signal remove(ref, id)
+signal apply(ref, id)
 
 onready var title_node = $MarginContainer/VBoxContainer2/VBoxContainer/Label
 onready var alt_text_node = $MarginContainer/VBoxContainer2/VBoxContainer/LabelOther
@@ -9,7 +9,7 @@ onready var button_apply = $MarginContainer/VBoxContainer2/MarginContainer/HBoxC
 onready var button_remove = $MarginContainer/VBoxContainer2/MarginContainer/HBoxContainer/Button
 onready var confirm_dialog = $ConfirmationDialog
 
-var _id
+var id
 
 
 func _ready():
@@ -20,19 +20,19 @@ func _ready():
 	confirm_dialog.get_ok().text = "Да"
 
 
-func setup(id, title = "", alt_text = ""):
+func setup(_id, title = "", alt_text = ""):
 	title_node.text = title
-	alt_text.text = alt_text
+	alt_text_node.text = alt_text
 	id = _id
-	
+
 
 func _on_button_apply_click():
-	emit_signal("apply", _id)
-	
+	emit_signal("apply", self, id)
+
 
 func _on_button_remove_click():
 	confirm_dialog.popup()
 
 
 func _on_remove_confirmed():
-	emit_signal("remove", _id)
+	emit_signal("remove", self, id)

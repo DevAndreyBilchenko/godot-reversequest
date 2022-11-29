@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/reversequest/gd_scripts/character_res.gd"
 }, {
-"base": "Resource",
-"class": "DialogEditorItemRes",
-"language": "GDScript",
-"path": "res://addons/reversequest/gd_scripts/dialog_editor_item_res.gd"
-}, {
 "base": "Label",
 "class": "LabelTitle",
 "language": "GDScript",
@@ -31,7 +26,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "CharacterRes": "",
-"DialogEditorItemRes": "",
 "LabelTitle": "",
 "ScreenContainer": ""
 }
