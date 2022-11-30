@@ -3,6 +3,7 @@ extends Control
 var DialogResController = preload("res://addons/reversequest/gd_scripts/dialog_res_controller.gd")
 var EditorResController = preload("res://addons/reversequest/gd_scripts/editor_res_controller.gd")
 var choose_item_scene = preload("res://addons/reversequest/components/dialog_editor/components/choose_page/scenes/choose_item.tscn")
+var create_item_scene = preload("res://addons/reversequest/components/dialog_editor/components/choose_page/scenes/choose_item_new.tscn")
 
 onready var choose_page = $ChoosePage
 onready var manage_actor = $SceneSwitcherActorManage
@@ -28,6 +29,12 @@ func _ready():
 		
 		choose_page.add_item(item_node)
 		item_node.call_deferred("setup", dialog_fname, title, alt_text)
+		
+	var create_item_node = create_item_scene.instance()
+	
+	create_item_node.connect("apply", self, "_on_dialog_item_create")
+	choose_page.add_item(create_item_node)
+	create_item_node.call_deferred("setup", "", "Новый диалог", "")
 
 
 func _on_dialog_item_remove(ref, id):
@@ -37,4 +44,8 @@ func _on_dialog_item_remove(ref, id):
 
 
 func _on_dialog_item_apply(ref, id):
+	manage_actor.run([id])
+	
+
+func _on_dialog_item_create(_ref, id):
 	manage_actor.run([id])

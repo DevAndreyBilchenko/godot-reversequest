@@ -18,8 +18,8 @@ scene_file_path = "res://addons/reversequest/components/dialog_editor/components
 
 [node name="ChoosePage" parent="." instance=ExtResource( 1 )]
 
-[node name="Label" parent="ChoosePage/LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/Header" index="0"]
+[node name="Label" parent="ChoosePage/LayoutStandard/ScrollContainer/VboxContainer/Header" index="0"]
 text = "Выбор диалога"
 
 [editable path="ChoosePage"]
-[editable path="ChoosePage/LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/Header"]
+[editable path="ChoosePage/LayoutStandard/ScrollContainer/VboxContainer/Header"]
