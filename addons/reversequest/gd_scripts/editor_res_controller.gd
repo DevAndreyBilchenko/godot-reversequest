@@ -18,14 +18,15 @@ func get_resource():
 	return editor_resource
 
 
-func add_dialog_item(editor_label, file_name):
+func add_dialog_item(editor_label, file_name, autosave = false):
 	var dialog_item = preload("res://addons/reversequest/gd_scripts/editor_meta_dialog_res.gd").new()
 	dialog_item.code = hash(_get_dialog_code(file_name))
 	dialog_item.display_name = editor_label
 	dialog_item.file_name = file_name
 	
 	add_res_meta(dialog_item)
-	save()
+	if autosave:
+		save()
 	return dialog_item
 
 
@@ -33,8 +34,10 @@ func get_dialog_item(file_name):
 	return get_res_meta(_get_dialog_code(file_name))
 
 
-func remove_dialog_item(file_name):
+func remove_dialog_item(file_name, autosave = false):
 	remove_res_meta(_get_dialog_code(file_name))
+	if autosave:
+		save()
 
 
 func get_dialog_list():
@@ -65,7 +68,7 @@ func remove_res_meta(code):
 	if meta_index + 1 > editor_resource.meta.size():
 		return null
 	
-	if editor_resource[meta_index].code != code:
+	if editor_resource.meta[meta_index].code != code:
 		return null
 		
 	editor_resource.meta.remove(meta_index)

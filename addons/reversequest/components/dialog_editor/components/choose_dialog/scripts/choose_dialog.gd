@@ -11,6 +11,7 @@ onready var manage_actor = $SceneSwitcherActorManage
 var dialog_res_controller = DialogResController.new()
 var editor_res_controller = EditorResController.new()
 
+
 func _ready():
 	var dialog_file_names = dialog_res_controller.get_saved_dialogs()
 	
@@ -28,7 +29,7 @@ func _ready():
 		item_node.connect("apply", self, "_on_dialog_item_apply")
 		
 		choose_page.add_item(item_node)
-		item_node.call_deferred("setup", dialog_fname, title, alt_text)
+		item_node.call_deferred("setup", raw_name, title, alt_text)
 		
 	var create_item_node = create_item_scene.instance()
 	
@@ -40,12 +41,12 @@ func _ready():
 func _on_dialog_item_remove(ref, id):
 	choose_page.remove_item(ref)
 	dialog_res_controller.remove_saved_dialog(id)
-	editor_res_controller.remove_dialog_item(id)
+	editor_res_controller.remove_dialog_item(id, true)
 
 
 func _on_dialog_item_apply(ref, id):
 	manage_actor.run([id])
-	
+
 
 func _on_dialog_item_create(_ref, id):
-	manage_actor.run([id])
+	manage_actor.run()

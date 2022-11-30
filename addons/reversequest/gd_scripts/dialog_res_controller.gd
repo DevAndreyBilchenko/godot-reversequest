@@ -51,14 +51,21 @@ func exists_saved_dialog(file_name):
 	return dir.file_exists(_create_path_to_dialog_file(file_name))
 
 
-func create_dialog(name):
+func create_dialog(name, autosave = false):
 	_dialog_name = name
 	_dialog = _dialog_res_class.new()
 	create_speech()
-	save()
+	
+	if autosave:
+		save()
+		
+	return _dialog
 
 
-func save():
+func save(new_name = ""):
+	if new_name != "":
+		_dialog_name = new_name
+	
 	ResourceSaver.save(_get_path_to_dialog_file(), _dialog,  ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 
 
@@ -111,10 +118,11 @@ func get_choice(speech_code, choice_code):
 
 
 func _get_next_code_index():
-	var slot = _empty_slots.pop_front()
-	
-	if slot != null:
-		return slot
+	if _empty_slots != null:
+		var slot = _empty_slots.pop_front()
+		
+		if slot != null:
+			return slot
 		
 	var size = _dialog.speech_list.size()
 	

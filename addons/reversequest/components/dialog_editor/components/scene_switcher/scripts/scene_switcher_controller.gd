@@ -41,11 +41,12 @@ func switch_to(scene_path = "", send_data = []):
 	
 	if scene_path != "":
 		var scene = load(scene_path).instance()
-		content.add_child(scene)
 		
-		var store = content.get_node_or_null("SceneSwitcherStore")
+		var store = scene.get_node_or_null("SceneSwitcherStore")
 		if store:
 			store.send_data = send_data
+		
+		content.add_child(scene)
 		
 		if history.size() > history_size:
 			history.pop_front()

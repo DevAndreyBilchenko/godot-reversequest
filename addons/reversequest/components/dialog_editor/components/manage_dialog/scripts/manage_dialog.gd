@@ -29,7 +29,8 @@ func _ready():
 	
 	if sd.size() == 0:
 		_update_display_type(DISPLAY_TYPE_CREATE)
-		pass
+		dialog_res = dialog_res_controller.create_dialog("")
+		dialog_meta_res = editor_res_controller.add_dialog_item("", "")
 	else:
 		var dialog_file_name = scene_switcher_store.send_data[0]
 		dialog_res = dialog_res_controller.load_dialog(dialog_file_name)
@@ -42,10 +43,22 @@ func _ready():
 		_update_display_type(DISPLAY_TYPE_EDIT)
 
 
+func _update_error(err_name, val):
+	if errors[err_name] != val:
+		errors[err_name] = val
+		emit_signal("errors_updated")
+
+
 func _update_display_type(type):
 	if display_type != type:
 		display_type = type
 		emit_signal("display_type_updated")
+
+
+func _on_create_button_pressed():
+	editor_res_controller.save()
+	dialog_res_controller.save(dialog_meta_res.file_name)
+	_update_display_type(DISPLAY_TYPE_EDIT)
 
 
 func _on_update_button_pressed():
@@ -55,12 +68,6 @@ func _on_update_button_pressed():
 		
 	dialog_res_controller.save()
 	editor_res_controller.save()
-
-
-func _update_error(err_name, val):
-	if errors[err_name] != val:
-		errors[err_name] = val
-		emit_signal("errors_updated")
 
 
 func _on_file_name_prop_changed(new_val, old_val):

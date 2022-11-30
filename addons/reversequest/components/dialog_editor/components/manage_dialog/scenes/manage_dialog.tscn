@@ -222,6 +222,7 @@ target_timeout_value = [ false ]
 timeout = 0.6
 
 [connection signal="prop_changed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit/BindInputOnProp" to="." method="_on_file_name_prop_changed"]
+[connection signal="pressed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/CreateButton" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/UpdateButton" to="." method="_on_update_button_pressed"]
 
 [editable path="LayoutStandard/VBoxContainer/Header"]

@@ -31,8 +31,8 @@ func _on_CreateButton_pressed():
 	var editor_name = $EnterName/EditorNameLineEdit.text
 	var file_name = $EnterName/NameLineEdit.text
 	
-	editor_res_controller.add_dialog_item(editor_name, file_name)
-	dialog_res_controller.create_dialog(file_name)
+	editor_res_controller.add_dialog_item(editor_name, file_name, true)
+	dialog_res_controller.create_dialog(file_name, true)
 	
 	emit_signal("edit_start", file_name)
 
