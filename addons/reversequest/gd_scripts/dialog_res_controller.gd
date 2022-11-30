@@ -39,6 +39,18 @@ func remove_saved_dialog(file_name):
 	var _err = dir.remove(_create_path_to_dialog_file(file_name))
 
 
+func rename_saved_dialog(new_name):
+	var old_name = _dialog_name
+	_dialog_name = new_name
+	save()
+	remove_saved_dialog(old_name)
+
+
+func exists_saved_dialog(file_name):
+	var dir = Directory.new()
+	return dir.file_exists(_create_path_to_dialog_file(file_name))
+
+
 func create_dialog(name):
 	_dialog_name = name
 	_dialog = _dialog_res_class.new()

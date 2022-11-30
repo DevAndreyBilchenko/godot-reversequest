@@ -1,5 +1,7 @@
 extends Node
 
+signal prop_changed(new_val, old_val)
+
 export(NodePath) var input
 export(NodePath) var target
 export(String) var prop
@@ -29,7 +31,10 @@ func _on_field_changed(_new_text):
 	var input_node = get_node(input)
 	
 	var target_node = get_node(_join_np(target, prop))
+	var old_val = target_node.get_indexed(prop)
 	target_node.set_indexed(prop, input_node.text)
+	
+	emit_signal("prop_changed", input_node.text, old_val)
 
 
 func _join_np(_target, _prop):
