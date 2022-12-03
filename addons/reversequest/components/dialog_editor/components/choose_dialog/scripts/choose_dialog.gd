@@ -17,13 +17,20 @@ func _ready():
 	
 	for dialog_fname in dialog_file_names:
 		var item_node = choose_item_scene.instance()
-		var meta = editor_res_controller.get_dialog_item(dialog_fname)
 		var raw_name = dialog_fname.replace(".res", "")
+		var meta = editor_res_controller.get_dialog_item(raw_name)
 		var title = raw_name
 		var alt_text = ""
 		
 		if meta:
-			pass
+			if not meta.display_name == "":
+				title = meta.display_name
+			
+			if meta.speech_count:
+				alt_text = str("Реплики: ", meta.speech_count, " \n")
+
+			alt_text = str(alt_text, meta.description)
+			
 		
 		item_node.connect("remove", self, "_on_dialog_item_remove")
 		item_node.connect("apply", self, "_on_dialog_item_apply")

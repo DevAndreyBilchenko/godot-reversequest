@@ -7,7 +7,7 @@ signal instance_speech(node)
 
 var speech_scene = preload("res://addons/reversequest/components/dialog_editor/components/speech/scenes/speech.tscn")
 var roadline_scene = preload("res://addons/reversequest/components/dialog_editor/components/roadline/scenes/roadline.tscn")
-var grid_stats_class = preload("res://addons/reversequest/components/dialog_editor/components/edit_screen/scripts/grid_stats.gd")
+var grid_stats_class = preload("res://addons/reversequest/components/dialog_editor/components/edit_dialog/scripts/grid_stats.gd")
 
 var grid_stats = grid_stats_class.new()
 var check_list = []
@@ -30,7 +30,7 @@ func setup(_dialog, _container):
 func render():
 	counter = 0
 	grid_stats.reset()
-	render_speech(dialog.find_root_speech(), 0)
+	#render_speech(dialog.find_root_speech(), 0)
 
 
 func render_speech(speech, depth):

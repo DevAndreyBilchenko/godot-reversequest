@@ -1,6 +1,6 @@
 extends Control
 
-onready var grid_node = $LayoutStandard/ScrollContainer/VboxContainer/MarginContainer/GridContainer
+onready var grid_node = $ScrollContainer/LayoutStandard/VboxContainer/MarginContainer/GridContainer
 
 
 func add_item(item):

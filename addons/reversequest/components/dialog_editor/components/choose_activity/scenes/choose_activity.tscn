@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/reversequest/components/dialog_editor/themes/dialog_editor.theme" type="Theme" id=1]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/label_title/scripts/label_title.gd" type="Script" id=2]
-[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_card/scenes/choose_card.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/reversequest/components/dialog_editor/components/choose_activity/scenes/choose_activity_item.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_actor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/layout/scenes/layout_standard.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/reversequest/components/dialog_editor/components/scene_switcher/scenes/scene_switcher_store.tscn" type="PackedScene" id=6]

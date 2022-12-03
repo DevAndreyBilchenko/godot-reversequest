@@ -21,13 +21,13 @@ func _setup():
 		var n = get_node(_join_np(target, prop))
 		val = n.get_indexed(prop)
 	
-	if node is LineEdit:
+	if node is LineEdit or node is TextEdit:
 		node.connect("text_changed", self, "_on_field_changed")
 		if init_from_prop and val:
 			node.text = val
 
 
-func _on_field_changed(_new_text):
+func _on_field_changed(_new_text = ""):
 	var input_node = get_node(input)
 	
 	var target_node = get_node(_join_np(target, prop))
