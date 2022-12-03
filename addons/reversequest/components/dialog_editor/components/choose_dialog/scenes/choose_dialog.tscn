@@ -22,5 +22,9 @@ scene_file_path = "res://addons/reversequest/components/dialog_editor/components
 anchor_right = 0.0
 anchor_bottom = 0.0
 
+[node name="SceneSwitcherActor" parent="ChoosePage/ScrollContainer/LayoutStandard/VboxContainer/Header/LinkButton" index="0"]
+scene_file_path = "res://addons/reversequest/components/dialog_editor/components/choose_activity/scenes/choose_activity.tscn"
+use_history = false
+
 [editable path="ChoosePage"]
 [editable path="ChoosePage/ScrollContainer/LayoutStandard/VboxContainer/Header"]
