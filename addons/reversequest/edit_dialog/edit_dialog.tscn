@@ -12,7 +12,7 @@ script = ExtResource( 3 )
 
 [node name="SceneSwitcherStore" parent="." instance=ExtResource( 5 )]
 scene_instance = "res://addons/reversequest/components/dialog_editor/components/edit_dialog/scenes/edit_dialog.tscn"
-send_data = [ "test" ]
+send_data = [ "atest1" ]
 
 [node name="Content" type="Node2D" parent="."]
 

@@ -11,8 +11,8 @@ signal choice_link_create(speech_res, choice_res)
 signal linked(speech_res)
 
 
-export(int) var size_x
-var size_y setget ,size_y_get
+var size_x setget ,_get_size_x
+var size_y setget ,_get_size_y
 var base_y = 308
 var bottom = 0
 var res
@@ -57,7 +57,7 @@ func add_choice(choice_res):
 	if (choice_res != null):
 		choice_node.set_res(choice_res)
 
-	choice_node.name = get_choice_node_name(choice_node.code)
+	choice_node.name = get_choice_node_name(choice_node.res.code)
 	
 	update_choice_line()
 
@@ -78,10 +78,6 @@ func update_choice_line():
 		choice_line.set_point_position(1, Vector2(base_x, item_y + 45))
 		choice_add.rect_position = Vector2(2, item_y + 51)
 		bottom = item_y + 51
-
-
-func size_y_get():
-	return bottom + 50
 
 
 func find_choice_node(choice_code):
@@ -127,3 +123,12 @@ func _on_choice_link_create(choice_res):
 
 func _on_LinkZone_pressed():
 	emit_signal("linked", res)
+
+
+func _get_size_y():
+	return bottom + 50
+
+
+func _get_size_x():
+	var sizer = $Control
+	return sizer.rect_size.x

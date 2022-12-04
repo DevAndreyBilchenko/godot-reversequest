@@ -1,140 +1,112 @@
 extends Reference
 
-# количество треков в горизонтальном пролете
-var rows_size = []
+var GridStatsItem = preload("res://addons/reversequest/edit_dialog/grid_stats_item.gd")
+var GridStatsSubitem = preload("res://addons/reversequest/edit_dialog/grid_stats_subitem.gd")
+var GridStatsRow = preload("res://addons/reversequest/edit_dialog/grid_stats_row.gd")
+var GridStatsCol = preload("res://addons/reversequest/edit_dialog/grid_stats_col.gd")
+var GridStatsRoadmap = preload("res://addons/reversequest/edit_dialog/grid_stats_roadmap.gd")
+var GridStatsRoadmapItem = preload("res://addons/reversequest/edit_dialog/grid_stats_roadmap_item.gd")
 
-# количество треков в вертикальном пролете
-var cols_size = []
+var _items = []
+var _rows = []
+var _cols = []
 
-# количество элементов в вертикальном пролете
-var cols_depth = []
-
-var element_positions = {}
-
-var roadline_navpath = {}
-
-var deffered_check = {}
 
 func reset():
-	for n in rows_size.size():
-		rows_size[n] = 0
-		
-	for n in cols_size.size():
-		cols_size[n] = 0
-		
-	for n in cols_depth.size():
-		cols_depth[n] = 0
+	_items = []
+	_rows = []
+	_cols = []
+
+
+func prepare_size(size: int):
+	_items.resize(size)
+
+
+func register_connection(from_code, from_subcode, to_code):
+	var from_item = get_item(from_code)
+	var to_item = get_item(to_code)
+	var from_item_column_stats = _get_col(from_item.depth+1)
+	var from_item_row_stats = _get_row(from_item.col_index)
+	var to_item_column_stats = _get_col(to_item.depth)
+	var to_item_row_stats = _get_row(to_item.col_index)
 	
-	element_positions.clear()
-	deffered_check.clear()
-	roadline_navpath.clear()
-
-
-func register_element(col, code):
-	update_arr_size("cols_depth", col+1)
-	cols_depth[col] += 1
-	element_positions[code] = Vector2(col, cols_depth[col] - 1)
-	check_deffered(code)
-
-
-func check_deffered(code):
-	if deffered_check.has(code):
-		var remove_values = []
-		var to_pos = get_element_position(code)
-		var from_items = deffered_check.get(code, [])
-		
-		for from_item in from_items:
-			var from_pos = get_element_position(from_item.from_code)
-			if from_pos != null:
-				remove_values.append(from_item)
-				register_col_roadline(from_pos.x)
-				register_col_roadline(to_pos.x - 1)
-				var row_pos = to_pos.y - 1
-				if to_pos.y <= from_pos.y:
-					row_pos = to_pos.y
-				register_row_roadline(row_pos)
-				
-				roadline_navpath[get_roadline_key(from_item.choice_code, from_item.from_code)] = [
-					cols_size[from_pos.x], # вертикальный трек на выходе
-					row_pos, # горизонтальная позиция
-					rows_size[row_pos], # горизонтальный трек
-					cols_size[to_pos.x - 1] # Вертикальный трек на входе
-				]
-		
-		for v in remove_values:
-			from_items.erase(v)
-
-
-func register_roadline_deffered(choice_code, from_code, to_code):
-	print("register_", choice_code, "_", from_code, "_to_", to_code)
+	var roadmap = GridStatsRoadmap.new()
 	
-	if not deffered_check.has(to_code):
-		deffered_check[to_code] = []
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_START, from_item.depth+1, from_item.col_index)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN, from_item.depth+1, 0)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN_ROAD, from_item_column_stats.get_next_out(), 0)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW, 0, from_item.col_index + sign(to_item.col_index - from_item.col_index))
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW_ROAD, 0, from_item_row_stats.get_next_roadline())
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN, to_item.depth, 0)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN_ROAD, to_item_column_stats.get_next_in(), 0)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW, 0, to_item.col_index)
+	roadmap.add_step(GridStatsRoadmapItem.TYPE_END, to_item.depth, to_item.col_index)
 	
-	deffered_check[to_code].append({
-		"from_code": from_code,
-		"choice_code": choice_code
-	})
+	to_item.add_connection(from_code, from_subcode, roadmap)
+
+
+func register_item(code, main_parent):
+	var item = GridStatsItem.new()
+	var parent_item = get_item(main_parent)
 	
-	if get_element_position(to_code):
-		check_deffered(to_code)
-
-
-func get_roadline_navpath(choice_code, from_code):
-	return roadline_navpath[get_roadline_key(choice_code, from_code)]
-
-
-func get_roadline_key(choice_code, from_code):
-	return str(choice_code, "_", from_code)
-
-
-func register_row_roadline(row_index):
-	update_arr_size("rows_size", row_index+1)
-	rows_size[row_index] += 1
-
-
-func register_col_roadline(col_index):
-	update_arr_size("cols_size", col_index+1)
-	cols_size[col_index] += 1
-
-
-func update_arr_size(arr_name, size):
-	if self[arr_name].size() < size:
-		var old = self[arr_name].size()
-		self[arr_name].resize(size)
-		
-		for i in range(old, size):
-			self[arr_name][i] = 0
-
-
-func get_element_position(code):
-	return element_positions.get(code, null)
-
-
-func get_summary_roadlines_upper_row(row):
-	var summary = 0
+	item.main_parent = main_parent
+	item.depth = parent_item.depth + 1
 	
-	if row <= rows_size.size():
-		for i in row:
-			summary += rows_size[i]
-		
-	return summary
+	_items[code] = item
 	
-
-func get_summary_roadlines_left_col(col):
-	var summary = 0
-	
-	if col <= cols_size.size():
-		for i in col:
-			summary += cols_size[i]
-		
-	return summary
+	var col = _add_item_to_col(item)
+	item.col_index = col.items_count
 
 
-func get_row_items(row_index):
-	var items = []
-	for key in element_positions.keys():
-		if element_positions[key].y == row_index:
-			items.append(key)
+func register_choice_count(row_index, choice_count):
+	var row = _get_row(row_index)
 	
-	return items
+	if row.max_choice_count < choice_count:
+		row.max_choice_count = choice_count
+
+
+func has_item(code) -> bool:
+	return false
+
+
+func get_item(code):
+	var item = _items[code]
+	
+	if not item:
+		return GridStatsItem.new()
+	else:
+		return item
+
+
+func _add_item_to_col(item):
+	var col = _get_col(item.depth)
+	
+	col.items_count += 1
+	
+	return col
+
+
+func _get_col(col_num):
+	if _cols.size() <= col_num:
+		_cols.resize(col_num + 1)
+	
+	var col = _cols[col_num]
+	
+	if not col:
+		col = GridStatsCol.new()
+		_cols[col_num] = col
+	
+	return col
+
+
+func _get_row(row_num):
+	if _rows.size() <= row_num:
+		_rows.resize(row_num + 1)
+	
+	var col = _rows[row_num]
+	
+	if not col:
+		col = GridStatsRow.new()
+		_rows[row_num] = col
+	
+	return _rows[row_num]
