@@ -17,23 +17,17 @@ _global_script_classes=[ {
 "base": "Label",
 "class": "LabelTitle",
 "language": "GDScript",
-"path": "res://addons/reversequest/components/dialog_editor/components/label_title/scripts/label_title.gd"
-}, {
-"base": "Container",
-"class": "ScreenContainer",
-"language": "GDScript",
-"path": "res://addons/reversequest/components/screen_container/scripts/screen_container.gd"
+"path": "res://addons/reversequest/label_title/label_title.gd"
 } ]
 _global_script_class_icons={
 "CharacterRes": "",
-"LabelTitle": "",
-"ScreenContainer": ""
+"LabelTitle": ""
 }
 
 [application]
 
 config/name="Reverse Quest"
-run/main_scene="res://addons/reversequest/components/dialog_editor/scenes/dialog_editor.tscn"
+run/main_scene="res://addons/reversequest/reversequest.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]

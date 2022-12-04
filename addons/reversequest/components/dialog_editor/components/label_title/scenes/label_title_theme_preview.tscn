@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://addons/reversequest/components/dialog_editor/components/label_title/scripts/label_title.gd" type="Script" id=1]
-
-[node name="LabelTitle" type="Label"]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Label Title"
-script = ExtResource( 1 )

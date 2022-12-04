@@ -1,0 +1,119 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/reversequest/edit_speech/edit_speech.gd" type="Script" id=3]
+[ext_resource path="res://addons/reversequest/from_to/from_to.tscn" type="PackedScene" id=4]
+
+
+[node name="EditSpeech" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Speech" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Speech"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.890196 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Speech"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Speech/MarginContainer"]
+margin_right = 1004.0
+margin_bottom = 580.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Speech/MarginContainer/HBoxContainer"]
+margin_right = 500.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextLabel" type="Label" parent="Speech/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 500.0
+margin_bottom = 19.0
+text = "Текст"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="Speech/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 500.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Speech/MarginContainer/HBoxContainer"]
+margin_left = 504.0
+margin_right = 1004.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_right = 500.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+
+[node name="FromTo" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+margin_right = 500.0
+margin_bottom = 55.0
+
+[node name="Control" type="Control" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 500.0
+margin_bottom = 580.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -25.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel" type="Button" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
+margin_left = 331.0
+margin_right = 400.0
+margin_bottom = 25.0
+text = "Отмена"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Apply" type="Button" parent="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
+margin_left = 404.0
+margin_right = 500.0
+margin_bottom = 25.0
+text = "Применить"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="text_changed" from="Speech/MarginContainer/HBoxContainer/VBoxContainer/TextEdit" to="." method="_on_TextEdit_text_changed"]
+[connection signal="pressed" from="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="Speech/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply" to="." method="_on_Apply_pressed"]

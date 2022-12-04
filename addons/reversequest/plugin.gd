@@ -11,4 +11,4 @@ func _exit_tree():
 
 
 func _run_reversequest_editor(_data):
-	get_editor_interface().play_custom_scene("res://addons/reversequest/components/dialog_editor/scenes/dialog_editor.tscn")
+	get_editor_interface().play_custom_scene("res://addons/reversequest/r.tscn")

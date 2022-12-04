@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=1]
+[ext_resource path="res://addons/reversequest/choose_page/choose_item.gd" type="Script" id=2]
+
+[node name="ChooseItem" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -824.0
+margin_bottom = -400.0
+rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_type_variation = "PanelChoose"
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="ColorRect/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 195.0
+margin_bottom = 195.0
+theme_type_variation = "PanelInner"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 214.0
+margin_bottom = 185.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+margin_right = 199.0
+margin_bottom = 123.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+margin_right = 199.0
+margin_bottom = 22.0
+theme_type_variation = "LabelSubtitle"
+text = "Название"
+clip_text = true
+
+[node name="LabelOther" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
+margin_top = 26.0
+margin_right = 199.0
+margin_bottom = 123.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Список
+Интересных и не очень свойств"
+autowrap = true
+clip_text = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2"]
+margin_top = 127.0
+margin_right = 199.0
+margin_bottom = 170.0
+rect_min_size = Vector2( 0, 40 )
+custom_constants/margin_top = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer"]
+margin_top = 10.0
+margin_right = 199.0
+margin_bottom = 43.0
+custom_constants/separation = 15
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer/HBoxContainer"]
+margin_right = 90.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+text = "Удалить"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer2/MarginContainer/HBoxContainer"]
+margin_left = 105.0
+margin_right = 199.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+text = "Выбрать"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 70.0
+window_title = "Подтверждение..."
+dialog_text = "Вы уверены что хотите удалить этот элемент?"

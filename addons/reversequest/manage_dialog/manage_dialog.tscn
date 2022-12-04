@@ -1,0 +1,319 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/reversequest/layout/layout_standard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=2]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_store.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/reversequest/header/header.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/reversequest/manage_dialog/manage_dialog.gd" type="Script" id=5]
+[ext_resource path="res://addons/reversequest/bind_input_on_prop/bind_input_on_prop.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/reversequest/toggle_prop/toggle_prop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=8]
+
+[node name="ManageDialog" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 5 )
+
+[node name="SceneSwitcherStore" parent="." instance=ExtResource( 3 )]
+scene_instance = "res://addons/manage_dialog/manage_dialog.tscn"
+send_data = [ "testabc" ]
+
+[node name="LayoutStandard" parent="." instance=ExtResource( 1 )]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard"]
+margin_left = 25.0
+margin_top = 45.0
+margin_right = 999.0
+margin_bottom = 555.0
+
+[node name="Header" parent="LayoutStandard/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+margin_right = 974.0
+margin_bottom = 27.0
+
+[node name="Label" parent="LayoutStandard/VBoxContainer/Header" index="0"]
+margin_right = 902.0
+text = "Данные диалога"
+
+[node name="LinkButton" parent="LayoutStandard/VBoxContainer/Header" index="1"]
+margin_left = 906.0
+margin_right = 970.0
+
+[node name="SceneSwitcherActor" parent="LayoutStandard/VBoxContainer/Header/LinkButton" index="0"]
+scene_file_path = "res://addons/reversequest/choose_dialog/choose_dialog.tscn"
+use_history = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/Header"]
+margin_left = 974.0
+margin_right = 974.0
+margin_bottom = 27.0
+
+[node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/VBoxContainer"]
+margin_top = 31.0
+margin_right = 974.0
+margin_bottom = 440.0
+custom_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer"]
+margin_top = 20.0
+margin_right = 974.0
+margin_bottom = 409.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 974.0
+margin_bottom = 67.0
+custom_constants/separation = 15
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 479.0
+margin_bottom = 67.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 479.0
+margin_bottom = 19.0
+text = "Имя ресурса (statue_hello, emily_bar_dance, cow_moo)"
+
+[node name="MarginContainer2" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 23.0
+margin_right = 479.0
+margin_bottom = 67.0
+custom_constants/margin_bottom = 15
+
+[node name="NameLineEdit" type="LineEdit" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2"]
+margin_right = 479.0
+margin_bottom = 29.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="BindInputOnProp" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit" instance=ExtResource( 6 )]
+input = NodePath("..")
+target = NodePath("../../../../../../../../..")
+prop = "dialog_meta_res:file_name"
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 18.0
+theme_type_variation = "LabelError"
+text = "Диалог с таким именем уже существует"
+max_lines_visible = 1
+
+[node name="TogglePropVisible" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit/Label" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../../../..")
+watch_prop = "errors:duplicate_filename"
+watch_values_ok = [ true ]
+watch_signal = "errors_updated"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="Label2" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 18.0
+theme_type_variation = "LabelError"
+text = "Поле не может быть пустым"
+max_lines_visible = 1
+
+[node name="TogglePropVisible" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit/Label2" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../../../..")
+watch_prop = "errors:empty_filename"
+watch_values_ok = [ true ]
+watch_signal = "errors_updated"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 494.0
+margin_right = 974.0
+margin_bottom = 67.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 480.0
+margin_bottom = 19.0
+text = "Название (для редактора)"
+
+[node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 480.0
+margin_bottom = 52.0
+
+[node name="EditorNameLineEdit" type="LineEdit" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+margin_right = 480.0
+margin_bottom = 29.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="BindInputOnProp" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/EditorNameLineEdit" instance=ExtResource( 6 )]
+input = NodePath("..")
+target = NodePath("../../../../../../../../..")
+prop = "dialog_meta_res:display_name"
+
+[node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 71.0
+margin_right = 974.0
+margin_bottom = 289.0
+custom_constants/margin_top = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+margin_top = 15.0
+margin_right = 974.0
+margin_bottom = 218.0
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 974.0
+margin_bottom = 19.0
+text = "Описание (для редактора)"
+
+[node name="TextEdit" type="TextEdit" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 974.0
+margin_bottom = 203.0
+rect_min_size = Vector2( 0, 180 )
+
+[node name="BindInputOnPropDescription" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TextEdit" instance=ExtResource( 6 )]
+input = NodePath("..")
+target = NodePath("../../../../../../../..")
+prop = "dialog_meta_res:description"
+
+[node name="MarginContainer3" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 293.0
+margin_right = 974.0
+margin_bottom = 356.0
+custom_constants/margin_top = 30
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3"]
+margin_top = 30.0
+margin_right = 974.0
+margin_bottom = 63.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="CreateButton" type="Button" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2"]
+margin_left = 327.0
+margin_right = 416.0
+margin_bottom = 33.0
+disabled = true
+text = "Создать"
+
+[node name="TogglePropVisible" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/CreateButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "display_type"
+watch_values_ok = [ "create" ]
+watch_signal = "display_type_updated"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="TogglePropDisabled" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/CreateButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "any_error"
+watch_values_ok = [ true ]
+watch_signal = "errors_updated"
+target = NodePath("..")
+target_prop = "disabled"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="UpdateButton" type="Button" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2"]
+margin_left = 426.0
+margin_right = 536.0
+margin_bottom = 33.0
+text = "Cохранить"
+
+[node name="TogglePropVisible" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/UpdateButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "display_type"
+watch_values_ok = [ "edit" ]
+watch_signal = "display_type_updated"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="TogglePropDisabled2" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/UpdateButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "any_error"
+watch_values_ok = [ true ]
+watch_signal = "errors_updated"
+target = NodePath("..")
+target_prop = "disabled"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="EditorButton" type="Button" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2"]
+margin_left = 546.0
+margin_right = 646.0
+margin_bottom = 33.0
+text = "Редактор"
+
+[node name="TogglePropVisible" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/EditorButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "display_type"
+watch_values_ok = [ "edit" ]
+watch_signal = "display_type_updated"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="TogglePropDisabled2" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/EditorButton" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../../../../..")
+watch_prop = "any_error"
+watch_values_ok = [ true ]
+watch_signal = "errors_updated"
+target = NodePath("..")
+target_prop = "disabled"
+target_value_ok = [ true ]
+target_value_no = [ false ]
+
+[node name="SceneSwitcherActor" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/EditorButton" instance=ExtResource( 8 )]
+target = NodePath("..")
+signal_name = "pressed"
+scene_file_path = "res://addons/reversequest/edit_dialog/edit_dialog.tscn"
+
+[node name="MarginContainer4" type="MarginContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 360.0
+margin_right = 974.0
+margin_bottom = 389.0
+custom_constants/margin_top = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4"]
+margin_top = 10.0
+margin_right = 974.0
+margin_bottom = 29.0
+alignment = 1
+
+[node name="Label" type="Label" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4/HBoxContainer2"]
+margin_left = 447.0
+margin_right = 527.0
+margin_bottom = 19.0
+text = "Сохранено"
+
+[node name="ToggleProp" parent="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4/HBoxContainer2/Label" instance=ExtResource( 7 )]
+watch_target = NodePath("../../../../MarginContainer3/HBoxContainer2/UpdateButton")
+watch_signal = "pressed"
+target = NodePath("..")
+target_prop = "visible"
+target_value_ok = [ true ]
+target_timeout_value = [ false ]
+timeout = 0.6
+
+[connection signal="prop_changed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/MarginContainer2/NameLineEdit/BindInputOnProp" to="." method="_on_file_name_prop_changed"]
+[connection signal="pressed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/CreateButton" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/UpdateButton" to="." method="_on_update_button_pressed"]
+[connection signal="pressed" from="LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/EditorButton" to="." method="_on_update_button_pressed"]
+
+[editable path="LayoutStandard/VBoxContainer/Header"]
