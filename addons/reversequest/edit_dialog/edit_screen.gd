@@ -10,8 +10,6 @@ var choice_res_link_zone_wait
 var speech_renderer = speech_renderer_class.new()
 
 onready var content = $Content
-onready var edit_speech_hud = $EditSpeech
-onready var edit_choice_hud = $EditChoice
 onready var scene_switcher_store = $SceneSwitcherStore
 
 
@@ -56,10 +54,6 @@ func get_link_zone_waiter():
 	return choice_res_link_zone_wait
 
 
-func _on_speech_edit(speech_res):
-	edit_speech_hud.open(speech_res)
-
-
 func _on_speech_remove(speech_res):
 	print("remove")
 	print(speech_res)
@@ -71,29 +65,6 @@ func _on_choice_add(speech_res):
 	dialog_res_controller.save()
 	
 	render()
-
-
-func _on_EditSpeech_apply(speech):
-	dialog_res_controller.save()
-	edit_speech_hud.close()
-
-
-func _on_EditSpeech_cancel():
-	edit_speech_hud.close()
-
-
-func _on_EditChoice_apply(_speech_code, _choice_res):
-	dialog_res_controller.save()
-	render()
-	edit_choice_hud.close()
-
-
-func _on_EditChoice_cancel():
-	edit_choice_hud.close()
-
-
-func _on_choice_edit(choice_res):
-	edit_choice_hud.open(choice_res)
 
 
 func _on_choice_update_order(speech_code, choice_order_code):
