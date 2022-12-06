@@ -1,18 +1,17 @@
-extends CanvasLayer
+extends Control
 
 signal cancel
 signal apply(speech_res)
-onready var speech = $Speech
-onready var text = $Speech/MarginContainer/HBoxContainer/VBoxContainer/TextEdit
+onready var text = $MarginContainer/HBoxContainer/VBoxContainer/TextEdit
 var res
 
 func open(speech_res):
 	res = speech_res
 	fill()
-	speech.show()
+	show()
 
 func close():
-	speech.hide()
+	hide()
 
 func fill():
 	text.text = res.text

@@ -18,7 +18,6 @@ var _container
 
 func _init():
 	var _err = connect("_iterate_item", self, "_on_iterate_item")
-	_err = connect("_cycle_done", self, "_on_cycle_done")
 
 
 func setup(dialog_res_controller, container):
@@ -154,8 +153,4 @@ func get_summary_row_height(row_index, ingnore_last_roadlines = false):
 		rows_h += biggest_speech_in_row.size_y
 		
 	return rows_h + roadlines * 20
-
-
-func _on_cycle_done():
-	update_positions()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/reversequest/speech/link_zone.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://addons/reversequest/assets/xmark_solid.png" type="Texture" id=4]
 [ext_resource path="res://addons/reversequest/speech/speech.gd" type="Script" id=5]
 [ext_resource path="res://addons/reversequest/assets/pen-solid.png" type="Texture" id=6]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Theme" id=1]
 
@@ -72,11 +73,17 @@ __meta__ = {
 [node name="Edit" type="Button" parent="Control/VBoxContainer"]
 margin_top = 37.0
 margin_right = 25.0
-margin_bottom = 57.0
+margin_bottom = 70.0
 theme = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SceneSwitcherActorEdit" parent="Control/VBoxContainer/Edit" instance=ExtResource( 7 )]
+group = [ "scene_switcher_dialog_modals" ]
+target = NodePath("..")
+signal_name = "pressed"
+scene_file_path = "res://addons/reversequest/edit_speech/edit_speech.tscn"
 
 [node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Edit"]
 anchor_left = 0.5

@@ -1,4 +1,4 @@
-extends Reference
+extends Node
 
 
 var _settings = preload("res://addons/reversequest/gd_scripts/settings.gd").new()

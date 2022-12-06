@@ -63,7 +63,7 @@ func _update_display_type(type):
 func _on_create_button_pressed():
 	editor_res_controller.save()
 	dialog_res_controller.save(dialog_meta_res.file_name)
-	scene_switcher_actor.send_data = dialog_meta_res.file_name
+	scene_switcher_actor.send_data = [dialog_meta_res.file_name]
 	_update_display_type(DISPLAY_TYPE_EDIT)
 
 
