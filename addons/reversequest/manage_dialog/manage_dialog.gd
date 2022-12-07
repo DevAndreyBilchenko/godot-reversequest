@@ -7,12 +7,11 @@ signal errors_updated
 const DISPLAY_TYPE_CREATE = "create"
 const DISPLAY_TYPE_EDIT = "edit"
 
-var DialogResController = preload("res://addons/reversequest/gd_scripts/dialog_res_controller.gd")
 var EditorResController = preload("res://addons/reversequest/gd_scripts/editor_res_controller.gd")
 
-var dialog_res_controller = DialogResController.new()
 var editor_res_controller = EditorResController.new()
 
+onready var dialog_res_controller = $DialogResController
 onready var scene_switcher_store = $SceneSwitcherStore
 onready var scene_switcher_actor = $LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer2/EditorButton/SceneSwitcherActor
 onready var editor_name_line_edit = $LayoutStandard/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/EditorNameLineEdit

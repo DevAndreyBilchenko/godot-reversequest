@@ -1,14 +1,13 @@
 extends Control
 
-var DialogResController = preload("res://addons/reversequest/gd_scripts/dialog_res_controller.gd")
 var EditorResController = preload("res://addons/reversequest/gd_scripts/editor_res_controller.gd")
 var choose_item_scene = preload("res://addons/reversequest/choose_page/choose_item.tscn")
 var create_item_scene = preload("res://addons/reversequest/choose_page/choose_item_new.tscn")
 
+onready var dialog_res_controller = $DialogResController
 onready var choose_page = $ChoosePage
 onready var manage_actor = $SceneSwitcherActorManage
 
-var dialog_res_controller = DialogResController.new()
 var editor_res_controller = EditorResController.new()
 
 
