@@ -80,7 +80,7 @@ __meta__ = {
 }
 
 [node name="SceneSwitcherActorEdit" parent="Control/VBoxContainer/Edit" instance=ExtResource( 7 )]
-group = [ "scene_switcher_dialog_modals" ]
+controller_group = "scene_switcher_dialog_modals"
 target = NodePath("..")
 signal_name = "pressed"
 scene_file_path = "res://addons/reversequest/edit_speech/edit_speech.tscn"

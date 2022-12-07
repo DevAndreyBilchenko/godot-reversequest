@@ -1,6 +1,6 @@
 extends Node
 
-export(Array, String) var group
+export(String) var controller_group = "scene_switcher_default"
 export(NodePath) var target = ""
 export(String) var signal_name
 export(Array) var send_data
@@ -20,17 +20,8 @@ func run(data = null):
 	_on_target_action()
 
 
-func _enter_tree():
-	for g in group:
-		add_to_group(g)
-
-
 func _ready():
 	self.call_deferred("_setup")
-
-
-func bind_controller(controller_node):
-	_controller = controller_node
 
 
 func _setup():
@@ -47,6 +38,11 @@ func _on_target_action():
 				#not implemented
 				pass
 		return
-		
+	
+	if not _controller:
+		var nodes = get_tree().get_nodes_in_group(controller_group)
+		if nodes.size() > 0:
+			_controller = nodes[0]
+	
 	_controller.switch_to(scene_file_path, send_data)
 

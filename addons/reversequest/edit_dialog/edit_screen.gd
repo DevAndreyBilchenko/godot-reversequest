@@ -1,14 +1,11 @@
 extends Node
 
 
-var speech_renderer_class = preload("res://addons/reversequest/edit_dialog/speech_renderer.gd")
-var dialog_res_controller = preload("res://addons/reversequest/gd_scripts/dialog_res_controller.gd").new()
-
+var speech_renderer = preload("res://addons/reversequest/edit_dialog/speech_renderer.gd").new()
 var path_to_res
 var choice_res_link_zone_wait 
 
-var speech_renderer = speech_renderer_class.new()
-
+onready var dialog_res_controller = $DialogResController
 onready var content = $Content
 onready var scene_switcher_store = $SceneSwitcherStore
 
