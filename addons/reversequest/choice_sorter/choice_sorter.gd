@@ -6,6 +6,7 @@ export(int) var gap = 10
 var ChoiceDragArea = preload("res://addons/reversequest/choice_sorter/choice_drag_area.tscn")
 var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.tscn")
 
+var drag_node
 var rect setget , _get_rect
 var _choice_cached_rect
 
@@ -14,6 +15,7 @@ func _add_area(node):
 	var area = ChoiceDragArea.instance()
 	
 	area.connect("drag", self, "_on_drag", [node, area])
+	area.connect("drag_start", self, "_on_drag_start", [node])
 	area.connect("drag_end", self, "_on_drag_end")
 	
 	node.add_child(area)
@@ -25,7 +27,7 @@ func _calc_position(order_index):
 
 func _update_order():
 	var choices = get_children()
-	choices.sort_custom(self, "_y_choice_y_sorter")
+	choices.sort_custom(self, "_choice_y_sorter")
 	
 	for idx in choices.size():
 		var ch = choices[idx]
@@ -36,7 +38,7 @@ func _update_order():
 			res.emit_changed()
 		
 		var np = _calc_position(res.order)
-		if ch.position != np:
+		if ch != drag_node && ch.position != np:
 			_tween_to(ch, np)
 
 
@@ -49,8 +51,7 @@ func _tween_to(node, to):
 		node.add_child(tween)
 	
 	tween.stop(self, "position")
-	tween.interpolate_property(node, "position", node.position, to, 0.4)
-	
+	tween.interpolate_property(node, "position", node.position, to, 0.4 - tween.tell())
 	
 	tween.start()
 
@@ -82,6 +83,13 @@ func _on_child_exiting_tree(node):
 
 func _on_drag(relative, node, area):
 	node.position.y += relative.y
+	_update_order()
+
+
+func _on_drag_start(node):
+	drag_node = node
+
 
 func _on_drag_end():
+	drag_node = null
 	_update_order()
