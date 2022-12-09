@@ -1,12 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=1]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_store.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/reversequest/edit_speech/edit_speech.gd" type="Script" id=3]
 [ext_resource path="res://addons/reversequest/from_to/from_to.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=5]
 
 [node name="EditSpeech" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 1 )
 script = ExtResource( 3 )
+
+[node name="SceneSwitcherStore" parent="." instance=ExtResource( 2 )]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -44,14 +50,14 @@ __meta__ = {
 
 [node name="TextLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 500.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "Текст"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
+margin_top = 23.0
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
@@ -90,19 +96,31 @@ __meta__ = {
 }
 
 [node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 472.0
-margin_right = 484.0
-margin_bottom = 25.0
+margin_left = 296.0
+margin_right = 379.0
+margin_bottom = 33.0
 text = "Отмена"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SceneSwitcherActor" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Cancel" instance=ExtResource( 5 )]
+controller_group = "scene_switcher_dialog_modals"
+target = NodePath("..")
+signal_name = "pressed"
+
 [node name="Apply" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 488.0
+margin_left = 383.0
 margin_right = 500.0
-margin_bottom = 25.0
+margin_bottom = 33.0
 text = "Применить"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SceneSwitcherActor" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply" instance=ExtResource( 5 )]
+controller_group = "scene_switcher_dialog_modals"
+target = NodePath("..")
+signal_name = "pressed"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply" to="." method="_on_apply_pressed"]

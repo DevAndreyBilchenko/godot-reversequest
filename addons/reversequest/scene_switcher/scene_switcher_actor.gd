@@ -1,5 +1,7 @@
 extends Node
 
+signal action_started
+
 export(String) var controller_group = "scene_switcher_default"
 export(NodePath) var target = ""
 export(String) var signal_name
@@ -30,6 +32,8 @@ func _setup():
 
 
 func _on_target_action():
+	emit_signal("action_started")
+	
 	if use_history:
 		match history:
 			"Back":

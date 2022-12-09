@@ -7,14 +7,9 @@
 [ext_resource path="res://addons/reversequest/speech/speech.gd" type="Script" id=5]
 [ext_resource path="res://addons/reversequest/assets/pen-solid.png" type="Texture" id=6]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/reversequest/choice_sorter/choice_sorter.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Theme" id=1]
-
-[sub_resource type="GDScript" id=2]
-script/source = "class_name LabelTitle
-extends Label
-
-"
 
 [node name="Speech" type="Node2D" groups=["speech"]]
 script = ExtResource( 5 )
@@ -100,7 +95,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChoiceContainer" type="Node2D" parent="."]
+[node name="ChoiceContainer" parent="." instance=ExtResource( 8 )]
 position = Vector2( 0, 308 )
 
 [node name="ChoiceLine" type="Line2D" parent="."]
@@ -133,16 +128,7 @@ __meta__ = {
 [node name="LinkZone" parent="." instance=ExtResource( 1 )]
 visible = false
 
-[node name="Debug" type="Node2D" parent="."]
-
-[node name="Code" type="Label" parent="Debug"]
-margin_left = -17.0
-margin_bottom = 14.0
-theme = ExtResource( 2 )
-text = "22"
-script = SubResource( 2 )
-
 [connection signal="pressed" from="Control/VBoxContainer/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Edit" to="." method="_on_Edit_pressed"]
-[connection signal="pressed" from="ChoiceAdd" to="." method="_on_ChoiceAdd_pressed"]
+[connection signal="pressed" from="ChoiceAdd" to="." method="_on_choice_add_pressed"]
 [connection signal="pressed" from="LinkZone" to="." method="_on_LinkZone_pressed"]

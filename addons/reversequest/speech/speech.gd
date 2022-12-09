@@ -3,35 +3,38 @@ extends Node2D
 
 signal speech_edit(speech_res)
 signal speech_remove(speech_res)
-signal choice_add(speech_res)
 signal choice_edit(speech_res, choice_res)
 signal choice_update_order(speech_res)
 signal choice_link(speech_res, choice_res)
 signal choice_link_create(speech_res, choice_res)
 signal linked(speech_res)
 
+var _controller
+var _res
 
 var size_x setget ,_get_size_x
 var size_y setget ,_get_size_y
 var base_y = 308
 var bottom = 0
-var res
+
+onready var _actor_edit = $Control/VBoxContainer/Edit/SceneSwitcherActorEdit
 
 
 func _ready():
 	update_choice_line()
+	_actor_edit.connect("action_started", self, "_on_actor_edit_action_started")
 
 
-func render(speech_res):
-	res = speech_res
-	set_text(speech_res.text)
+func setup(speech_res, controller):
+	_res = speech_res
+	_controller = controller
+	
+	_res.connect("changed", self, "_on_res_changed")
+	
+	update()
+	
 	for ch in speech_res.choice_list:
 		add_choice(ch)
-
-
-func set_text(text):
-	$Control/Text.text = text
-	$Debug/Code.text = str(res.code)
 
 
 func enable_link_zone():
@@ -52,10 +55,10 @@ func add_choice(choice_res):
 	choice_node.connect("link", self, "_on_choice_link")
 	choice_node.connect("link_create", self, "_on_choice_link_create")
 
-	choice_container.add_child(choice_node)
-	
 	if (choice_res != null):
 		choice_node.set_res(choice_res)
+
+	choice_container.add_child(choice_node)
 
 	choice_node.name = get_choice_node_name(choice_node.res.code)
 	
@@ -93,36 +96,8 @@ func get_choice_node_name(_code):
 	return str("Coice_code_", _code)
 
 
-func _on_ChoiceAdd_pressed():
-	emit_signal("choice_add", res)
-
-
-func _on_Edit_pressed():
-	emit_signal("speech_edit", res)
-
-
-func _on_Remove_pressed():
-	emit_signal("speech_remove", res)
-	
-
-func _on_choice_edit_open(choice_res):
-	emit_signal("choice_edit", res, choice_res)
-
-
-func _on_choice_update_order():
-	emit_signal("choice_update_order", res)
-
-
-func _on_choice_link(choice_res):
-	emit_signal("choice_link", res, choice_res)
-
-
-func _on_choice_link_create(choice_res):
-	emit_signal("choice_link_create", res, choice_res)
-
-
-func _on_LinkZone_pressed():
-	emit_signal("linked", res)
+func update():
+	$Control/Text.text = _res.text
 
 
 func _get_size_y():
@@ -132,3 +107,44 @@ func _get_size_y():
 func _get_size_x():
 	var sizer = $Control
 	return sizer.rect_size.x
+	
+
+func _on_choice_add_pressed():
+	var choice_res = _controller.create_choice(_res.code)
+	add_choice(choice_res)
+
+
+func _on_Edit_pressed():
+	emit_signal("speech_edit", _res)
+
+
+func _on_Remove_pressed():
+	emit_signal("speech_remove", _res)
+	
+
+func _on_choice_edit_open(choice_res):
+	emit_signal("choice_edit", _res, choice_res)
+
+
+func _on_choice_update_order():
+	emit_signal("choice_update_order", _res)
+
+
+func _on_choice_link(choice_res):
+	emit_signal("choice_link", _res, choice_res)
+
+
+func _on_choice_link_create(choice_res):
+	emit_signal("choice_link_create", _res, choice_res)
+
+
+func _on_LinkZone_pressed():
+	emit_signal("linked", _res)
+
+
+func _on_res_changed():
+	update()
+
+
+func _on_actor_edit_action_started():
+	 _actor_edit.send_data = [_res]

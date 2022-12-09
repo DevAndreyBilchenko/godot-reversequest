@@ -55,7 +55,7 @@ func render_speech(speech):
 	if not is_speech_rendered(speech.code):
 		var new_speech = speech_scene.instance()
 
-		new_speech.render(speech)
+		new_speech.setup(speech, _dialog_res_controller)
 		new_speech.name = get_speech_node_name(speech.code)
 		
 		_container.add_child(new_speech)

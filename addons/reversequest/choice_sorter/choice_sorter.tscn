@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/reversequest/choice_sorter/choice_sorter.gd" type="Script" id=1]
+
+[node name="ChoiceSorter" type="Node2D"]
+script = ExtResource( 1 )
+gap = 5
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]

@@ -8,10 +8,12 @@ var pressed = false
 var last_cursor_position
 var viewport
 
+
 func _ready():
 	viewport = get_viewport()
 	var _con = self.connect("input_event", self, "on_input_event")
 	
+
 func _process(_delta):
 	if pressed && Input.get_mouse_button_mask() != 0:
 		var new_cursor_position = viewport.get_mouse_position()
@@ -20,7 +22,8 @@ func _process(_delta):
 	elif pressed:
 		pressed = false
 		emit_signal("drag_end")
-	
+
+
 func on_input_event(_viewport, ev, _shape_idx):
 	if ev.is_class("InputEventMouseButton"):
 		if pressed == false && ev.button_mask != 0:

@@ -1,6 +1,10 @@
 extends Node
 
 
+signal structure_update
+signal cosmetic_update
+
+
 var _settings = preload("res://addons/reversequest/gd_scripts/settings.gd").new()
 var _dialog_res_class = preload("res://addons/reversequest/gd_scripts/dialog_res.gd")
 var _speech_res_class = preload("res://addons/reversequest/gd_scripts/speech_res.gd")
@@ -11,6 +15,10 @@ var _dialog
 var _dialog_name
 var _empty_slots = null
 
+
+#----------------------------
+# DIALOG CONTROL FUNCTIONS
+# ---------------------------
 
 func load_dialog(name):
 	_dialog_name = name
@@ -59,6 +67,8 @@ func create_dialog(name, autosave = false):
 	if autosave:
 		save()
 		
+	emit_signal("structure_update")
+		
 	return _dialog
 
 
@@ -68,6 +78,9 @@ func save(new_name = ""):
 	
 	ResourceSaver.save(_get_path_to_dialog_file(), _dialog,  ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 
+#----------------------------
+# SPEECH CONTROL FUNCTIONS
+# ---------------------------
 
 func create_speech(start_text = "Новая реплика", choice_list = []):
 	var speech = _speech_res_class.new()
@@ -76,6 +89,8 @@ func create_speech(start_text = "Новая реплика", choice_list = []):
 	speech.choice_list = choice_list
 	
 	_dialog.speech_list[speech.code] = speech
+	
+	emit_signal("structure_update")
 	
 	return speech
 
@@ -90,6 +105,10 @@ func get_speech(code):
 func get_speech_list():
 	return _dialog.speech_list
 
+
+#----------------------------
+# CHOICE CONTROL FUNCTIONS
+# ---------------------------
 
 func create_choice(speech_code, start_text = "Новая реплика"):
 	var choice = _choice_res_class.new()
@@ -108,7 +127,10 @@ func create_choice(speech_code, start_text = "Новая реплика"):
 	
 	choice.code = code
 	choice.text = start_text
+	choice.order = code
 	speech.choice_list[code] = choice
+	
+	emit_signal("structure_update")
 	
 	return choice
 

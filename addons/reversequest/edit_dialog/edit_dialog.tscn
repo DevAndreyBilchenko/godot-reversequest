@@ -16,7 +16,6 @@ scene_instance = "res://addons/reversequest/components/dialog_editor/components/
 send_data = [ "atest1" ]
 
 [node name="DialogResController" parent="." instance=ExtResource( 7 )]
-unique_name_in_owner = true
 
 [node name="Content" type="Node2D" parent="."]
 

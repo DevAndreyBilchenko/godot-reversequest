@@ -1,26 +1,23 @@
 extends Control
 
-signal cancel
-signal apply(speech_res)
+
+onready var store = $SceneSwitcherStore
 onready var text = $MarginContainer/HBoxContainer/VBoxContainer/TextEdit
-var res
 
-func open(speech_res):
-	res = speech_res
+
+var _res
+
+
+func _ready():
+	_res = store.send_data[0]
 	fill()
-	show()
 
-func close():
-	hide()
 
 func fill():
-	text.text = res.text
+	text.text = _res.text
 
-func _on_Apply_pressed():
-	emit_signal("apply", res)
 
-func _on_Cancel_pressed():
-	emit_signal("cancel")
-
-func _on_TextEdit_text_changed():
-	res.text = text.text
+func _on_apply_pressed():
+	_res.text = text.text
+	
+	_res.emit_changed()
