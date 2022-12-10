@@ -6,6 +6,10 @@ export(NodePath) var input
 export(NodePath) var target
 export(String) var prop
 export(bool) var init_from_prop = true
+export(bool) var ignore_changed = false
+export(bool) var custom_update_prop = false
+export(NodePath) var custom_target
+export(String) var custom_signal
 
 
 func _ready():
@@ -22,12 +26,17 @@ func _setup():
 		val = n.get_indexed(prop)
 	
 	if node is LineEdit or node is TextEdit:
-		node.connect("text_changed", self, "_on_field_changed")
+		if not ignore_changed:
+			node.connect("text_changed", self, "_on_field_changed")
 		if init_from_prop and val:
 			node.text = val
+	
+	if custom_update_prop:
+		var custom_target_node = get_node(custom_target)
+		custom_target_node.connect(custom_signal, self, "_on_field_changed")
 
 
-func _on_field_changed(_new_text = ""):
+func _on_field_changed(_new_text = "", _arg1 = "", _arg2 = ""):
 	var input_node = get_node(input)
 	
 	var target_node = get_node(_join_np(target, prop))
