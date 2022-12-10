@@ -1,18 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/reversequest/edit_choice/edit_choice.gd" type="Script" id=1]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_store.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=3]
+[ext_resource path="res://addons/reversequest/bind_input_on_prop/bind_input_on_prop.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=5]
 
-[node name="EditChoice" type="CanvasLayer"]
-script = ExtResource( 1 )
-
-[node name="Choice" type="Control" parent="."]
+[node name="EditChoice" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource( 3 )
+script = ExtResource( 1 )
 
-[node name="ColorRect" type="ColorRect" parent="Choice"]
+[node name="SceneSwitcherStore" parent="." instance=ExtResource( 2 )]
+
+[node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.890196 )
@@ -20,7 +22,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Choice"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -31,14 +33,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Choice/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 margin_right = 1004.0
 margin_bottom = 580.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Choice/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
@@ -46,42 +48,51 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextLabel" type="Label" parent="Choice/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="TextLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 500.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "Текст выбора"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="TextEdit" parent="Choice/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 23.0
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Choice/MarginContainer/HBoxContainer"]
+[node name="BindInputOnProp" parent="MarginContainer/HBoxContainer/VBoxContainer/TextEdit" instance=ExtResource( 4 )]
+input = NodePath("..")
+target = NodePath("../../../../..")
+prop = "res:text"
+ignore_changed = true
+custom_update_prop = true
+custom_target = NodePath("../../../HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply")
+custom_signal = "pressed"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 504.0
 margin_right = 1004.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer"]
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 
-[node name="Link" type="Control" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Link" type="Control" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 500.0
 
-[node name="Control" type="Control" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 4.0
 margin_right = 500.0
 margin_bottom = 580.0
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="HBoxContainer" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control"]
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -91,24 +102,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Cancel" type="Button" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 472.0
-margin_right = 484.0
-margin_bottom = 25.0
+[node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
+margin_left = 296.0
+margin_right = 379.0
+margin_bottom = 33.0
 text = "Отмена"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Apply" type="Button" parent="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 488.0
+[node name="SceneSwitcherActor" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Cancel" instance=ExtResource( 5 )]
+controller_group = "scene_switcher_dialog_modals"
+target = NodePath("..")
+signal_name = "pressed"
+
+[node name="Apply" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
+margin_left = 383.0
 margin_right = 500.0
-margin_bottom = 25.0
+margin_bottom = 33.0
 text = "Применить"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="text_changed" from="Choice/MarginContainer/HBoxContainer/VBoxContainer/TextEdit" to="." method="_on_TextEdit_text_changed"]
-[connection signal="pressed" from="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]
-[connection signal="pressed" from="Choice/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply" to="." method="_on_Apply_pressed"]
+[node name="SceneSwitcherActor" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply" instance=ExtResource( 5 )]
+controller_group = "scene_switcher_dialog_modals"
+target = NodePath("..")
+signal_name = "pressed"
+
+[connection signal="prop_changed" from="MarginContainer/HBoxContainer/VBoxContainer/TextEdit/BindInputOnProp" to="." method="_on_bind_input_on_prop_prop_changed"]

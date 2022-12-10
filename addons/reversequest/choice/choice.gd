@@ -3,7 +3,6 @@ extends Node2D
 var config = preload("res://addons/reversequest/choice/config.gd")
 
 signal update_order
-signal edit_open(res)
 signal link(res)
 signal link_create(res)
 
@@ -11,24 +10,22 @@ signal link_create(res)
 onready var link = $Control/VBoxContainer2/Link
 onready var create = $Control/VBoxContainer2/Create
 
-
+var _controller
 var res
 var rect setget , _get_rect
 
 
-func set_res(_res):
+func setup(_res, controller):
 	res = _res
-	#yield(get_tree(), "idle_frame")
+	_controller = controller
+	get_node("%SceneSwitcherActorEdit").send_data = [res]
 	fill_res()
+	res.connect("changed", self, "_on_res_changed")
 
 
 func fill_res():
 	$Control/Label.text = res.text
 	$Debug/Code.text = str(res.code)
-
-
-func _on_EditTrigger_dbclick():
-	emit_signal("edit_open", res)
 
 
 func _on_Link_pressed():
@@ -42,6 +39,9 @@ func _on_Create_pressed():
 	create.hide()
 	link.show()
 
+
+func _on_res_changed():
+	fill_res()
 
 func _get_rect():
 	return Rect2(position, $Control.rect_size)

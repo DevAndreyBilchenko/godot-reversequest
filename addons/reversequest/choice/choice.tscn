@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/reversequest/assets/arrow-up-solid.png" type="Texture" id=1]
 [ext_resource path="res://addons/reversequest/assets/xmark_solid.png" type="Texture" id=2]
 [ext_resource path="res://addons/reversequest/assets/plus-solid.png" type="Texture" id=3]
+[ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/choice/choice.gd" type="Script" id=5]
 [ext_resource path="res://addons/reversequest/area2d/dbclick.gd" type="Script" id=6]
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=7]
@@ -125,6 +126,13 @@ monitoring = false
 monitorable = false
 script = ExtResource( 6 )
 
+[node name="SceneSwitcherActorEdit" parent="EditTrigger" instance=ExtResource( 4 )]
+unique_name_in_owner = true
+controller_group = "scene_switcher_dialog_modals"
+target = NodePath("..")
+signal_name = "dbclick"
+scene_file_path = "res://addons/reversequest/edit_choice/edit_choice.tscn"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EditTrigger"]
 position = Vector2( 158.5, 24.5 )
 shape = SubResource( 4 )
@@ -139,4 +147,3 @@ margin_bottom = 18.0
 
 [connection signal="pressed" from="Control/VBoxContainer2/Link" to="." method="_on_Link_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer2/Create" to="." method="_on_Create_pressed"]
-[connection signal="dbclick" from="EditTrigger" to="." method="_on_EditTrigger_dbclick"]

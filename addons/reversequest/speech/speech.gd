@@ -50,13 +50,12 @@ func add_choice(choice_res):
 	var choice_container = get_node("ChoiceContainer")
 	var choice_node = choice.instance()
 	
-	choice_node.connect("edit_open", self, "_on_choice_edit_open")
 	choice_node.connect("update_order", self, "_on_choice_update_order")
 	choice_node.connect("link", self, "_on_choice_link")
 	choice_node.connect("link_create", self, "_on_choice_link_create")
 
 	if (choice_res != null):
-		choice_node.set_res(choice_res)
+		choice_node.setup(choice_res, _controller)
 
 	choice_container.add_child(choice_node)
 
@@ -120,10 +119,6 @@ func _on_Edit_pressed():
 
 func _on_Remove_pressed():
 	emit_signal("speech_remove", _res)
-	
-
-func _on_choice_edit_open(choice_res):
-	emit_signal("choice_edit", _res, choice_res)
 
 
 func _on_choice_update_order():

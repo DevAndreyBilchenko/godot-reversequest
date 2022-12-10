@@ -1,37 +1,17 @@
-extends CanvasLayer
-
-
-signal cancel
-signal apply(choice_res)
+extends Control
 
 var res
+var _changed_emitted = false
 
-onready var text = $Choice/MarginContainer/HBoxContainer/VBoxContainer/TextEdit
-onready var choice = $Choice
-
-
-func open(choice_res):
-	res = choice_res
-	fill()
-	choice.show()
+onready var store = $SceneSwitcherStore
+onready var apply = $MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply
 
 
-func close():
-	choice.hide()
+func _ready():
+	res = store.send_data[0]
 
 
-func fill():
-	text.text = res.text
-
-
-func _on_Cancel_pressed():
-	emit_signal("cancel")
-
-
-func _on_Apply_pressed():
-	emit_signal("apply", res)
-
-
-func _on_TextEdit_text_changed():
-	res.text = text.text
-	
+func _on_bind_input_on_prop_prop_changed(new_val, old_val):
+	if new_val != old_val && not _changed_emitted:
+		res.emit_changed()
+		_changed_emitted = true
