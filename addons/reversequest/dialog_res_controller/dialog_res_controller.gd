@@ -110,7 +110,7 @@ func get_speech_list():
 # CHOICE CONTROL FUNCTIONS
 # ---------------------------
 
-func create_choice(speech_code, start_text = "Новая реплика"):
+func create_choice(speech_code, start_text = "Новый выбор"):
 	var choice = _choice_res_class.new()
 	var speech = get_speech(speech_code)
 	var size = speech.choice_list.size()
