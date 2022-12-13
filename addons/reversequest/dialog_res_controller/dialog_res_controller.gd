@@ -67,8 +67,6 @@ func create_dialog(name, autosave = false):
 	if autosave:
 		save()
 		
-	emit_signal("structure_update")
-		
 	return _dialog
 
 
@@ -89,8 +87,6 @@ func create_speech(start_text = "Новая реплика", choice_list = []):
 	speech.choice_list = choice_list
 	
 	_dialog.speech_list[speech.code] = speech
-	
-	emit_signal("structure_update")
 	
 	return speech
 
@@ -130,13 +126,19 @@ func create_choice(speech_code, start_text = "Новый выбор"):
 	choice.order = code
 	speech.choice_list[code] = choice
 	
-	emit_signal("structure_update")
-	
 	return choice
 
 
 func get_choice(speech_code, choice_code):
 	return get_speech(speech_code).choice_list[choice_code]
+
+
+func emit_structure_update():
+	emit_signal("structure_update")
+
+
+func emit_cosmetic_update():
+	emit_signal("cosmetic_update")
 
 
 func _get_next_code_index():

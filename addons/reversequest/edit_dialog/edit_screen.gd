@@ -12,6 +12,7 @@ onready var scene_switcher_store = $SceneSwitcherStore
 
 func _ready():
 	start_edit(scene_switcher_store.send_data[0])
+	dialog_res_controller.connect("structure_update", self, "_on_dialog_structure_update")
 
 
 func start_edit(file_name):
@@ -26,6 +27,9 @@ func start_edit(file_name):
 func render():
 	speech_renderer.render()
 
+
+func _on_dialog_structure_update():
+	render()
 
 #func enable_link_zones():
 #	for speech_res in dialog_res_controller.get_speech_list():

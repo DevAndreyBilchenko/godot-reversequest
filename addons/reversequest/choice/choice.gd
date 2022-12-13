@@ -1,47 +1,45 @@
-extends Node2D
+extends Control
 
-var config = preload("res://addons/reversequest/choice/config.gd")
-
-signal update_order
 signal link(res)
 signal link_create(res)
 
+const GROUP_REQUESTER = "speech_link_request"
+const GROUP_ZONE = "speech_link_zone"
 
-onready var link = $Control/VBoxContainer2/Link
-onready var create = $Control/VBoxContainer2/Create
+onready var link = $Control/MarginContainer/HBoxContainer/VBoxContainer2/Link
+onready var create = $Control/MarginContainer/HBoxContainer/VBoxContainer2/Create
 
 var _controller
 var res
-var rect setget , _get_rect
 
 
 func setup(_res, controller):
 	res = _res
 	_controller = controller
 	get_node("%SceneSwitcherActorEdit").send_data = [res]
-	fill_res()
-	res.connect("changed", self, "_on_res_changed")
 
 
-func fill_res():
-	$Control/Label.text = res.text
-	$Debug/Code.text = str(res.code)
+func link_to(speech_res):
+	get_tree().call_group(GROUP_ZONE, "hide")
+	remove_from_group(GROUP_REQUESTER)
+	res.link = speech_res.code
+	res.emit_changed()
+	_controller.emit_structure_update()
 
 
-func _on_Link_pressed():
-	emit_signal("link", res)
-	link.hide()
-	create.show()
+func _on_link_pressed():
+	get_tree().call_group(GROUP_ZONE, "show")
+	add_to_group(GROUP_REQUESTER)
 
 
-func _on_Create_pressed():
-	emit_signal("link_create", res)
-	create.hide()
-	link.show()
+func _on_create_pressed():
+	get_tree().call_group(GROUP_ZONE, "hide")
+	remove_from_group(GROUP_REQUESTER)
+	var speech_res = _controller.create_speech()
+	res.link = speech_res.code
+	_controller.emit_structure_update()
 
 
-func _on_res_changed():
-	fill_res()
-
-func _get_rect():
-	return Rect2(position, $Control.rect_size)
+func _on_cancel_pressed():
+	get_tree().call_group(GROUP_ZONE, "hide")
+	remove_from_group(GROUP_REQUESTER)

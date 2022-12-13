@@ -49,6 +49,8 @@ func render():
 		
 		var grid_item = grid_stats.get_item(speech_res.code)
 		grid_stats.register_choice_count(grid_item.depth, speech_res.choice_list.size())
+		
+	update_positions()
 
 
 func render_speech(speech):
@@ -90,27 +92,27 @@ func render_roadline(choice_code, from_node, to_node):
 
 
 func update_positions():
-	for speech in _dialog_res_controller.speech_list:
+	for speech in _dialog_res_controller.get_speech_list():
 		var speech_node = find_speech_node(speech.code)
 		
-		speech_node.position = calc_speech_position(speech.code)
+		speech_node.rect_position = calc_speech_position(speech.code)
 
-		for choice in speech.choice_list:
-			if choice.has_link():
-				var roadline_node = find_roadline_node(choice.code, speech.code, choice.link)
-				var choice_rect = (speech_node.get_choice_node_rect(choice.code) as Rect2)
-				var navpath = grid_stats.get_roadline_navpath(choice.code, speech.code)
-				
-				var wp = roadline_node.create_waypoint(
-					choice_rect.position + Vector2(choice_rect.size.x, choice_rect.size.y / 2),
-					navpath[0],
-					get_summary_row_height(navpath[1], true),
-					navpath[2],
-					navpath[3],
-					calc_speech_position(choice.link) + Vector2(0, 15)
-				)
-				
-				roadline_node.draw(wp)
+#		for choice in speech.choice_list:
+#			if choice.has_link():
+#				var roadline_node = find_roadline_node(choice.code, speech.code, choice.link)
+#				var choice_rect = (speech_node.get_choice_node_rect(choice.code) as Rect2)
+#				var navpath = grid_stats.get_roadline_navpath(choice.code, speech.code)
+#
+#				var wp = roadline_node.create_waypoint(
+#					choice_rect.rect_position + Vector2(choice_rect.size.x, choice_rect.size.y / 2),
+#					navpath[0],
+#					get_summary_row_height(navpath[1], true),
+#					navpath[2],
+#					navpath[3],
+#					calc_speech_position(choice.link) + Vector2(0, 15)
+#				)
+#
+#				roadline_node.draw(wp)
 
 
 func calc_speech_position(speech_code):

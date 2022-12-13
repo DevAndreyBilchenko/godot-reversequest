@@ -1,14 +1,13 @@
-extends Node2D
+extends Control
 
 ## space between choice nodes
-export(int) var gap = 10
+export(int) var gap = 8
 
 var ChoiceDragArea = preload("res://addons/reversequest/choice_sorter/choice_drag_area.tscn")
 var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.tscn")
 
 var drag_node
-var rect setget , _get_rect
-var _choice_cached_rect
+var _choice_cached_size_y
 
 
 func _add_area(node):
@@ -22,7 +21,7 @@ func _add_area(node):
 
 
 func _calc_position(order_index):
-	return Vector2(0, (order_index * gap) + (_choice_cached_rect.size.y * order_index))
+	return Vector2(0, (order_index * gap) + (_choice_cached_size_y * order_index))
 
 
 func _update_order():
@@ -38,7 +37,7 @@ func _update_order():
 			res.emit_changed()
 		
 		var np = _calc_position(res.order)
-		if ch != drag_node && ch.position != np:
+		if ch != drag_node && ch.rect_position != np:
 			_tween_to(ch, np)
 
 
@@ -51,19 +50,13 @@ func _tween_to(node, to):
 		node.add_child(tween)
 	
 	tween.stop(self, "position")
-	tween.interpolate_property(node, "position", node.position, to, 0.4 - tween.tell())
+	tween.interpolate_property(node, "rect_position", node.rect_position, to, 0.4 - tween.tell())
 	
 	tween.start()
 
 
 func _choice_y_sorter(a, b):
-	return a.position.y < b.position.y
-
-
-func _get_rect():
-	var last_item_pos = _calc_position(get_child_count() - 1)
-	
-	return Rect2(position, Vector2(_choice_cached_rect.size.x, last_item_pos.y + _choice_cached_rect.size.y))
+	return a.rect_position.y < b.rect_position.y
 
 
 func _on_tween_completed(tween):
@@ -72,9 +65,11 @@ func _on_tween_completed(tween):
 
 
 func _on_child_entered_tree(node):
-	_choice_cached_rect = node.rect
-	node.position = _calc_position(node.res.order)
+	_choice_cached_size_y = node.rect_size.y
+	node.rect_position = _calc_position(node.res.order)
 	_add_area(node)
+
+	rect_min_size.y = node.rect_position.y + _choice_cached_size_y
 
 
 func _on_child_exiting_tree(node):
@@ -82,7 +77,7 @@ func _on_child_exiting_tree(node):
 
 
 func _on_drag(relative, node, area):
-	node.position.y += relative.y
+	node.rect_position.y += relative.y
 	_update_order()
 
 

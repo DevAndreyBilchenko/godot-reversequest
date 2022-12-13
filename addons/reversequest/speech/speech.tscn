@@ -1,134 +1,122 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/reversequest/speech/link_zone.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=2]
 [ext_resource path="res://addons/reversequest/assets/plus-solid.png" type="Texture" id=3]
 [ext_resource path="res://addons/reversequest/assets/xmark_solid.png" type="Texture" id=4]
 [ext_resource path="res://addons/reversequest/speech/speech.gd" type="Script" id=5]
-[ext_resource path="res://addons/reversequest/assets/pen-solid.png" type="Texture" id=6]
+[ext_resource path="res://addons/reversequest/assets/pen-solid-w12.png" type="Texture" id=6]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/reversequest/choice_sorter/choice_sorter.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/reversequest/bind_prop/bind_prop.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Theme" id=1]
 
-[node name="Speech" type="Node2D" groups=["speech"]]
+[node name="Speech" type="Panel" groups=["speech"]]
+margin_right = 304.0
+margin_bottom = 304.0
+theme = ExtResource( 2 )
 script = ExtResource( 5 )
 
-[node name="Background" type="Polygon2D" parent="."]
-color = Color( 0.247059, 0.235294, 0.278431, 1 )
-polygon = PoolVector2Array( 300, 0, 300, 300, 0, 300, 0, 0 )
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
 
-[node name="Control" type="Control" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
 margin_right = 300.0
 margin_bottom = 300.0
-mouse_filter = 2
-theme = ExtResource( 2 )
 
-[node name="Text" type="Label" parent="Control"]
-margin_left = 12.0
-margin_top = 12.0
-margin_right = 288.0
-margin_bottom = 288.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 296.0
+margin_bottom = 264.0
+size_flags_vertical = 3
+custom_constants/separation = 5
+
+[node name="Text" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 263.0
+margin_bottom = 264.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
 custom_colors/font_color = Color( 0.9, 0.9, 0.9, 1 )
 text = "(укоризненно взглянула на ГГ за грубость) Анастасия, помогая директору по многим вопросам. Я так понимаю, что ты приехал тут отдыхать, так что не нарывайся на особые проблемы, ну знаешь, домик на отшибе."
 autowrap = true
 clip_text = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-margin_left = 303.0
-margin_right = 328.0
-margin_bottom = 68.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="BindProp" parent="MarginContainer/VBoxContainer/HBoxContainer/Text" instance=ExtResource( 9 )]
+take_from = NodePath("../../../../..")
+take_from_prop = "res:text"
+set_to = NodePath("..")
+set_to_prop = "text"
+wait_on = NodePath("../../../../..")
+wait_on_prop = "res"
+wait_on_signal = "changed"
 
-[node name="Remove" type="Button" parent="Control/VBoxContainer"]
-margin_right = 25.0
-margin_bottom = 33.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 268.0
+margin_right = 296.0
+margin_bottom = 264.0
+rect_min_size = Vector2( 28, 0 )
+
+[node name="Remove" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 28.0
+margin_bottom = 28.0
+icon = ExtResource( 4 )
 expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Remove"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -6.5
-margin_top = -10.0
-margin_right = 6.5
-margin_bottom = 10.0
-texture = ExtResource( 4 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Edit" type="Button" parent="Control/VBoxContainer"]
-margin_top = 37.0
-margin_right = 25.0
-margin_bottom = 70.0
+[node name="Edit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 32.0
+margin_right = 28.0
+margin_bottom = 60.0
 theme = SubResource( 1 )
+icon = ExtResource( 6 )
+expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SceneSwitcherActorEdit" parent="Control/VBoxContainer/Edit" instance=ExtResource( 7 )]
+[node name="SceneSwitcherActorEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit" instance=ExtResource( 7 )]
 controller_group = "scene_switcher_dialog_modals"
 target = NodePath("..")
 signal_name = "pressed"
 scene_file_path = "res://addons/reversequest/edit_speech/edit_speech.tscn"
 
-[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/Edit"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -4.5
-margin_top = -6.0
-margin_right = 3.5
-margin_bottom = 6.0
-texture = ExtResource( 6 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 296.0
+margin_bottom = 296.0
 
-[node name="ChoiceContainer" parent="." instance=ExtResource( 8 )]
-position = Vector2( 0, 308 )
-
-[node name="ChoiceLine" type="Line2D" parent="."]
-position = Vector2( 3, 0 )
-points = PoolVector2Array( 8, 305, 8, 345 )
-default_color = Color( 0.247059, 0.235294, 0.278431, 1 )
-
-[node name="ChoiceAdd" type="Button" parent="."]
-margin_left = 2.0
-margin_top = 351.0
-margin_right = 20.0
-margin_bottom = 371.0
-theme = SubResource( 1 )
-
-[node name="TextureRect" type="TextureRect" parent="ChoiceAdd"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -6.0
-margin_top = -6.0
-margin_right = 6.0
-margin_bottom = 6.0
-texture = ExtResource( 3 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ChoiceAdd" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 28.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 28, 0 )
+theme = ExtResource( 2 )
+icon = ExtResource( 3 )
+expand_icon = true
 
 [node name="LinkZone" parent="." instance=ExtResource( 1 )]
 visible = false
 
-[connection signal="pressed" from="Control/VBoxContainer/Remove" to="." method="_on_Remove_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/Edit" to="." method="_on_Edit_pressed"]
-[connection signal="pressed" from="ChoiceAdd" to="." method="_on_choice_add_pressed"]
-[connection signal="pressed" from="LinkZone" to="." method="_on_LinkZone_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 8.0
+
+[node name="ChoiceContainer" parent="VBoxContainer" instance=ExtResource( 8 )]
+margin_right = 304.0
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+margin_top = 4.0
+margin_right = 304.0
+margin_bottom = 4.0
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/ChoiceAdd" to="." method="_on_choice_add_pressed"]

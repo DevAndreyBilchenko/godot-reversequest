@@ -13,15 +13,9 @@ _global_script_classes=[ {
 "class": "CharacterRes",
 "language": "GDScript",
 "path": "res://addons/reversequest/gd_scripts/character_res.gd"
-}, {
-"base": "Label",
-"class": "LabelTitle",
-"language": "GDScript",
-"path": "res://addons/reversequest/label_title/label_title.gd"
 } ]
 _global_script_class_icons={
-"CharacterRes": "",
-"LabelTitle": ""
+"CharacterRes": ""
 }
 
 [application]

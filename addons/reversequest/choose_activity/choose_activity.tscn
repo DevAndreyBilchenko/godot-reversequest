@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=1]
-[ext_resource path="res://addons/reversequest/label_title/label_title.gd" type="Script" id=2]
 [ext_resource path="res://addons/reversequest/choose_activity/choose_activity_item.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/layout/layout_standard.tscn" type="PackedScene" id=5]
@@ -33,7 +32,6 @@ margin_right = 974.0
 margin_bottom = 27.0
 theme_type_variation = "LabelTitle"
 text = "Reverse Quest - Редактор диалогов"
-script = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="LayoutStandard/ScrollContainer/VBoxContainer"]
 margin_top = 31.0
