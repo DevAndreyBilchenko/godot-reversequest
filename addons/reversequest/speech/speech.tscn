@@ -12,13 +12,25 @@
 
 [sub_resource type="Theme" id=1]
 
-[node name="Speech" type="Panel" groups=["speech"]]
+[node name="Speech" type="Control" groups=["speech"]]
 margin_right = 304.0
-margin_bottom = 304.0
 theme = ExtResource( 2 )
 script = ExtResource( 5 )
+actor_edit_np = NodePath("Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit/SceneSwitcherActorEdit")
+choice_container_np = NodePath("Sizer/ChoiceContainer")
+sizer_np = NodePath("Sizer")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Sizer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 304, 0 )
+
+[node name="Panel" type="Panel" parent="Sizer"]
+margin_right = 304.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 0, 304 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Sizer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 4
@@ -26,19 +38,19 @@ custom_constants/margin_top = 4
 custom_constants/margin_left = 4
 custom_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sizer/Panel/MarginContainer"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 300.0
 margin_bottom = 300.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer"]
 margin_right = 296.0
 margin_bottom = 264.0
 size_flags_vertical = 3
 custom_constants/separation = 5
 
-[node name="Text" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Text" type="Label" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 263.0
 margin_bottom = 264.0
 size_flags_horizontal = 3
@@ -48,22 +60,22 @@ text = "(укоризненно взглянула на ГГ за грубост
 autowrap = true
 clip_text = true
 
-[node name="BindProp" parent="MarginContainer/VBoxContainer/HBoxContainer/Text" instance=ExtResource( 9 )]
-take_from = NodePath("../../../../..")
+[node name="BindProp" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Text" instance=ExtResource( 9 )]
+take_from = NodePath("../../../../../../..")
 take_from_prop = "res:text"
 set_to = NodePath("..")
 set_to_prop = "text"
-wait_on = NodePath("../../../../..")
+wait_on = NodePath("../../../../../../..")
 wait_on_prop = "res"
 wait_on_signal = "changed"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 268.0
 margin_right = 296.0
 margin_bottom = 264.0
 rect_min_size = Vector2( 28, 0 )
 
-[node name="Remove" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Remove" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 28.0
 margin_bottom = 28.0
 icon = ExtResource( 4 )
@@ -72,7 +84,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Edit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Edit" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 32.0
 margin_right = 28.0
 margin_bottom = 60.0
@@ -83,18 +95,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SceneSwitcherActorEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit" instance=ExtResource( 7 )]
+[node name="SceneSwitcherActorEdit" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit" instance=ExtResource( 7 )]
 controller_group = "scene_switcher_dialog_modals"
 target = NodePath("..")
 signal_name = "pressed"
 scene_file_path = "res://addons/reversequest/edit_speech/edit_speech.tscn"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 268.0
 margin_right = 296.0
 margin_bottom = 296.0
 
-[node name="ChoiceAdd" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="ChoiceAdd" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 28.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 28, 0 )
@@ -102,21 +114,13 @@ theme = ExtResource( 2 )
 icon = ExtResource( 3 )
 expand_icon = true
 
-[node name="LinkZone" parent="." instance=ExtResource( 1 )]
+[node name="LinkZone" parent="Sizer/Panel" instance=ExtResource( 1 )]
 visible = false
+target_np = NodePath("../../..")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 8.0
-
-[node name="ChoiceContainer" parent="VBoxContainer" instance=ExtResource( 8 )]
+[node name="ChoiceContainer" parent="Sizer" instance=ExtResource( 8 )]
+margin_top = 308.0
 margin_right = 304.0
+margin_bottom = 308.0
 
-[node name="Control" type="Control" parent="VBoxContainer"]
-margin_top = 4.0
-margin_right = 304.0
-margin_bottom = 4.0
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/ChoiceAdd" to="." method="_on_choice_add_pressed"]
+[connection signal="pressed" from="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ChoiceAdd" to="." method="_on_choice_add_pressed"]

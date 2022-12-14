@@ -8,3 +8,7 @@ var roadline_count: int = -1
 func get_next_roadline():
 	roadline_count += 1
 	return roadline_count
+
+
+func get_roadlines_count():
+	return roadline_count + 1

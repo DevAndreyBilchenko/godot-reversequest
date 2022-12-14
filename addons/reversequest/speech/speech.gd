@@ -1,16 +1,24 @@
 extends Control
 
+export(NodePath) var actor_edit_np
+export(NodePath) var choice_container_np
+export(NodePath) var sizer_np
+
 var _controller
 var res
 
 var size_x setget ,_get_size_x
 var size_y setget ,_get_size_y
 
-onready var _actor_edit = $MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit/SceneSwitcherActorEdit
-onready var _choice_container = $VBoxContainer/ChoiceContainer
+var _actor_edit
+var _choice_container
+var _sizer
 
 
 func _ready():
+	_actor_edit = get_node(actor_edit_np)
+	_choice_container = get_node(choice_container_np)
+	_sizer = get_node(sizer_np)
 	_actor_edit.connect("action_started", self, "_on_actor_edit_action_started")
 
 
@@ -35,12 +43,12 @@ func add_choice(choice_res):
 
 
 func find_choice_node(choice_code):
-	return get_node_or_null(str("ChoiceContainer/", get_choice_node_name(choice_code)))
+	return _choice_container.get_node_or_null(get_choice_node_name(choice_code))
 
 
 func get_choice_node_rect(choice_code):
 	var choice = find_choice_node(choice_code)
-	return Rect2(choice.global_position, Vector2(choice.size_x, choice.size_y))
+	return Rect2(choice.rect_global_position, choice.rect_size)
 
 
 func get_choice_node_name(_code):
@@ -48,11 +56,11 @@ func get_choice_node_name(_code):
 
 
 func _get_size_y():
-	return rect_size.y
+	return _sizer.rect_size.y
 
 
 func _get_size_x():
-	return rect_size.x
+	return _sizer.rect_size.x
 
 
 func _on_choice_add_pressed():

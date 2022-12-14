@@ -23,24 +23,54 @@ func prepare_size(size: int):
 
 
 func register_connection(from_code, from_subcode, to_code):
-	var from_item = get_item(from_code)
-	var to_item = get_item(to_code)
-	var from_item_column_stats = _get_col(from_item.depth+1)
-	var from_item_row_stats = _get_row(from_item.col_index)
-	var to_item_column_stats = _get_col(to_item.depth)
-	var to_item_row_stats = _get_row(to_item.col_index)
-	
 	var roadmap = GridStatsRoadmap.new()
 	
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_START, from_item.depth+1, from_item.col_index)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN, from_item.depth+1, 0)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN_ROAD, from_item_column_stats.get_next_out(), 0)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW, 0, from_item.col_index + sign(to_item.col_index - from_item.col_index))
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW_ROAD, 0, from_item_row_stats.get_next_roadline())
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN, to_item.depth, 0)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_COLUMN_ROAD, to_item_column_stats.get_next_in(), 0)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_PICK_ROW, 0, to_item.col_index)
-	roadmap.add_step(GridStatsRoadmapItem.TYPE_END, to_item.depth, to_item.col_index)
+	# start
+	var from_item = get_item(from_code)
+	roadmap.add_step(
+		from_item.depth, from_item.col_index,
+		0, 0,
+		true
+	)
+
+	# out to free column roadline
+	var from_item_column_stats = get_col(from_item.depth)
+	var free_out_col_roadline = from_item_column_stats.get_next_out()+1
+	roadmap.add_step(
+		from_item.depth, from_item.col_index,
+		free_out_col_roadline, 0,
+		true
+	)
+	
+	# up/down to free row roadline
+	var to_item = get_item(to_code)
+	var row_index = from_item.col_index + sign(to_item.col_index - from_item.col_index)
+	var row_stats = get_row(row_index)
+	var free_row_roadline = row_stats.get_next_roadline()+1
+	roadmap.add_step(
+		from_item.depth, row_index,
+		free_out_col_roadline, free_row_roadline
+	)
+	
+	# horizontal to free column roadline
+	var to_item_column_stats = get_col(to_item.depth)
+	var free_in_roadline = -(to_item_column_stats.get_next_in()+1)
+	roadmap.add_step(
+		to_item.depth, row_index,
+		free_in_roadline, free_row_roadline
+	)
+	
+	# up/down to item
+	roadmap.add_step(
+		to_item.depth, to_item.col_index,
+		free_in_roadline, 0
+	)
+	
+	# connect (in) to item
+	roadmap.add_step(
+		to_item.depth, to_item.col_index,
+		0, 0
+	)
 	
 	to_item.add_connection(from_code, from_subcode, roadmap)
 
@@ -59,41 +89,50 @@ func register_item(code, main_parent):
 
 
 func register_choice_count(row_index, choice_count):
-	var row = _get_row(row_index)
+	var row = get_row(row_index)
 	
 	if row.max_choice_count < choice_count:
 		row.max_choice_count = choice_count
 
 
 func register_max_real_height_in_row(row_index, real_height):
-	var row = _get_row(row_index)
+	var row = get_row(row_index)
 	
 	if row.max_real_height < real_height:
 		row.max_real_height = real_height
 
 
 func register_max_real_width_in_col(col_index, real_width):
-	var col = _get_col(col_index)
+	var col = get_col(col_index)
 	
 	if col.max_real_width < real_width:
 		col.max_real_width = real_width
 
 
 func get_summary_roadlines_in_row(row_index):
-	return _get_row(row_index).roadline_count + 1
+	return get_row(row_index).roadline_count + 1
 
 
 func get_row_max_real_height(row_index):
-	return _get_row(row_index).max_real_height
+	return get_row(row_index).max_real_height
 
 
 func get_summary_roadlines_in_col(col_index):
-	var col = _get_col(col_index)
+	var col = get_col(col_index)
 	return col.out_count + col.in_count + 2
 
 
+func get_in_roadlines_in_col(col_index):
+	var col = get_col(col_index)
+	return col.in_count + 1
+
+
+func get_col_max_real_width(col_index):
+	return get_col(col_index).max_real_width
+
+
 func has_item(code) -> bool:
-	return false
+	return _items.size() > code && _items[code] != null
 
 
 func get_item(code):
@@ -106,18 +145,18 @@ func get_item(code):
 
 
 func _add_item_to_col(item):
-	var col = _get_col(item.depth)
+	var col = get_col(item.depth)
 	
 	col.items_count += 1
 	
 	return col
 
 
-func _get_col(col_num):
+func get_col(col_num):
 	return _get_from(col_num, _cols, GridStatsCol)
 
 
-func _get_row(row_num):
+func get_row(row_num):
 	return _get_from(row_num, _rows, GridStatsRow)
 
 
@@ -131,4 +170,4 @@ func _get_from(from_index, from, fill_class):
 		from_item = fill_class.new()
 		from[from_index] = from_item
 		
-	return from[from_index]
+	return from_item
