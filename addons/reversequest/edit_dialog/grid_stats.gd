@@ -65,6 +65,33 @@ func register_choice_count(row_index, choice_count):
 		row.max_choice_count = choice_count
 
 
+func register_max_real_height_in_row(row_index, real_height):
+	var row = _get_row(row_index)
+	
+	if row.max_real_height < real_height:
+		row.max_real_height = real_height
+
+
+func register_max_real_width_in_col(col_index, real_width):
+	var col = _get_col(col_index)
+	
+	if col.max_real_width < real_width:
+		col.max_real_width = real_width
+
+
+func get_summary_roadlines_in_row(row_index):
+	return _get_row(row_index).roadline_count + 1
+
+
+func get_row_max_real_height(row_index):
+	return _get_row(row_index).max_real_height
+
+
+func get_summary_roadlines_in_col(col_index):
+	var col = _get_col(col_index)
+	return col.out_count + col.in_count + 2
+
+
 func has_item(code) -> bool:
 	return false
 
@@ -87,26 +114,21 @@ func _add_item_to_col(item):
 
 
 func _get_col(col_num):
-	if _cols.size() <= col_num:
-		_cols.resize(col_num + 1)
-	
-	var col = _cols[col_num]
-	
-	if not col:
-		col = GridStatsCol.new()
-		_cols[col_num] = col
-	
-	return col
+	return _get_from(col_num, _cols, GridStatsCol)
 
 
 func _get_row(row_num):
-	if _rows.size() <= row_num:
-		_rows.resize(row_num + 1)
+	return _get_from(row_num, _rows, GridStatsRow)
+
+
+func _get_from(from_index, from, fill_class):
+	if from.size() <= from_index:
+		from.resize(from_index + 1)
+		
+	var from_item = from[from_index]
 	
-	var col = _rows[row_num]
-	
-	if not col:
-		col = GridStatsRow.new()
-		_rows[row_num] = col
-	
-	return _rows[row_num]
+	if not from_item:
+		from_item = fill_class.new()
+		from[from_index] = from_item
+		
+	return from[from_index]

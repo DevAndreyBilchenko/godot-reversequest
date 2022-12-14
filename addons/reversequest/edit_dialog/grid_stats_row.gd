@@ -1,6 +1,7 @@
 extends Reference
 
 var max_choice_count: int = 0
+var max_real_height: float = 0
 var roadline_count: int = -1
 
 

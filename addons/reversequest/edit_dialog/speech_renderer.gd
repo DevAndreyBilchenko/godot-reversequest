@@ -38,7 +38,7 @@ func render():
 	grid_stats.register_item(0, -1)
 	
 	for speech_res in await_list:
-		render_speech(speech_res)
+		var speech_node = render_speech(speech_res)
 
 		for choice in speech_res.choice_list:
 			if choice.has_link() and not grid_stats.has_item(choice.link):
@@ -49,13 +49,17 @@ func render():
 		
 		var grid_item = grid_stats.get_item(speech_res.code)
 		grid_stats.register_choice_count(grid_item.depth, speech_res.choice_list.size())
+		grid_stats.register_max_real_height_in_row(grid_item.depth, speech_node.rect_size.y)
+		grid_stats.register_max_real_width_in_col(grid_item.col_index, speech_node.rect_size.x)
 		
 	update_positions()
 
 
 func render_speech(speech):
-	if not is_speech_rendered(speech.code):
-		var new_speech = speech_scene.instance()
+	var new_speech = find_speech_node(speech.code)
+	
+	if not new_speech:
+		new_speech = speech_scene.instance()
 
 		new_speech.setup(speech, _dialog_res_controller)
 		new_speech.name = get_speech_node_name(speech.code)
@@ -63,6 +67,8 @@ func render_speech(speech):
 		_container.add_child(new_speech)
 		
 		emit_signal("instance_speech", new_speech)
+		
+	return new_speech
 
 
 func is_speech_rendered(code):
@@ -120,39 +126,29 @@ func calc_speech_position(speech_code):
 	
 	return Vector2(
 		get_summary_col_width(grid_item.depth),
-		get_summary_row_height(grid_item.col_index)
+		get_summary_row_height(grid_item.col_index - 1)
 	)
 
 func get_summary_col_width(col_index):
-	#(grid_item.depth * (speech_node.size_x + 45)) + (grid_stats.get_summary_roadlines_left_col(grid_pos.x) * 20),
-	pass
-
-
-func get_summary_row_height(row_index, ingnore_last_roadlines = false):
-	var roadlines = 0
+	if col_index < 0:
+		return 0
 	
-	if not ingnore_last_roadlines:
-		roadlines = grid_stats.get_summary_roadlines_upper_row(row_index)
-	else: 
-		roadlines = grid_stats.get_summary_roadlines_upper_row(row_index - 1)
+	var width = 0
+	
+	for index in col_index:
+		pass
+	#(grid_item.depth * (speech_node.size_x + 45)) + (grid_stats.get_summary_roadlines_left_col(grid_pos.x) * 20),
+
+
+
+func get_summary_row_height(row_index):
+	if row_index < 0:
+		return 0
 	
 	var rows_h = 0
 	
 	for index in row_index:
-		var row_items = grid_stats.get_row_items(index)
-		var more_choice = {
-			"code": -1,
-			"choice_count": -1
-		}
-	
-		for code in row_items:
-			var speech = _dialog_res_controller.find_speech(code)
-			if more_choice.choice_count < speech.choice_list.size():
-				more_choice.code = speech.code
-				more_choice.choice_count = speech.choice_list.size()
-				
-		var biggest_speech_in_row = find_speech_node(more_choice.code)
-		rows_h += biggest_speech_in_row.size_y
+		rows_h += grid_stats.get_row_max_real_height() + grid_stats.get_summary_roadlines_in_row(row_index) * 20
 		
-	return rows_h + roadlines * 20
+	return rows_h
 

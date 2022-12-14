@@ -1,9 +1,10 @@
 extends Reference
 
 
-var items_count: int = 0
+var items_count: int = -1
 var out_count: int = -1
 var in_count: int = -1
+var max_real_width: int = 0
 
 
 func get_next_out():
