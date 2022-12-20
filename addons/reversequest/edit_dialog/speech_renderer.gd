@@ -43,19 +43,30 @@ func render():
 	grid_stats.register_item(0, -1)
 	
 	for speech_res in await_list:
+		var grid_item = grid_stats.get_item(speech_res.code)
 		var speech_node = render_speech(speech_res)
-
-		for choice in speech_res.choice_list:
-			if choice.has_link():
+		
+		var ordered_choices = _dialog_res_controller.get_ordered_choice_list(speech_res.code)
+		if ordered_choices.size() != 0:
+			var clean_choices = []
+			
+			for ch in ordered_choices:
+				if ch.has_link():
+					clean_choices.append(ch)
+			
+			var col = grid_stats.get_col(grid_item.depth)
+			col.add_empty_out(clean_choices.size())
+			
+			for choice_idx in clean_choices.size():
+				var choice = clean_choices[choice_idx]
 				if not grid_stats.has_item(choice.link):
 					iterator += 1
 					await_list[iterator] = _dialog_res_controller.get_speech(choice.link)
 					grid_stats.register_item(choice.link, speech_res.code)
-				grid_stats.register_connection(speech_res.code, choice.code, choice.link)
+				grid_stats.register_connection(speech_res.code, choice.code, choice_idx, choice.link)
 				if not find_roadline_node(choice.code, speech_res.code, choice.link):
 					render_roadline(choice.code, speech_res.code, choice.link)
-		
-		var grid_item = grid_stats.get_item(speech_res.code)
+					
 		grid_stats.register_choice_count(grid_item.depth, speech_res.choice_list.size())
 		grid_stats.register_max_real_height_in_row(grid_item.col_index, speech_node.size_y)
 		grid_stats.register_max_real_width_in_col(grid_item.depth, speech_node.size_x)

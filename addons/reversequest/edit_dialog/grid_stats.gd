@@ -22,7 +22,7 @@ func prepare_size(size: int):
 	_items.resize(size)
 
 
-func register_connection(from_code, from_subcode, to_code):
+func register_connection(from_code, from_subcode, from_subcode_order, to_code):
 	var roadmap = GridStatsRoadmap.new()
 	
 	# start
@@ -35,7 +35,7 @@ func register_connection(from_code, from_subcode, to_code):
 
 	# out to free column roadline
 	var from_item_column_stats = get_col(from_item.depth)
-	var free_out_col_roadline = from_item_column_stats.get_next_out()+1
+	var free_out_col_roadline = from_item_column_stats.get_next_out(-(from_subcode_order))+1
 	roadmap.add_step(
 		from_item.depth, from_item.col_index,
 		free_out_col_roadline, 0,

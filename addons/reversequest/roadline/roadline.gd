@@ -14,3 +14,4 @@ func draw(wp: PoolVector2Array):
 		yield(self, "_ready")
 	
 	get_node("Line2D").points = wp
+	get_node("Line2DBorder").points = wp

@@ -133,6 +133,22 @@ func get_choice(speech_code, choice_code):
 	return get_speech(speech_code).choice_list[choice_code]
 
 
+func get_choice_list(speech_code):
+	return get_speech(speech_code).choice_list
+	
+
+func get_ordered_choice_list(speech_code):
+	var ordered = []
+	var base = get_choice_list(speech_code)
+	
+	ordered.resize(base.size())
+	
+	for base_choice in base:
+		ordered[base_choice.order] = base_choice
+	
+	return ordered
+
+
 func emit_structure_update():
 	emit_signal("structure_update")
 
@@ -173,3 +189,7 @@ func _scan_empty_slots():
 	for i in _dialog.speech_list.size():
 		if _dialog.speech_list[i] == null:
 			_empty_slots.append(i)
+
+
+func _choice_order_sort(a, b):
+	return a.order < b.order
