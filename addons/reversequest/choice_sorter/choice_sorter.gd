@@ -3,21 +3,18 @@ extends Control
 ## space between choice nodes
 export(int) var gap = 8
 
-var ChoiceDragArea = preload("res://addons/reversequest/choice_sorter/choice_drag_area.tscn")
 var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.tscn")
 
 var drag_node
 var _choice_cached_size_y
+var _scene_tree
+
+func _enter_tree():
+	_scene_tree = get_tree()
 
 
 func _add_area(node):
-	var area = ChoiceDragArea.instance()
-	
-	area.connect("drag", self, "_on_drag", [node, area])
-	area.connect("drag_start", self, "_on_drag_start", [node])
-	area.connect("drag_end", self, "_on_drag_end")
-	
-	node.add_child(area)
+	node.connect("gui_input", self, "_on_node_gui_input", [node])
 
 
 func _calc_position(order_index):
@@ -26,6 +23,7 @@ func _calc_position(order_index):
 
 func _update_order():
 	var choices = get_children()
+	var has_changed = false
 	choices.sort_custom(self, "_choice_y_sorter")
 	
 	for idx in choices.size():
@@ -35,10 +33,15 @@ func _update_order():
 		if res.order != idx:
 			res.order = idx
 			res.emit_changed()
+			has_changed = true
 		
 		var np = _calc_position(res.order)
 		if ch != drag_node && ch.rect_position != np:
 			_tween_to(ch, np)
+			
+	if has_changed:
+		#controller emit sctucture
+		pass
 
 
 func _tween_to(node, to):
@@ -76,15 +79,17 @@ func _on_child_exiting_tree(node):
 	pass # Replace with function body.
 
 
-func _on_drag(relative, node, area):
-	node.rect_position.y += relative.y
-	_update_order()
-
-
-func _on_drag_start(node):
-	drag_node = node
-
-
-func _on_drag_end():
-	drag_node = null
-	_update_order()
+func _on_node_gui_input(input, node):
+	if input is InputEventMouseMotion and input.button_mask == BUTTON_MASK_LEFT:
+		node.rect_position.y += input.relative.y
+		_update_order()
+		_scene_tree.set_input_as_handled()
+	
+	if input is InputEventMouseButton:
+		if input.pressed and input.doubleclick == false:
+			drag_node = node
+			_scene_tree.set_input_as_handled()
+		elif drag_node != null:
+			drag_node = null
+			_update_order()
+			_scene_tree.set_input_as_handled()

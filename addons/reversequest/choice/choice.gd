@@ -2,6 +2,7 @@ extends Control
 
 signal link(res)
 signal link_create(res)
+signal doubleclick
 
 const GROUP_REQUESTER = "speech_link_request"
 const GROUP_ZONE = "speech_link_zone"
@@ -16,7 +17,9 @@ var res
 func setup(_res, controller):
 	res = _res
 	_controller = controller
-	get_node("%SceneSwitcherActorEdit").send_data = [res]
+	if not is_inside_tree():
+		yield(self, "ready")
+	get_node("SceneSwitcherActorEdit").send_data = [res]
 
 
 func link_to(speech_res):
@@ -43,3 +46,9 @@ func _on_create_pressed():
 func _on_cancel_pressed():
 	get_tree().call_group(GROUP_ZONE, "hide")
 	remove_from_group(GROUP_REQUESTER)
+
+
+func _on_gui_input(event):
+	if event is InputEventMouseButton and event.doubleclick == true:
+		get_tree().set_input_as_handled()
+		emit_signal("doubleclick")
