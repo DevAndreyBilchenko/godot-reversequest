@@ -7,10 +7,6 @@ var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.
 
 var drag_node
 var _choice_cached_size_y
-var _scene_tree
-
-func _enter_tree():
-	_scene_tree = get_tree()
 
 
 func _add_area(node):
@@ -83,13 +79,13 @@ func _on_node_gui_input(input, node):
 	if input is InputEventMouseMotion and input.button_mask == BUTTON_MASK_LEFT:
 		node.rect_position.y += input.relative.y
 		_update_order()
-		_scene_tree.set_input_as_handled()
+		accept_event()
 	
 	if input is InputEventMouseButton:
 		if input.pressed and input.doubleclick == false:
 			drag_node = node
-			_scene_tree.set_input_as_handled()
+			accept_event()
 		elif drag_node != null:
 			drag_node = null
 			_update_order()
-			_scene_tree.set_input_as_handled()
+			accept_event()
