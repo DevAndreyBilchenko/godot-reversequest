@@ -1,7 +1,5 @@
 extends Control
 
-signal link(res)
-signal link_create(res)
 signal doubleclick
 
 const GROUP_REQUESTER = "speech_link_request"

@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=1]
+[ext_resource path="res://addons/reversequest/assets/xmark_solid_w12.png" type="Texture" id=2]
+[ext_resource path="res://addons/reversequest/builder/holder.gd" type="Script" id=4]
+
+[node name="Holder" type="Control"]
+margin_right = 128.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 128, 40 )
+mouse_default_cursor_shape = 6
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+content_np = NodePath("Panel/MarginContainer/HBoxContainer/Content")
+draggable_np = NodePath("Panel")
+
+[node name="Sizer" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_type_variation = "PanelSizer"
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 108.0
+margin_bottom = 36.0
+custom_constants/separation = 4
+alignment = 1
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+margin_right = 28.0
+margin_bottom = 32.0
+icon = ExtResource( 2 )
+
+[node name="Content" type="Control" parent="Panel/MarginContainer/HBoxContainer"]
+margin_left = 32.0
+margin_right = 104.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 120.0
+margin_top = 16.0
+margin_right = 128.0
+margin_bottom = 24.0
+mouse_filter = 2

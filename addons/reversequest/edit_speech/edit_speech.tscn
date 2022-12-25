@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=1]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_store.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/reversequest/call_on_signals/call_on_signals.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/reversequest/bind_input_on_prop/bind_input_on_prop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/reversequest/builder/builder.tscn" type="PackedScene" id=8]
 
 [node name="EditSpeech" type="Control"]
 anchor_right = 1.0
@@ -64,6 +65,7 @@ __meta__ = {
 }
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+visible = false
 margin_top = 23.0
 margin_right = 500.0
 margin_bottom = 580.0
@@ -78,6 +80,43 @@ ignore_changed = true
 custom_update_prop = true
 custom_target = NodePath("../../../HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply")
 custom_signal = "pressed"
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 500.0
+margin_bottom = 580.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 496.0
+margin_bottom = 553.0
+theme_type_variation = "PanelInner"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer"]
+margin_right = 492.0
+margin_bottom = 549.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="TextConstructor" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer/MarginContainer" instance=ExtResource( 8 )]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 504.0
@@ -112,9 +151,9 @@ __meta__ = {
 }
 
 [node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 296.0
-margin_right = 379.0
-margin_bottom = 33.0
+margin_left = 331.0
+margin_right = 400.0
+margin_bottom = 28.0
 text = "Отмена"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -126,9 +165,9 @@ target = NodePath("..")
 signal_name = "pressed"
 
 [node name="Apply" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Control/VBoxContainer"]
-margin_left = 383.0
+margin_left = 404.0
 margin_right = 500.0
-margin_bottom = 33.0
+margin_bottom = 28.0
 text = "Применить"
 __meta__ = {
 "_edit_use_anchors_": false
