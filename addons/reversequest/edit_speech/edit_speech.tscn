@@ -6,7 +6,7 @@
 [ext_resource path="res://addons/reversequest/from_to/from_to.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/reversequest/call_on_signals/call_on_signals.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/reversequest/bind_input_on_prop/bind_input_on_prop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/reversequest/bind_prop/bind_prop.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/reversequest/builder/builder.tscn" type="PackedScene" id=8]
 
 [node name="EditSpeech" type="Control"]
@@ -64,23 +64,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-visible = false
-margin_top = 23.0
-margin_right = 500.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="BindInputOnProp" parent="MarginContainer/HBoxContainer/VBoxContainer/TextEdit" instance=ExtResource( 7 )]
-input = NodePath("..")
-target = NodePath("../../../../..")
-prop = "res:text"
-ignore_changed = true
-custom_update_prop = true
-custom_target = NodePath("../../../HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply")
-custom_signal = "pressed"
-
 [node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 23.0
 margin_right = 500.0
@@ -116,7 +99,22 @@ custom_constants/margin_top = 4
 custom_constants/margin_left = 4
 custom_constants/margin_bottom = 4
 
-[node name="TextConstructor" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer/MarginContainer" instance=ExtResource( 8 )]
+[node name="Builder" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer/MarginContainer" instance=ExtResource( 8 )]
+
+[node name="BindPropFromResToBuilder" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer/MarginContainer" instance=ExtResource( 7 )]
+take_from = NodePath("../../../../../../../../..")
+take_from_prop = "res:builder"
+set_to = NodePath("../Builder")
+set_to_prop = "value"
+
+[node name="BindPropFromBuilderToRes" parent="MarginContainer/HBoxContainer/VBoxContainer/Panel/MarginContainer/Panel/ScrollContainer/MarginContainer" instance=ExtResource( 7 )]
+take_from = NodePath("../Builder")
+take_from_prop = "value"
+set_to = NodePath("../../../../../../../../..")
+set_to_prop = "res:builder"
+wait_on = NodePath("../../../../../../../HBoxContainer/VBoxContainer/Control/VBoxContainer/Apply")
+wait_on_signal = "pressed"
+skip_initial = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 504.0

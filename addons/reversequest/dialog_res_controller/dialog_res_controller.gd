@@ -80,10 +80,9 @@ func save(new_name = ""):
 # SPEECH CONTROL FUNCTIONS
 # ---------------------------
 
-func create_speech(start_text = "Новая реплика", choice_list = []):
+func create_speech(choice_list = []):
 	var speech = _speech_res_class.new()
 	speech.code = _get_next_code_index()
-	speech.text = start_text
 	speech.choice_list = choice_list
 	
 	_dialog.speech_list[speech.code] = speech

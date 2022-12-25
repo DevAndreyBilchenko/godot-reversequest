@@ -7,6 +7,7 @@ var _childs
 func _ready():
 	var order_container = _get_order_container()
 	order_container.connect("child_entered_tree", self, "_on_child_entered_tree")
+	order_container.connect("child_exiting_tree", self, "_on_child_exited_tree")
 	
 	
 func _on_child_entered_tree(node):
@@ -14,8 +15,10 @@ func _on_child_entered_tree(node):
 	draggable.connect("gui_input", self, "_on_node_gui_input", [draggable, node])
 	_setup_clean_childs()
 
+
 func _on_child_exited_tree(node):
 	_setup_clean_childs()
+
 
 func _on_node_gui_input(event, draggable, node):
 	if event is InputEventMouseMotion and event.button_mask == BUTTON_MASK_LEFT:
@@ -59,7 +62,6 @@ func _setup_clean_childs():
 	
 	for ignore_item in ignore_list:
 		_childs.erase(get_node(ignore_item))
-		
 
 func _get_order_container():
 	return get_parent()

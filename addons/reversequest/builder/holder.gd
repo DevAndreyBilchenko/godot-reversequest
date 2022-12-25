@@ -5,6 +5,7 @@ const BASE_HEIGHT = 40
 export(NodePath) var content_np
 export(NodePath) var draggable_np
 
+var value setget , _get_value
 var _component_node
 
 func add_component(component_node):
@@ -32,3 +33,7 @@ func _on_component_new_size(size):
 	
 	rect_min_size = ns
 	rect_size = ns
+
+
+func _get_value():
+	return _component_node.value

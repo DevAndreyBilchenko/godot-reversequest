@@ -7,19 +7,22 @@ export(String) var set_to_prop
 export(NodePath) var wait_on
 export(String) var wait_on_prop
 export(String) var wait_on_signal
+export(bool) var skip_initial
 
 
 func _ready():
 	yield(get_tree(), "idle_frame")
 	
-	var signal_emitter = get_node(wait_on)
-	
-	if wait_on_prop:
-		signal_emitter = signal_emitter.get_indexed(wait_on_prop)
+	if wait_on:
+		var signal_emitter = get_node(wait_on)
 		
-	signal_emitter.connect(wait_on_signal, self , "_on_signal_emitted")
+		if wait_on_prop:
+			signal_emitter = signal_emitter.get_indexed(wait_on_prop)
+			
+		signal_emitter.connect(wait_on_signal, self , "_on_signal_emitted")
 	
-	_on_signal_emitted()
+	if not skip_initial:
+		_on_signal_emitted()
 	
 	
 func _on_signal_emitted():
