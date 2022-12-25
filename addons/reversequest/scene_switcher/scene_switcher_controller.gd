@@ -7,6 +7,7 @@ extends Node
 
 export(NodePath) var content_np
 export(String) var group = "scene_switcher_default"
+export(String, FILE, "*.tscn") var default_scene_file_path = ""
 
 
 func _ready():
@@ -18,6 +19,9 @@ func switch_to(scene_path = "", send_data = []):
 	
 	for ch in content.get_children():
 		ch.queue_free()
+	
+	if scene_path == "":
+		scene_path = default_scene_file_path
 	
 	if scene_path != "":
 		var scene = load(scene_path).instance()
