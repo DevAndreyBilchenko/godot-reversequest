@@ -110,19 +110,24 @@ func create_choice(speech_code, start_text = "Новый выбор"):
 	var speech = get_speech(speech_code)
 	var size = speech.choice_list.size()
 	var code = -1
+	var max_order = -1
+	
+	for ch in speech.choice_list:
+		if ch != null && ch.order > max_order:
+			max_order = ch.order
 	
 	for i in size:
 		if speech.choice_list[i] == null:
 			code = i
 			break
-			
-	if choice.code == -1:
+		
+	if code == -1:
 		speech.choice_list.resize(size+1)
 		code = size
 	
 	choice.code = code
 	choice.text = start_text
-	choice.order = code
+	choice.order = max_order + 1
 	speech.choice_list[code] = choice
 	
 	return choice
@@ -133,7 +138,13 @@ func get_choice(speech_code, choice_code):
 
 
 func get_choice_list(speech_code):
-	return get_speech(speech_code).choice_list
+	var no_empty = []
+	
+	for ch in get_speech(speech_code).choice_list:
+		if ch != null:
+			no_empty.append(ch)
+	
+	return no_empty
 	
 
 func get_ordered_choice_list(speech_code):
@@ -146,6 +157,18 @@ func get_ordered_choice_list(speech_code):
 		ordered[base_choice.order] = base_choice
 	
 	return ordered
+
+
+func remove_choice(speech_code, choice_code):
+	var choice_list = get_speech(speech_code).choice_list
+	var prev_order = choice_list[choice_code].order
+	
+	for idx in choice_list.size():
+		var item = choice_list[idx]
+		if item != null and item.order > prev_order:
+			item.order -= 1
+		
+	choice_list[choice_code] = null
 
 
 func emit_structure_update():

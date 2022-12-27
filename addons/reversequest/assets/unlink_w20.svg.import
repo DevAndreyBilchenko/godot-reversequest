@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bg.png-13ff9eb973becf28740c0785b31de8da.stex"
+path="res://.import/unlink_w20.svg-780083fdda01a37a28766c4467ee7b96.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/reversequest/assets/bg.png"
-dest_files=[ "res://.import/bg.png-13ff9eb973becf28740c0785b31de8da.stex" ]
+source_file="res://addons/reversequest/assets/unlink_w20.svg"
+dest_files=[ "res://.import/unlink_w20.svg-780083fdda01a37a28766c4467ee7b96.stex" ]
 
 [params]
 

@@ -9,12 +9,14 @@ onready var link = $Control/MarginContainer/HBoxContainer/VBoxContainer2/Link
 onready var create = $Control/MarginContainer/HBoxContainer/VBoxContainer2/Create
 
 var _controller
+var _speech_code
 var res
 
 
-func setup(_res, controller):
+func setup(_res, controller, speech_code):
 	res = _res
 	_controller = controller
+	_speech_code = speech_code
 	if not is_inside_tree():
 		yield(self, "ready")
 	get_node("SceneSwitcherActorEdit").send_data = [res]
@@ -50,3 +52,9 @@ func _on_gui_input(event):
 	if event is InputEventMouseButton and event.doubleclick == true:
 		get_tree().set_input_as_handled()
 		emit_signal("doubleclick")
+
+
+func _on_remove_pressed():
+	_controller.remove_choice(_speech_code, res.code)
+	queue_free()
+	_controller.emit_structure_update()

@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://addons/reversequest/assets/arrow-right-solid.png" type="Texture" id=1]
-[ext_resource path="res://addons/reversequest/assets/xmark_solid.png" type="Texture" id=2]
-[ext_resource path="res://addons/reversequest/assets/plus-solid.png" type="Texture" id=3]
+[ext_resource path="res://addons/reversequest/assets/link_w20.svg" type="Texture" id=1]
+[ext_resource path="res://addons/reversequest/assets/cross_w20.png" type="Texture" id=2]
+[ext_resource path="res://addons/reversequest/assets/unlink_w20.svg" type="Texture" id=3]
 [ext_resource path="res://addons/reversequest/scene_switcher/scene_switcher_actor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/reversequest/choice/choice.gd" type="Script" id=5]
+[ext_resource path="res://addons/reversequest/assets/create_card_w20.png" type="Texture" id=6]
 [ext_resource path="res://addons/reversequest/themes/dialog_editor.theme" type="Theme" id=7]
 [ext_resource path="res://addons/reversequest/bind_prop/bind_prop.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/reversequest/toggle_prop/toggle_prop.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/reversequest/assets/arrow-left-solid.png" type="Texture" id=10]
 
 [node name="Choice" type="Control" groups=["choice"]]
 margin_right = 304.0
@@ -47,9 +47,7 @@ alignment = 1
 [node name="Remove" type="Button" parent="Control/MarginContainer/HBoxContainer"]
 margin_right = 28.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 28, 0 )
 icon = ExtResource( 2 )
-expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -85,11 +83,9 @@ alignment = 2
 visible = false
 margin_right = 28.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 28, 0 )
 hint_tooltip = "Присоединить ответ к новой реплике"
 shortcut_in_tooltip = false
-icon = ExtResource( 3 )
-expand_icon = true
+icon = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -119,10 +115,8 @@ target_value_ok = [ true ]
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 28, 0 )
 size_flags_vertical = 3
 icon = ExtResource( 1 )
-expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -148,15 +142,24 @@ target = NodePath("../../Cancel")
 target_prop = "visible"
 target_value_ok = [ true ]
 
+[node name="Unlink" type="Button" parent="Control/MarginContainer/HBoxContainer/VBoxContainer2"]
+visible = false
+margin_left = 64.0
+margin_right = 92.0
+margin_bottom = 28.0
+size_flags_vertical = 3
+icon = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Cancel" type="Button" parent="Control/MarginContainer/HBoxContainer/VBoxContainer2"]
 visible = false
 margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 28, 0 )
 size_flags_vertical = 3
-icon = ExtResource( 10 )
-expand_icon = true
+icon = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -182,14 +185,8 @@ target = NodePath("../../Link")
 target_prop = "visible"
 target_value_ok = [ true ]
 
-[node name="Debug" type="Node2D" parent="."]
-position = Vector2( -32, 0 )
-
-[node name="Code" type="Label" parent="Debug"]
-margin_right = 18.0
-margin_bottom = 14.0
-
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="pressed" from="Control/MarginContainer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/HBoxContainer/VBoxContainer2/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/HBoxContainer/VBoxContainer2/Link" to="." method="_on_link_pressed"]
 [connection signal="pressed" from="Control/MarginContainer/HBoxContainer/VBoxContainer2/Cancel" to="." method="_on_cancel_pressed"]

@@ -26,7 +26,7 @@ func setup(speech_res, controller):
 	res = speech_res
 	_controller = controller
 	
-	for ch in speech_res.choice_list:
+	for ch in _controller.get_choice_list(res.code):
 		add_choice(ch)
 
 
@@ -35,7 +35,7 @@ func add_choice(choice_res):
 	var choice_node = choice.instance()
 
 	if (choice_res != null):
-		choice_node.setup(choice_res, _controller)
+		choice_node.setup(choice_res, _controller, res.code)
 
 	_choice_container.add_child(choice_node)
 

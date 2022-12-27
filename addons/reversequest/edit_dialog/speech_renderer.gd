@@ -67,7 +67,7 @@ func render():
 				if not find_roadline_node(choice.code, speech_res.code, choice.link):
 					render_roadline(choice.code, speech_res.code, choice.link)
 					
-		grid_stats.register_choice_count(grid_item.depth, speech_res.choice_list.size())
+		grid_stats.register_choice_count(grid_item.depth, ordered_choices.size())
 		grid_stats.register_max_real_height_in_row(grid_item.col_index, speech_node.size_y)
 		grid_stats.register_max_real_width_in_col(grid_item.depth, speech_node.size_x)
 		
@@ -122,7 +122,7 @@ func update_positions():
 		
 		speech_node.rect_position = calc_speech_position(speech.code)
 
-		for choice in speech.choice_list:
+		for choice in _dialog_res_controller.get_choice_list(speech.code):
 			if choice.has_link():
 				var roadline_node = find_roadline_node(choice.code, speech.code, choice.link)
 				var choice_node = speech_node.find_choice_node(choice.code)

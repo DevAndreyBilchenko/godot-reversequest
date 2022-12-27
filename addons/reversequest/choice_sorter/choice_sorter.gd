@@ -71,8 +71,9 @@ func _on_child_entered_tree(node):
 	rect_min_size.y = node.rect_position.y + _choice_cached_size_y
 
 
-func _on_child_exiting_tree(node):
-	pass # Replace with function body.
+func _on_child_exiting_tree(_node):
+	for ch in get_children():
+		ch.rect_position = _calc_position(ch.res.order)
 
 
 func _on_node_gui_input(input, node):
