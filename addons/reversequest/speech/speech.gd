@@ -1,15 +1,18 @@
 extends Control
 
+signal connections_changed
+
 export(NodePath) var actor_edit_np
 export(NodePath) var choice_container_np
 export(NodePath) var sizer_np
 
-var _controller
 var res
 
 var size_x setget ,_get_size_x
 var size_y setget ,_get_size_y
 
+var _controller
+var _class_list
 var _actor_edit
 var _choice_container
 var _sizer
@@ -22,9 +25,11 @@ func _ready():
 	_actor_edit.connect("action_started", self, "_on_actor_edit_action_started")
 
 
-func setup(speech_res, controller):
+func setup(speech_res, class_list):
+	_class_list = class_list
 	res = speech_res
-	_controller = controller
+	_controller = class_list.dialog_res_controller
+	_choice_container.class_list = class_list
 	
 	for ch in _controller.get_choice_list(res.code):
 		add_choice(ch)
@@ -35,7 +40,7 @@ func add_choice(choice_res):
 	var choice_node = choice.instance()
 
 	if (choice_res != null):
-		choice_node.setup(choice_res, _controller, res.code)
+		choice_node.setup(choice_res, _class_list, res.code)
 
 	_choice_container.add_child(choice_node)
 
@@ -54,6 +59,9 @@ func get_choice_node_rect(choice_code):
 func get_choice_node_name(_code):
 	return str("Coice_code_", _code)
 
+
+func emit_connections_changed():
+	emit_signal("connections_changed")
 
 func _get_size_y():
 	return _sizer.rect_size.y

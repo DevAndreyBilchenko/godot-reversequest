@@ -1,6 +1,6 @@
 extends Node
 
-
+var class_list = preload("res://addons/reversequest/edit_dialog/class_list.gd").new()
 var speech_renderer = preload("res://addons/reversequest/edit_dialog/speech_renderer.gd").new()
 var path_to_res
 var choice_res_link_zone_wait 
@@ -13,11 +13,14 @@ onready var scene_switcher_store = $SceneSwitcherStore
 func _ready():
 	start_edit(scene_switcher_store.send_data[0])
 	dialog_res_controller.connect("structure_update", self, "_on_dialog_structure_update")
+	
+	class_list.renderer = speech_renderer
+	class_list.dialog_res_controller = dialog_res_controller
 
 
 func start_edit(file_name):
 	dialog_res_controller.load_dialog(file_name)
-	speech_renderer.setup(dialog_res_controller, content)
+	speech_renderer.setup(class_list, content)
 	
 	render()
 

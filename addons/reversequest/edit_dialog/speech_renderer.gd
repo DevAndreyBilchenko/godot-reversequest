@@ -1,8 +1,7 @@
 extends Reference
 
-
-signal _iterate_item
 signal instance_speech(node)
+signal render_done
 
 const CONNECTION_SIZE = 15
 const ROADLINE_SIZE = 20
@@ -17,16 +16,19 @@ var GridStatsRoadmapItem = preload("res://addons/reversequest/edit_dialog/grid_s
 var grid_stats = GridStats.new()
 var check_list = []
 
+var _class_list
 var _dialog_res_controller
 var _container
 
 
-func _init():
-	var _err = connect("_iterate_item", self, "_on_iterate_item")
+func get_connections_count(speech_code):
+	var grid_item = grid_stats.get_item(speech_code)
+	return grid_item.connections.size()
 
 
-func setup(dialog_res_controller, container):
-	_dialog_res_controller = dialog_res_controller
+func setup(class_list, container):
+	_class_list = class_list
+	_dialog_res_controller = class_list.dialog_res_controller
 	_container = container
 
 
@@ -70,9 +72,9 @@ func render():
 		grid_stats.register_choice_count(grid_item.depth, ordered_choices.size())
 		grid_stats.register_max_real_height_in_row(grid_item.col_index, speech_node.size_y)
 		grid_stats.register_max_real_width_in_col(grid_item.depth, speech_node.size_x)
-		
+	
 	update_positions()
-
+	emit_signal("render_done")
 
 func render_speech(speech):
 	var new_speech = find_speech_node(speech.code)
@@ -80,7 +82,7 @@ func render_speech(speech):
 	if not new_speech:
 		new_speech = speech_scene.instance()
 
-		new_speech.setup(speech, _dialog_res_controller)
+		new_speech.setup(speech, _class_list)
 		new_speech.name = get_speech_node_name(speech.code)
 		
 		_container.add_child(new_speech)

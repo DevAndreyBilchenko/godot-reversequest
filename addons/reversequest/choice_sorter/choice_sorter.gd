@@ -6,6 +6,7 @@ export(int) var gap = 8
 var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.tscn")
 
 var drag_node
+var class_list
 var _choice_cached_size_y
 
 
@@ -36,8 +37,7 @@ func _update_order():
 			_tween_to(ch, np)
 			
 	if has_changed:
-		#controller emit sctucture
-		pass
+		class_list.dialog_res_controller.emit_structure_update()
 
 
 func _tween_to(node, to):
