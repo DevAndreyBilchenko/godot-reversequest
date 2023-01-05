@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/reversequest/choice_sorter/choice_sorter.gd" type="Script" id=1]
 
-[node name="ChoiceSorter" type="Control"]
+[node name="ChoiceSorter" type="Container"]
 script = ExtResource( 1 )
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]

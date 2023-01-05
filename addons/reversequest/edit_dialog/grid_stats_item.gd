@@ -6,6 +6,18 @@ var col_index: int = -1
 var connections: Array = []
 
 
+func get_connections_count():
+	var counter = 0
+	
+	for con in connections:
+		if con:
+			for c in con:
+				if c != null:
+					counter += 1
+	
+	return counter
+
+
 func add_connection(from_item_code, from_subitem_code, roadmap):
 	if from_item_code >= connections.size():
 		connections.resize(from_item_code+1)
@@ -20,6 +32,7 @@ func add_connection(from_item_code, from_subitem_code, roadmap):
 		connection.resize(from_subitem_code+1)
 		
 	connections[from_item_code][from_subitem_code] = roadmap
+	
 
 
 func get_connection_roadmap(from_item_code, from_subitem_code):

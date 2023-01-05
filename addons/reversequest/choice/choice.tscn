@@ -13,6 +13,7 @@
 margin_right = 304.0
 margin_bottom = 36.0
 script = ExtResource( 5 )
+movable_np = NodePath("Control")
 button_create_np = NodePath("Control/MarginContainer/HBoxContainer/VBoxContainer2/Create")
 button_link_np = NodePath("Control/MarginContainer/HBoxContainer/VBoxContainer2/Link")
 button_unlink_np = NodePath("Control/MarginContainer/HBoxContainer/VBoxContainer2/Unlink")

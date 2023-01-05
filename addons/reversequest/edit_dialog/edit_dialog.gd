@@ -11,11 +11,10 @@ onready var scene_switcher_store = $SceneSwitcherStore
 
 
 func _ready():
-	start_edit(scene_switcher_store.send_data[0])
-	dialog_res_controller.connect("structure_update", self, "_on_dialog_structure_update")
-	
 	class_list.renderer = speech_renderer
 	class_list.dialog_res_controller = dialog_res_controller
+	start_edit(scene_switcher_store.send_data[0])
+	dialog_res_controller.connect("structure_update", self, "_on_dialog_structure_update")
 
 
 func start_edit(file_name):

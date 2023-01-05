@@ -9,3 +9,7 @@ export(int) var link = -1
 
 func has_link():
 	return link != -1
+
+
+func unlink():
+	link = -1

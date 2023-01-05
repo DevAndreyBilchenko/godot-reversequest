@@ -23,7 +23,8 @@ var _container
 
 func get_connections_count(speech_code):
 	var grid_item = grid_stats.get_item(speech_code)
-	return grid_item.connections.size()
+
+	return grid_item.get_connections_count()
 
 
 func setup(class_list, container):
@@ -112,9 +113,10 @@ func get_roadline_node_name(choice_code, from_node, to_node):
 	return str("Roadline_choice_", choice_code, "_from_", from_node, "_to_", to_node)
 
 
-func render_roadline(choice_code, from_node, to_node):
+func render_roadline(choice_code, from_code, to_code):
 	var new_roadline = roadline_scene.instance()
-	new_roadline.name = get_roadline_node_name(choice_code, from_node, to_node)
+	new_roadline.name = get_roadline_node_name(choice_code, from_code, to_code)
+	new_roadline.choice = find_speech_node(from_code).find_choice_node(choice_code)
 	_container.add_child(new_roadline)
 
 
@@ -122,7 +124,7 @@ func update_positions():
 	for speech in _dialog_res_controller.get_speech_list():
 		var speech_node = find_speech_node(speech.code)
 		
-		speech_node.rect_position = calc_speech_position(speech.code)
+		speech_node.move_to(calc_speech_position(speech.code))
 
 		for choice in _dialog_res_controller.get_choice_list(speech.code):
 			if choice.has_link():
@@ -132,7 +134,7 @@ func update_positions():
 				var to_node = find_speech_node(choice.link)
 				var roadmap = to_item.get_connection_roadmap(speech.code, choice.code)
 				
-				roadline_node.draw(_convert_roadmap(roadmap, choice_node, to_node))
+				roadline_node.draw(_convert_roadmap(roadmap, speech_node, choice_node.res.order, to_node))
 
 
 func calc_speech_position(speech_code):
@@ -169,7 +171,7 @@ func get_summary_row_height(row_index):
 	return rows_h
 
 
-func _convert_roadmap(roadmap, from_choice, to_item):
+func _convert_roadmap(roadmap, from_speech_node, from_choice_order, to_item):
 	var converted = []
 
 	for step in roadmap.get_map():
@@ -184,7 +186,7 @@ func _convert_roadmap(roadmap, from_choice, to_item):
 		)
 		
 		if step.from_subitem:
-			point.y = (from_choice.rect_global_position.y + from_choice.rect_size.y) - from_choice.rect_size.y / 2
+			point.y = from_speech_node.rect_position.y + from_speech_node.get_choice_out_y_position(from_choice_order)
 		else:
 			point.y = get_summary_row_height(step.row)
 			

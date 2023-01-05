@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/reversequest/roadline/roadline.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.27957, 0.935484 )
+colors = PoolColorArray( 0.14902, 0.172549, 0.231373, 1, 0.1139, 0.129795, 0.17, 1 )
 
 [node name="Roadline" type="Node2D"]
 z_index = 1
@@ -14,3 +18,4 @@ default_color = Color( 0.2, 0.231373, 0.309804, 1 )
 points = PoolVector2Array( 0, 0, 48, 0 )
 width = 8.0
 default_color = Color( 0.14902, 0.172549, 0.231373, 1 )
+gradient = SubResource( 1 )

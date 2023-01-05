@@ -19,6 +19,7 @@ script = ExtResource( 5 )
 actor_edit_np = NodePath("Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Edit/SceneSwitcherActorEdit")
 choice_container_np = NodePath("Sizer/ChoiceContainer")
 sizer_np = NodePath("Sizer")
+movable_np = NodePath("Sizer")
 
 [node name="Sizer" type="VBoxContainer" parent="."]
 margin_right = 40.0
@@ -27,8 +28,8 @@ rect_min_size = Vector2( 304, 0 )
 
 [node name="Panel" type="Panel" parent="Sizer"]
 margin_right = 304.0
-margin_bottom = 304.0
-rect_min_size = Vector2( 0, 304 )
+margin_bottom = 160.0
+rect_min_size = Vector2( 0, 160 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Sizer/Panel"]
 anchor_right = 1.0
@@ -42,17 +43,17 @@ custom_constants/margin_bottom = 4
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 300.0
-margin_bottom = 300.0
+margin_bottom = 156.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer"]
 margin_right = 296.0
-margin_bottom = 264.0
+margin_bottom = 124.0
 size_flags_vertical = 3
 custom_constants/separation = 5
 
 [node name="Text" type="Label" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 263.0
-margin_bottom = 264.0
+margin_bottom = 124.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_colors/font_color = Color( 0.9, 0.9, 0.9, 1 )
@@ -72,12 +73,12 @@ wait_on_signal = "changed"
 [node name="VBoxContainer" type="VBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 268.0
 margin_right = 296.0
-margin_bottom = 264.0
+margin_bottom = 124.0
 rect_min_size = Vector2( 28, 0 )
 
 [node name="Remove" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 28.0
-margin_bottom = 28.0
+margin_bottom = 24.0
 icon = ExtResource( 4 )
 expand_icon = true
 __meta__ = {
@@ -85,9 +86,9 @@ __meta__ = {
 }
 
 [node name="Edit" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 32.0
+margin_top = 28.0
 margin_right = 28.0
-margin_bottom = 60.0
+margin_bottom = 52.0
 theme = SubResource( 1 )
 icon = ExtResource( 6 )
 expand_icon = true
@@ -102,13 +103,13 @@ signal_name = "pressed"
 scene_file_path = "res://addons/reversequest/edit_speech/edit_speech.tscn"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Sizer/Panel/MarginContainer/VBoxContainer"]
-margin_top = 268.0
+margin_top = 128.0
 margin_right = 296.0
-margin_bottom = 296.0
+margin_bottom = 152.0
 
 [node name="ChoiceAdd" type="Button" parent="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 28.0
-margin_bottom = 28.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 28, 0 )
 theme = ExtResource( 2 )
 icon = ExtResource( 3 )
@@ -119,8 +120,8 @@ visible = false
 target_np = NodePath("../../..")
 
 [node name="ChoiceContainer" parent="Sizer" instance=ExtResource( 8 )]
-margin_top = 308.0
+margin_top = 164.0
 margin_right = 304.0
-margin_bottom = 308.0
+margin_bottom = 164.0
 
 [connection signal="pressed" from="Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ChoiceAdd" to="." method="_on_choice_add_pressed"]

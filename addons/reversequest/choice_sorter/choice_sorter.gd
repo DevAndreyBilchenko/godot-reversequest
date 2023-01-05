@@ -1,4 +1,4 @@
-extends Control
+extends Container
 
 ## space between choice nodes
 export(int) var gap = 8
@@ -7,15 +7,15 @@ var ChoiceTween = preload("res://addons/reversequest/choice_sorter/choice_tween.
 
 var drag_node
 var class_list
-var _choice_cached_size_y
+var choice_cached_size_y
 
 
 func _add_area(node):
 	node.connect("gui_input", self, "_on_node_gui_input", [node])
 
 
-func _calc_position(order_index):
-	return Vector2(0, (order_index * gap) + (_choice_cached_size_y * order_index))
+func calc_position(order_index):
+	return Vector2(0, (order_index * gap) + (choice_cached_size_y * order_index))
 
 
 func _update_order():
@@ -32,7 +32,7 @@ func _update_order():
 			res.emit_changed()
 			has_changed = true
 		
-		var np = _calc_position(res.order)
+		var np = calc_position(res.order)
 		if ch != drag_node && ch.rect_position != np:
 			_tween_to(ch, np)
 			
@@ -64,16 +64,24 @@ func _on_tween_completed(tween):
 
 
 func _on_child_entered_tree(node):
-	_choice_cached_size_y = node.rect_size.y
-	node.rect_position = _calc_position(node.res.order)
+	choice_cached_size_y = node.rect_size.y
+	node.rect_position = calc_position(node.res.order)
 	_add_area(node)
 
-	rect_min_size.y = node.rect_position.y + _choice_cached_size_y
+	rect_min_size.y = node.rect_position.y + choice_cached_size_y
+	rect_size = rect_min_size
 
 
 func _on_child_exiting_tree(_node):
+	var max_y = 0
+	
 	for ch in get_children():
-		ch.rect_position = _calc_position(ch.res.order)
+		ch.rect_position = calc_position(ch.res.order)
+		if ch.rect_position.y > max_y:
+			max_y = ch.rect_position.y
+	
+	rect_min_size.y = max_y + choice_cached_size_y
+	set_size(rect_size)
 
 
 func _on_node_gui_input(input, node):
