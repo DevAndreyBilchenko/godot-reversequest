@@ -6,6 +6,9 @@ export(NodePath) var actor_edit_np
 export(NodePath) var choice_container_np
 export(NodePath) var sizer_np
 export(NodePath) var movable_np
+export(NodePath) var remove_button_np
+
+var state_list = preload("res://addons/reversequest/choice/choice_state_list.gd").new()
 
 var res
 
@@ -19,6 +22,7 @@ var _choice_container
 var _sizer
 var _movable
 var _tween = Tween.new()
+var _remove_button
 
 
 func setup(speech_res, class_list):
@@ -29,6 +33,7 @@ func setup(speech_res, class_list):
 	_choice_container = get_node(choice_container_np)
 	_sizer = get_node(sizer_np)
 	_movable = get_node(movable_np)
+	_remove_button = get_node(remove_button_np)
 	_actor_edit.connect("action_started", self, "_on_actor_edit_action_started")
 	_tween.connect("tween_all_completed", self, "_on_tween_done")
 	
@@ -37,11 +42,15 @@ func setup(speech_res, class_list):
 	_controller = class_list.dialog_res_controller
 	_choice_container.class_list = class_list
 	
+	state_list.connect("deletable_changed", self, "_on_state_list_deletable_changed")
+	
 	for ch in _choice_container.get_children():
 		ch.queue_free()
 	
 	for ch in _controller.get_choice_list(res.code):
 		_add_choice(ch)
+		
+	_update_deletable_state()
 
 
 func move_to(position):
@@ -87,6 +96,23 @@ func _add_choice(choice_res):
 	_choice_container.add_child(choice_node)
 
 	choice_node.name = get_choice_node_name(choice_node.res.code)
+	
+	choice_node.state_list.connect("deletable_changed", self, "_on_choice_state_list_deletable_changed", [choice_node])
+
+
+func _update_deletable_state():
+	if res.code == 0:
+		state_list.deletable = false
+		return
+	
+	var deletable = true
+	
+	for choice in _choice_container.get_children():
+		if not choice.state_list.deletable:
+			deletable = false
+			break
+			
+	state_list.deletable = deletable
 
 
 func _get_size_y():
@@ -110,3 +136,11 @@ func _on_actor_edit_action_started():
 
 func _on_tween_done():
 	remove_child(_tween)
+
+
+func _on_state_list_deletable_changed():
+	_remove_button.visible = state_list.deletable
+
+
+func _on_choice_state_list_deletable_changed(choice_node):
+	_update_deletable_state()

@@ -20,6 +20,7 @@ actor_edit_np = NodePath("Sizer/Panel/MarginContainer/VBoxContainer/HBoxContaine
 choice_container_np = NodePath("Sizer/ChoiceContainer")
 sizer_np = NodePath("Sizer")
 movable_np = NodePath("Sizer")
+remove_button_np = NodePath("Sizer/Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Remove")
 
 [node name="Sizer" type="VBoxContainer" parent="."]
 margin_right = 40.0
